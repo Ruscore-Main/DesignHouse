@@ -1,0 +1,86 @@
+@import '../variables';
+
+.filters {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .search {
+    border: 1px solid rgba(0, 0, 0, .1);
+    padding: 12px 15px;
+    border-radius: 50px;
+    margin-right: 10px;
+    width: 350px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    svg {
+      width: 20px;
+      opacity: .5;
+      margin-right: 5px;
+    }
+
+    input {
+      font-size: 1em;
+      border: none;
+      width: 300px;
+
+
+      @media (max-width: 950px) {
+        width: 200px;
+      }
+    }
+
+    &:focus-within {
+      border-color: rgba($orange, 1);
+    }
+
+    .clear {
+      width: 15px;
+
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .categories {
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+
+      li {
+        background-color: white;
+        color: $orange;
+        border: 1px solid $orange;
+        padding: 13px 30px;
+        border-radius: 30px;
+        margin-right: 10px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background-color 0.1s ease-in-out;
+        @include noselect();
+
+        &:hover {
+          background-color: rgba($orange, .1);
+        }
+
+        &:active {
+          background-color: rgba($orange, .1);
+        }
+
+        &.active {
+          background-color: $orange;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

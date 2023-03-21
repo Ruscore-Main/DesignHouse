@@ -1,0 +1,72 @@
+@import '../variables';
+
+.favorite-block {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 20px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    font-weight: 300;
+    font-size: 14px;
+    cursor: pointer;
+
+    img {
+        width: 180px;
+        border-radius: 20px;
+    }
+
+    &__title {
+        color: $gray;
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    &__description {
+        align-self: flex-start;
+        color: $gray;
+    }
+
+    &__area {
+        align-self: flex-start;
+        color: $orange;
+    }
+
+    &__price {
+        color: $gray;
+        align-self: flex-start;
+
+    }
+
+    .like-item {
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 0;
+        margin: 15px 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        width: 30px;
+        background-color: rgba(white, .5);
+        border-radius: 50%;
+        transition: $duration;
+        
+
+        &:hover {
+            background-color: white;
+            transition: $duration;
+        }
+
+        img {
+            width: 24px;
+        }
+    }
+}
