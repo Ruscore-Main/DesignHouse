@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace diplom_backend.Controllers
 {
@@ -25,7 +26,9 @@ namespace diplom_backend.Controllers
         public int? userId = null;
     }
 
+
     [Route("api/project")]
+    [ApiController]
     public class HomeController : Controller
     {
         private HouseProjectDBContext? _db;
@@ -160,9 +163,9 @@ namespace diplom_backend.Controllers
         // POST api/project
         // Создание проекта
         [HttpPost]
-        public async Task<ActionResult<HouseProject>> Post([FromBody] UploadHouseProject houseProject)
+        public async Task<ActionResult<HouseProject>> Post([FromForm] UploadHouseProject houseProject)
         {
-            // String timeStamp = GetTimestamp(new DateTime());
+
             if (houseProject == null)
             {
                 return BadRequest();
@@ -177,8 +180,8 @@ namespace diplom_backend.Controllers
                 DatePublication = DateTime.Now,
                 AmountFloors = houseProject.amountFloors,
             };
-
-            if (houseProject.files.Length > 0)
+            /*
+            if (houseProject.file.Length > 0)
             {
                 string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -190,21 +193,31 @@ namespace diplom_backend.Controllers
 
                 using (FileStream fileStream = System.IO.File.Create(path + fileName))
                 {
-                    await houseProject.files.CopyToAsync(fileStream);
+                    await houseProject.file.CopyToAsync(fileStream);
                     await fileStream.FlushAsync();
                 }
-            }
+            }*/
 
-            /*houseProject.images.ForEach(async (el) =>
+            houseProject.images.ForEach(async (el) =>
             {
                 if (el.Length > 0)
                 {
                     string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                    string fileName = "HouseImg_" + houseProject.name + "_" + $"{GetTimestamp(DateTime.Now)}"+".png";
-                    if (System.IO.File.Exists(path+fileName))
+                    string fileName = "HouseImg_" + houseProject.name + "_" + $"{GetTimestamp(DateTime.Now)}" + ".png";
+                    if (System.IO.File.Exists(path + fileName))
                     {
                         System.IO.File.Delete(path + fileName);
+                    }
+
+                    using (var ms = new MemoryStream())
+                    {
+                        await el.CopyToAsync(ms);
+                        var fileBytes = ms.ToArray();
+                        newHouseProject.ProjectImages.Add(new ProjectImage()
+                        {
+                            Image = fileBytes
+                        });
                     }
 
                     using (FileStream fileStream = System.IO.File.Create(path + fileName))
@@ -213,7 +226,7 @@ namespace diplom_backend.Controllers
                         await fileStream.FlushAsync();
                     }
                 }
-            });*/
+            });
 
 
 
@@ -222,6 +235,7 @@ namespace diplom_backend.Controllers
             await _db.SaveChangesAsync();
 
             return Ok(newHouseProject);
+
         }
 
         // Обновление проекта

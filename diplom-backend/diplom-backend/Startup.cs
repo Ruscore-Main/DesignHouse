@@ -49,10 +49,10 @@ namespace diplom_backend
             services.AddDbContext<Models.HouseProjectDBContext>(options => options.UseSqlServer(SqlConnectionIntegratedSecurity));
 
             // JSON 
-            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            /*services.AddControllersWithViews().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-
+*/
             services.AddControllers();
 
             // Swagger
@@ -78,7 +78,7 @@ namespace diplom_backend
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI();
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

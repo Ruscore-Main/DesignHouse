@@ -8,11 +8,11 @@ namespace diplom_backend.Models
 {
     public class UploadHouseProject
     {
-        public string name;
-        public string description;
-        public int area;
-        public int price;
-        public int amountFloors;
-        public IFormFile files;
+        public string name { get; set; }
+        public string description { get; set; }
+        public int area { get; set; }
+        public int price { get; set; }
+        public int amountFloors { get; set; }
+        public List<IFormFile> images { get; set; }
     }
 }
