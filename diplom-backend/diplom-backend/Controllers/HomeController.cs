@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace diplom_backend.Controllers
 {
@@ -18,23 +20,42 @@ namespace diplom_backend.Controllers
         public int area;
         public int price;
         public DateTime datePublication;
-        public int amountFlors;
+        public int amountFloors;
         public List<byte[]> images;
+        public int? userId = null;
     }
 
     [Route("api/project")]
-    [ApiController]
     public class HomeController : Controller
     {
         private HouseProjectDBContext? _db;
+        private static IWebHostEnvironment _owebHostEnvironment;
 
-        public HomeController(HouseProjectDBContext projectContext)
+        public HomeController(HouseProjectDBContext projectContext, IWebHostEnvironment owebHostEnvironment)
         {
             _db = projectContext;
+            _owebHostEnvironment = owebHostEnvironment;
+        }
+
+        public byte[] GetImage(string sBase64String)
+        {
+            byte[] bytes = null;
+
+            if (!string.IsNullOrEmpty(sBase64String))
+            {
+                bytes = Convert.FromBase64String(sBase64String);
+            }
+
+            return bytes;
+        }
+
+        public static String GetTimestamp(DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
         }
 
         // GET api/project
-        // Получение списка товаров
+        // Получение списка проектов
         [HttpGet]
         public async Task<ActionResult<IEnumerable<JsonResult>>> Get(string _searchValue, string _category, string _sort)
         {
@@ -43,7 +64,7 @@ namespace diplom_backend.Controllers
 
             allProjects.ForEach(el =>
             {
-                List<byte[]> images = (from s in el.ProjectImages select s.Image).ToList();
+                List<byte[]> images = el.ProjectImages.Select(s => this.GetImage(Convert.ToBase64String(s.Image))).ToList();
                 HouseProjectJson curProject = new HouseProjectJson()
                 {
                     id = el.Id,
@@ -52,7 +73,7 @@ namespace diplom_backend.Controllers
                     area = el.Area,
                     price = el.Price,
                     datePublication = el.DatePublication,
-                    amountFlors = el.AmountFloors,
+                    amountFloors = el.AmountFloors,
                     images = images
                 };
 
@@ -78,17 +99,17 @@ namespace diplom_backend.Controllers
                 {
                     case "Одноэтажные":
                         {
-                            houseProjects = houseProjects.Where(el => el.amountFlors == 1).ToList();
+                            houseProjects = houseProjects.Where(el => el.amountFloors == 1).ToList();
                             break;
                         }
                     case "Двухэтажные":
                         {
-                            houseProjects = houseProjects.Where(el => el.amountFlors == 2).ToList();
+                            houseProjects = houseProjects.Where(el => el.amountFloors == 2).ToList();
                             break;
                         }
                     case "Более этажей":
                         {
-                            houseProjects = houseProjects.Where(el => el.amountFlors> 2).ToList();
+                            houseProjects = houseProjects.Where(el => el.amountFloors > 2).ToList();
                             break;
                         }
                 }
@@ -137,18 +158,15 @@ namespace diplom_backend.Controllers
         }
 
         // POST api/project
-        // Создание товара
+        // Создание проекта
         [HttpPost]
-        public async Task<ActionResult<HouseProject>> Post(HouseProjectJson houseProject)
+        public async Task<ActionResult<HouseProject>> Post([FromBody] UploadHouseProject houseProject)
         {
+            // String timeStamp = GetTimestamp(new DateTime());
             if (houseProject == null)
             {
                 return BadRequest();
             }
-
-            List<ProjectImage> images = new List<ProjectImage>();
-
-            houseProject.images.ForEach(el => images.Add(new ProjectImage() { Image = el }));
 
             HouseProject newHouseProject = new HouseProject()
             {
@@ -157,9 +175,48 @@ namespace diplom_backend.Controllers
                 Area = houseProject.area,
                 Price = houseProject.price,
                 DatePublication = DateTime.Now,
-                AmountFloors = houseProject.amountFlors,
-                ProjectImages = images
+                AmountFloors = houseProject.amountFloors,
             };
+
+            if (houseProject.files.Length > 0)
+            {
+                string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                string fileName = "HouseImg_" + houseProject.name + "_" + $"{GetTimestamp(DateTime.Now)}" + ".png";
+                if (System.IO.File.Exists(path + fileName))
+                {
+                    System.IO.File.Delete(path + fileName);
+                }
+
+                using (FileStream fileStream = System.IO.File.Create(path + fileName))
+                {
+                    await houseProject.files.CopyToAsync(fileStream);
+                    await fileStream.FlushAsync();
+                }
+            }
+
+            /*houseProject.images.ForEach(async (el) =>
+            {
+                if (el.Length > 0)
+                {
+                    string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
+                    if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                    string fileName = "HouseImg_" + houseProject.name + "_" + $"{GetTimestamp(DateTime.Now)}"+".png";
+                    if (System.IO.File.Exists(path+fileName))
+                    {
+                        System.IO.File.Delete(path + fileName);
+                    }
+
+                    using (FileStream fileStream = System.IO.File.Create(path + fileName))
+                    {
+                        await el.CopyToAsync(fileStream);
+                        await fileStream.FlushAsync();
+                    }
+                }
+            });*/
+
+
+
 
             await _db.HouseProjects.AddAsync(newHouseProject);
             await _db.SaveChangesAsync();
@@ -178,7 +235,7 @@ namespace diplom_backend.Controllers
             }
 
             HouseProject foundHouseProject = await _db.HouseProjects.FirstOrDefaultAsync(el => el.Id == houseProject.id);
-      
+
             if (foundHouseProject == null)
             {
                 return NotFound();
@@ -188,7 +245,7 @@ namespace diplom_backend.Controllers
             foundHouseProject.Description = houseProject.description;
             foundHouseProject.Area = houseProject.area;
             foundHouseProject.Price = houseProject.price;
-            foundHouseProject.AmountFloors = houseProject.amountFlors;
+            foundHouseProject.AmountFloors = houseProject.amountFloors;
 
             foundHouseProject.ProjectImages.Clear();
 
@@ -202,7 +259,7 @@ namespace diplom_backend.Controllers
         }
 
         // DELETE api/project
-        // Удаление товара
+        // Удаление проекта
         [HttpDelete("{id}")]
         public async Task<ActionResult<HouseProject>> Delete(int id)
         {

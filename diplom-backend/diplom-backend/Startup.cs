@@ -42,9 +42,9 @@ namespace diplom_backend
         {
             // CORS
             services.AddCors(c => {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
-                .AllowAnyHeader());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
 
             services.AddDbContext<Models.HouseProjectDBContext>(options => options.UseSqlServer(SqlConnectionIntegratedSecurity));
 
@@ -77,6 +77,7 @@ namespace diplom_backend
             app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI();
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -30,6 +30,7 @@ namespace diplom_backend.Controllers
         public DateTime datePublication;
         public int amountFlors;
         public List<byte[]> images;
+        public string? userPhone = null;
     }
 
     // Json Model for Favoriteitem of User
@@ -171,6 +172,8 @@ namespace diplom_backend.Controllers
                 });
             });
 
+            await _db.SaveChangesAsync();
+
             UserJson user = new UserJson()
             {
                 id = currentUser.Id,
@@ -186,6 +189,129 @@ namespace diplom_backend.Controllers
             return new JsonResult(user);
         }
 
+        // Добавление проекта в избранное
+        [Route("favorite")]
+        [HttpPost]
+        public async Task<ActionResult> AddFavorite(HouseProjectJson item)
+        {
+            User currentUser = await _db.Users.FirstOrDefaultAsync(el => el.Id == item.userId);
 
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            HouseProject houseProject = await _db.HouseProjects.FirstOrDefaultAsync(el => el.Id == item.id);
+
+            currentUser.Favorites.Add(new Favorite(){
+                User = currentUser,
+                HouseProject = houseProject
+            });
+
+            await _db.SaveChangesAsync();
+
+            return new JsonResult(item);
+        }
+
+        // Удаление проекта из избранного
+        [Route("favorite")]
+        [HttpPost("{id}")]
+        public async Task<ActionResult> RemoveFavorite(HouseProjectJson item)
+        {
+            User currentUser = await _db.Users.FirstOrDefaultAsync(el => el.Id == item.userId);
+
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            Favorite foundFavorite = await _db.Favorites.FirstOrDefaultAsync(el => el.UserId == currentUser.Id && el.HouseProjectId == item.id);
+            currentUser.Favorites.Remove(foundFavorite);
+
+            await _db.SaveChangesAsync();
+
+            return new JsonResult(item);
+        }
+
+
+
+
+        // Получение всех запросов на строительство
+        [Route("request")]
+        [HttpGet]
+        public async Task<ActionResult> GetRequests()
+        {
+            List<RequestJson> requestsJson = new List<RequestJson>();
+
+            List<Request> requests = await _db.Requests.ToListAsync();
+
+            requests.ForEach(el =>
+            {
+                requestsJson.Add(new RequestJson()
+                {
+                    id = el.Id,
+                    contentText = el.ContentText,
+                    dateCreating = el.DateCreating,
+                    userId = el.UserId,
+                    houseProjectId = el.HouseProjectId,
+                    name = el.HouseProject.Name,
+                    description = el.HouseProject.Description,
+                    area = el.HouseProject.Area,
+                    price = el.HouseProject.Price,
+                    datePublication = el.HouseProject.DatePublication,
+                    amountFlors = el.HouseProject.AmountFloors,
+                    userPhone = el.User.PhoneNumber
+                });
+            });
+
+            return new JsonResult(requestsJson);
+        }
+
+        // Добавление запроса на строительство
+        [Route("request")]
+        [HttpPost]
+        public async Task<ActionResult> AddRequest(RequestJson request)
+        {
+            User currentUser = await _db.Users.FirstOrDefaultAsync(el => el.Id == request.userId);
+
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            HouseProject houseProject = await _db.HouseProjects.FirstOrDefaultAsync(el => el.Id == request.houseProjectId);
+
+            Request newRequest = new Request() {
+                ContentText = request.contentText,
+                DateCreating = request.dateCreating,
+                HouseProject = houseProject
+            };
+
+            request.userPhone = currentUser.PhoneNumber;
+
+            currentUser.Requests.Add(newRequest);
+
+            await _db.SaveChangesAsync();
+
+            return new JsonResult(request);
+        }
+
+        // Принятие запроса на строительство
+        [Route("request")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> AcceptRequest(int id)
+        {
+            Request request = await _db.Requests.FirstOrDefaultAsync(el => el.Id == id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            _db.Requests.Remove(request);
+            await _db.SaveChangesAsync();
+
+            return Ok(request);
+        }
     }
 }
