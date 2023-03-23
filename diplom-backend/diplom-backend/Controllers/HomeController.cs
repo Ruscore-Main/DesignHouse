@@ -197,8 +197,8 @@ namespace diplom_backend.Controllers
                     await fileStream.FlushAsync();
                 }
             }*/
-
-            houseProject.images.ForEach(async (el) =>
+            var i = _owebHostEnvironment;
+            /*houseProject.images.ForEach(async (el) =>
             {
                 if (el.Length > 0)
                 {
@@ -226,7 +226,7 @@ namespace diplom_backend.Controllers
                         await fileStream.FlushAsync();
                     }
                 }
-            });
+            });*/
 
 
 
