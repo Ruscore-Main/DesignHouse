@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
+export const sorts = [
+  { name: 'Названию (ASC)', sort: 'name', order: 'asc' },
+  { name: 'Названию (DESC)', sort: 'name', order: 'desc' },
+  { name: 'Площади (ASC)', sort: 'area', order: 'asc' },
+  { name: 'Площади (DESC)', sort: 'area', order: 'desc' },
+  { name: 'Дате создания (ASC)', sort: 'date', order: 'asc' },
+  { name: 'Дате создания  (DESC)', sort: 'date', order: 'desc' },
+];
 
 const SortPopup = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentSort, setCurrentSort] = useState(sorts[0]);
+  const popup = useRef(null);
+
+  const handleClick = (e) => {
+    const path = e.path || (e.composedPath && e.composedPath());
+    popup.current && !path.includes(popup.current) && setIsVisible(false);
+  };
+
+  useEffect(() => {
+    document.body.addEventListener('click', handleClick);
+
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+
   return (
-    <div className="sort">
+    <div className="sort" ref={popup}>
       <div className="sort__label">
         <svg
           width="10"
@@ -16,18 +40,22 @@ const SortPopup = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>Названию (ASC)</span>
+        <span onClick={() => setIsVisible(!isVisible)}>{currentSort.name}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li>Названию (ASC)</li>
-          <li>Названию (DESC)</li>
-          <li>Площади (ASC)</li>
-          <li>Площади (DESC)</li>
-          <li>Дате создания (ASC)</li>
-          <li>Дате создания (DESC)</li>
-        </ul>
-      </div>
+      {isVisible && (
+        <div className="sort__popup">
+          <ul>
+            {sorts.map((obj, i) => (
+              <li
+                key={i}
+                className={currentSort.name === obj.name ? 'active' : ''}
+                onClick={() => setCurrentSort(obj)}>
+                {obj.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -13,7 +13,7 @@ const Description = ({list}) => {
           </p>
           <button className="button button--outline" onClick={() => list.current.scrollIntoView({behavior: "smooth"})}>Подобрать проект</button>
         </div>
-        <img src={descriptionImg} />
+        <img src={descriptionImg} alt="houseImage"/>
       </div>
   )
 }

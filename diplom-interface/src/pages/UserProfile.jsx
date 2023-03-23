@@ -1,5 +1,6 @@
 import React from 'react'
 import FavoriteBlock from '../components/FavoriteBlock'
+import LoaderFavoriteBlock from '../components/LoaderFavoriteBlock'
 import UserProfileForm from '../components/UserProfileForm'
 
 const UserProfile = () => {
@@ -14,8 +15,9 @@ const UserProfile = () => {
               <FavoriteBlock />
               <FavoriteBlock />
               <FavoriteBlock />
-              <FavoriteBlock />
-              <FavoriteBlock />
+              <LoaderFavoriteBlock />
+              <LoaderFavoriteBlock />
+              <LoaderFavoriteBlock />
             </div>
         </div>
       </div>

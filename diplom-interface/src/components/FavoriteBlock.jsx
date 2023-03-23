@@ -1,6 +1,7 @@
 import React from 'react';
 
-import heartFullImage from './assets/img/heart-full.svg';
+import heartFullImage from '../assets/img/heart-full.svg';
+import itemImage from '../assets/img/item-block-image.png';
 
 const FavoriteBlock = () => {
   return (
