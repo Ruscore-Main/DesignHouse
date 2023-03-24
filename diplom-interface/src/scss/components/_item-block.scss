@@ -1,7 +1,6 @@
 @import '../variables';
 
 .item-block {
-    position: relative;
     width: 420px;
     height: 400px;
     background-color: $gray;
@@ -14,7 +13,7 @@
     border-radius: 20px;
     margin: 0 auto;
     margin-bottom: 50px;
-    cursor: pointer;
+    user-select: none;
 
     @media (max-width: 1510px) {
         width: 400px;
@@ -23,7 +22,7 @@
         img {
             width: 360px;
         }
-        h4 {
+        h4{
             font-size: 16px;
             margin: 5px 0;
         }
@@ -36,7 +35,7 @@
         img {
             width: 340px;
         }
-        h4 {
+        h4{
             font-size: 16px;
             margin: 10px 0;
         }
@@ -52,7 +51,7 @@
         img {
             width: 400px;
         }
-        h4 {
+        h4{
             font-size: 20px;
             margin: 5px 0;
         }
@@ -69,7 +68,7 @@
         img {
             width: 340px;
         }
-        h4 {
+        h4{
             font-size: 16px;
             margin: 10px 0;
         }
@@ -83,7 +82,7 @@
         img {
             width: 400px;
         }
-        h4 {
+        h4{
             font-size: 20px;
             margin: 5px 0;
         }
@@ -99,7 +98,7 @@
         img {
             width: 340px;
         }
-        h4 {
+        h4{
             font-size: 16px;
             margin: 10px 0;
         }
@@ -113,7 +112,7 @@
         img {
             width: 220px;
         }
-        h4 {
+        h4{
             font-size: 14px;
             margin: 2px;
         }
@@ -156,46 +155,26 @@
 
     }
 
-    
+    .images {
+        position: relative;
+    }
 
     .like-item {
         position: absolute;
         display: block;
         right: 0;
         top: 0;
-        margin: 30px 25px;
         display: flex;
         justify-content: center;
+        padding: 5px;
+        margin: 5px 5px;
         align-items: center;
         height: 40px;
         width: 40px;
         background-color: rgba(white, .5);
         border-radius: 50%;
         transition: $duration;
-
-        @media (max-width: 1510px) {
-            margin: 24px 26px;
-        }
-        
-        @media (max-width: 1200px) {
-            margin: 40px 25px;
-        }
-
-        @media (max-width: 1000px) {
-            margin: 24px 26px;
-        }
-
-        @media (max-width: 1000px) {
-            margin: 40px 25px;
-        }
-
-        @media (max-width: 580px) {
-            margin: 24px 26px;
-        }
-
-        @media (max-width: 450px) {
-            margin: 20px 15px;
-        }
+        cursor: pointer;
 
         &:hover {
             background-color: white;

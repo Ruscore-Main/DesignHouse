@@ -1,0 +1,46 @@
+@import '../../scss/variables';
+
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    li {
+        display: inline-flex;
+        user-select: none;
+        &.selected {
+            background-color: $orange;
+            color: white;
+        }
+
+        a {
+            color: $orange;
+            padding: 10px;
+            width: 45px;
+            height: 45px;
+            border: 1px solid $orange;
+            border-radius: 50%;
+            margin-right: 10px;
+            text-align: center;
+
+        }
+    }
+
+    :global {
+        .selected {
+            a {
+                background-color: $orange;
+                color: white;
+            }
+        }
+
+        .nextBtn, .prevBtn {
+            a {
+                border: 1px solid rgba(#000000, .2);
+                color: black;
+                font-weight: bold;
+            }
+        }
+    }
+
+}

@@ -1,17 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSortType } from '../redux/slices/filterSlice';
 
 export const sorts = [
-  { name: 'Названию (ASC)', sort: 'name', order: 'asc' },
-  { name: 'Названию (DESC)', sort: 'name', order: 'desc' },
-  { name: 'Площади (ASC)', sort: 'area', order: 'asc' },
-  { name: 'Площади (DESC)', sort: 'area', order: 'desc' },
-  { name: 'Дате создания (ASC)', sort: 'date', order: 'asc' },
-  { name: 'Дате создания  (DESC)', sort: 'date', order: 'desc' },
+  { name: 'Названию (ASC)', sort: 'name' },
+  { name: 'Названию (DESC)', sort: '-name' },
+  { name: 'Площади (ASC)', sort: 'area' },
+  { name: 'Площади (DESC)', sort: '-area'},
+  { name: 'Дате создания (ASC)', sort: 'date'},
+  { name: 'Дате создания  (DESC)', sort: '-date'},
 ];
 
 const SortPopup = () => {
+  const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
-  const [currentSort, setCurrentSort] = useState(sorts[0]);
+
+  const {sortType:currentSort} = useSelector(({filter}) => filter);
+
   const popup = useRef(null);
 
   const handleClick = (e) => {
@@ -49,7 +54,7 @@ const SortPopup = () => {
               <li
                 key={i}
                 className={currentSort.name === obj.name ? 'active' : ''}
-                onClick={() => setCurrentSort(obj)}>
+                onClick={() => dispatch(setSortType(obj))}>
                 {obj.name}
               </li>
             ))}

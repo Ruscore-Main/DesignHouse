@@ -1,0 +1,43 @@
+@import './../../scss/variables';
+
+.root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .carousel {
+        width: 60vw;
+        background-color: $gray;
+        
+
+        img {
+            max-width: 1000px;
+            height: 30vw;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        margin-bottom: 20px;
+    }
+
+    .description {
+
+    }
+
+    .area {
+        align-self: flex-start;
+        .orange {
+            color: $orange;
+        }
+    }
+    
+    .price {
+        align-self: flex-start;
+        margin-bottom: 20px;
+    }
+
+    button {
+        width: 40vw;
+        margin-bottom: 100px;
+    }
+}

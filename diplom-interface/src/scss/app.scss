@@ -33,6 +33,7 @@ body {
 .container {
   width: $container-width;
   margin: 20px auto;
+  padding: 0px;
 
   @media (max-width: 1500px) {
     .filters {

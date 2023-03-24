@@ -13,18 +13,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace diplom_backend.Controllers
 {
-    public class HouseProjectJson
-    {
-        public int id;
-        public string name;
-        public string description;
-        public int area;
-        public int price;
-        public DateTime datePublication;
-        public int amountFloors;
-        public List<byte[]> images;
-        public int? userId = null;
-    }
 
 
     [Route("api/project")]
@@ -60,7 +48,7 @@ namespace diplom_backend.Controllers
         // GET api/project
         // Получение списка проектов
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JsonResult>>> Get(string _searchValue, string _category, string _sort)
+        public async Task<ActionResult<IEnumerable<JsonResult>>> Get(int? page, int limit, string searchValue, string category, string sort)
         {
             List<HouseProject> allProjects = await _db.HouseProjects.ToListAsync();
             List<HouseProjectJson> houseProjects = new List<HouseProjectJson>();
@@ -84,21 +72,26 @@ namespace diplom_backend.Controllers
             });
 
             // Если нет никаких параметров запроса, то сразу возвращаем результат, чтобы ускорить процесс
-            if (_searchValue == null && _category == null && _sort == null)
+            if (searchValue == null && category == null && sort == null && page == null)
             {
                 return new JsonResult(houseProjects);
             }
 
-            // Фильтрация списка проектов домов по содержимому заголовка
-            if (_searchValue != null)
+            if (page != null)
             {
-                houseProjects = houseProjects.Where(el => el.name.ToLower().Contains(_searchValue.ToLower())).ToList();
+                houseProjects = houseProjects.Skip(5 * ((int)page-1)).Take(limit).ToList();
+            }
+
+            // Фильтрация списка проектов домов по содержимому заголовка
+            if (searchValue != null)
+            {
+                houseProjects = houseProjects.Where(el => el.name.ToLower().Contains(searchValue.ToLower())).ToList();
             }
 
             // Фильтрация списка проектов домов по этажам
-            if (_category != null)
+            if (category != null)
             {
-                switch (_category)
+                switch (category)
                 {
                     case "Одноэтажные":
                         {
@@ -119,9 +112,9 @@ namespace diplom_backend.Controllers
             }
 
             // Сортировка списка проектов домов
-            if (_sort != null)
+            if (sort != null)
             {
-                switch (_sort)
+                switch (sort)
                 {
                     case "name":
                         {
@@ -157,7 +150,40 @@ namespace diplom_backend.Controllers
                 }
             }
 
-            return new JsonResult(houseProjects);
+            ResponseHuseProject responseHusePorject = new ResponseHuseProject()
+            {
+                items = houseProjects,
+                amountPages = Convert.ToInt32(Math.Ceiling(houseProjects.Count / (float)limit))
+            };
+
+            return new JsonResult(responseHusePorject);
+        }
+
+        // GET api/projects/{id}
+        // Получение конкретного проекта
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<JsonResult>>> GetFull(int id)
+        {
+            HouseProject houseProject = await _db.HouseProjects.FirstOrDefaultAsync(el => el.Id == id);
+            if (houseProject == null)
+            {
+                return NotFound();
+            }
+
+            List<byte[]> images = houseProject.ProjectImages.Select(s => this.GetImage(Convert.ToBase64String(s.Image))).ToList();
+            HouseProjectJson houseProjectJson = new HouseProjectJson()
+            {
+                id = houseProject.Id,
+                name = houseProject.Name,
+                description = houseProject.Description,
+                area = houseProject.Area,
+                price = houseProject.Price,
+                datePublication = houseProject.DatePublication,
+                amountFloors = houseProject.AmountFloors,
+                images = images
+            };
+
+            return new JsonResult(houseProjectJson);
         }
 
         // POST api/project
@@ -180,25 +206,9 @@ namespace diplom_backend.Controllers
                 DatePublication = DateTime.Now,
                 AmountFloors = houseProject.amountFloors,
             };
-            /*
-            if (houseProject.file.Length > 0)
-            {
-                string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
-                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                string fileName = "HouseImg_" + houseProject.name + "_" + $"{GetTimestamp(DateTime.Now)}" + ".png";
-                if (System.IO.File.Exists(path + fileName))
-                {
-                    System.IO.File.Delete(path + fileName);
-                }
 
-                using (FileStream fileStream = System.IO.File.Create(path + fileName))
-                {
-                    await houseProject.file.CopyToAsync(fileStream);
-                    await fileStream.FlushAsync();
-                }
-            }*/
             var i = _owebHostEnvironment;
-            /*houseProject.images.ForEach(async (el) =>
+            houseProject.images.ToList().ForEach(async (el) =>
             {
                 if (el.Length > 0)
                 {
@@ -226,7 +236,7 @@ namespace diplom_backend.Controllers
                         await fileStream.FlushAsync();
                     }
                 }
-            });*/
+            });
 
 
 

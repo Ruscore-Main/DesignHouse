@@ -1,16 +1,26 @@
-import React from 'react'
+import React from 'react';
 
-const Categories = () => {
+export const categories = ['Одноэтажные', 'Двухэтажные', 'Более этажей'];
+
+const Categories = ({activeCategory, setActiveCategory}) => {
+
   return (
     <div className="categories">
-        <ul>
-          <li className="active">Все</li>
-          <li>Одноэтажные</li>
-          <li>Двухэтажные</li>
-          <li>Более этажей</li>
-        </ul>
-      </div>
-  )
-}
+      <ul>
+        <li className={activeCategory === null ? 'active' : ''} onClick={() => setActiveCategory(null)}>
+          Все
+        </li>
+        {categories.map((el, i) => (
+          <li
+            className={activeCategory === el ? 'active' : ''}
+            key={el + i}
+            onClick={() => setActiveCategory(el)}>
+            {el}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-export default Categories
+export default Categories;
