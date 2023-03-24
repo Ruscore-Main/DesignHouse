@@ -1,15 +1,19 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import Description from '../components/Description';
 import Filters from '../components/Filters';
 import ItemBlock from '../components/ItemBlock';
 import LoaderItemBlock from '../components/LoaderItemBlock';
 import Pagination from '../components/Pagination';
 import SortPopup from '../components/SortPopup';
+import { useAuth } from '../hooks/useAuth';
 import { setCurrentPage } from '../redux/slices/filterSlice';
 import { fetchProjects } from '../redux/slices/houseProjectSlice';
 
 const Home = () => {
+  const {isAuth} = useAuth();
+
   const listHeader = React.useRef();
 
   const dispatch = useDispatch();
@@ -32,6 +36,10 @@ const Home = () => {
     );
 
   }, [category, sortType, searchValue, currentPage]);
+
+  if (!isAuth) {
+    return <Navigate to={'/login'} />
+  }
   return (
     <>
       <Description list={listHeader} />

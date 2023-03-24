@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from 'nuka-carousel';
 import { fetchFullHouseProject } from '../../redux/slices/fullHouseProjectSlice';
 import { useParams } from 'react-router-dom';
 import styles from './FullHouseProject.module.scss';
@@ -20,15 +20,26 @@ const FullHouseProject = () => {
     </div>
   ) : (
     <div className="container">
-      <div className={styles.root}>
-        <h1>{data.name}</h1>
-        <Carousel className={styles.carousel}>
+      <Carousel className={styles.carousel} autoplay wrapAround renderTopCenterControls={({ currentSlide }) => (
+    <div>Slide: {currentSlide}</div>
+  )}
+  renderCenterLeftControls={({ previousDisabled, previousSlide }) => (
+    <button onClick={previousSlide} disabled={previousDisabled} className={styles.prevBtn}>
+      &lt;  
+    </button>
+  )}
+  renderCenterRightControls={({ nextDisabled, nextSlide }) => (
+    <button onClick={nextSlide} disabled={nextDisabled} className={styles.nextBtn}>
+      &gt;
+    </button>
+  )}>
           {data.images.map((img) => (
-            <Carousel.Item>
-              <img src={'data:image/jpeg;base64,' + img} alt="First slide" />
-            </Carousel.Item>
+            <img src={'data:image/jpeg;base64,' + img} alt="First slide" />
           ))}
         </Carousel>
+      <div className={styles.root}>
+        <h2 className={styles.title}>{data.name}</h2>
+        
         <span className={styles.description}>{data.description}</span>
         <span className={styles.area}>
           Площадь: <span className={styles.orange}>{data.area}</span> m2
