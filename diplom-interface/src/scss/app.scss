@@ -7,6 +7,13 @@ body {
   background-color: rgba($background, .7);
 }
 
+.not-valid {
+  color: #E6808A !important;
+  display: flex;
+  max-width: 400px;
+  flex-direction: column;
+}
+
 .wrapper {
   max-width: 1440px;
   height: 100%;

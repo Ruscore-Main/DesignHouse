@@ -38,6 +38,9 @@ export const userAPI = {
   authorizateUser(login, password) {
     return userInstance.post('authorization', {login, password});
   },
+  updateUser(user) {
+    return userInstance.post('update', user);
+  },
   addFavorite (houseProject) {
     return userInstance.post('addFavorite', houseProject).then(({data}) => data);
   },

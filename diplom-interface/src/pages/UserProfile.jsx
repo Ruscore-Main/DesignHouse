@@ -8,7 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 
 const UserProfile = () => {
 
-  const {isAuth, id, login, email, phoneNumber, favorites} = useAuth();
+  const {isAuth, ...user} = useAuth();
   const dispatch = useDispatch();
 
   if (!isAuth) {
@@ -17,13 +17,13 @@ const UserProfile = () => {
 
   return (
     <div className="container container--user">
-        <UserProfileForm id={id} login={login} email={email} phoneNumber={phoneNumber}/>
+        <UserProfileForm dispatch={dispatch} {...user}/>
 
         <div className="favorite">
           <h2>Избранные проекты 💕</h2>
 
             <div className="favorite__items">
-              {favorites.map(el => <FavoriteBlock dispatch={dispatch} userId={id} {...el} />)}
+              {user.favorites.map(el => <FavoriteBlock dispatch={dispatch} userId={user.id} {...el} />)}
               <LoaderFavoriteBlock />
               <LoaderFavoriteBlock />
               <LoaderFavoriteBlock />

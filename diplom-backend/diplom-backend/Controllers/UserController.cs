@@ -137,6 +137,34 @@ namespace diplom_backend.Controllers
             return new JsonResult(user);
         }
 
+        // POST /update
+        // Регистрация пользователя
+        [Route("update")]
+        [HttpPost]
+        public async Task<ActionResult<User>> Update(UserJson userJson)
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(el => el.Id == userJson.id);
+            if (user == null)
+            {
+                return NotFound("Пользователь не найден!");
+            }
+
+            User userWithSameLogin = await _db.Users.FirstOrDefaultAsync(el => el.Id != userJson.id && el.Login == userJson.login);
+
+            if (userWithSameLogin != null)
+            {
+                return BadRequest("Пользователь с таким логином уже существует!");
+            }
+
+            user.Login = userJson.login;
+            user.Email = userJson.email;
+            user.PhoneNumber = userJson.phoneNumber;
+
+            await _db.SaveChangesAsync();
+
+            return new JsonResult(userJson);
+        }
+
         // Добавление проекта в избранное
         [Route("addFavorite")]
         [HttpPost]

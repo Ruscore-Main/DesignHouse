@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { userAPI } from '../../api/api';
 
+// Регистрация пользователя
 export const regUser = createAsyncThunk('user/regUser', async (params) => {
   const { login, password, email, phoneNumber } = params;
   try {
@@ -11,6 +12,7 @@ export const regUser = createAsyncThunk('user/regUser', async (params) => {
   }
 });
 
+// Авторизация пользователя
 export const authUser = createAsyncThunk('user/authUser', async (params) => {
   const { login, password } = params;
   try {
@@ -21,8 +23,18 @@ export const authUser = createAsyncThunk('user/authUser', async (params) => {
   }
 });
 
+// Обновление информации о пользователе
+export const updateUser = createAsyncThunk('user/updateUser', async (params) => {
+  try {
+    const user = (await userAPI.updateUser(params)).data;
+    return user;
+  } catch (error) {
+    return error.response.data;
+  }
+})
+
+// Добавление проекта в избранное
 export const addFavorite = createAsyncThunk('user/addFavorite', async (params) => {
-  debugger;
   try {
     const houseProject = (await userAPI.addFavorite(params));
     return houseProject;
@@ -31,6 +43,7 @@ export const addFavorite = createAsyncThunk('user/addFavorite', async (params) =
   }
 });
 
+// Удаление проекта из избранного
 export const removeFavorite = createAsyncThunk('user/removeFavorite', async (params) => {
   try {
     const houseProject = (await userAPI.removeFavorite(params));
@@ -39,6 +52,7 @@ export const removeFavorite = createAsyncThunk('user/removeFavorite', async (par
     return error.response.data;
   }
 });
+
 
 const initialState = {
   id: null,
@@ -85,6 +99,14 @@ const userSlice = createSlice({
     [authUser.fulfilled]: (state, action) => {
       if (action.payload?.login) {
         userSlice.caseReducers.setUser(state, action)
+      }
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      debugger;
+      if (action.payload?.id) {
+        state.login = action.payload.login;
+        state.email = action.payload.email;
+        state.phoneNumber = action.payload.phoneNumber;
       }
     },
     [addFavorite.fulfilled]: (state, action) => {

@@ -10,7 +10,6 @@ const ItemBlock = ({ id: houseId, name, description, area, price, images, dispat
 
   let isFavorite = favorites.find((el) => el.id === houseId);
 
-  debugger;
   return (
     <div className="item-block">
       <div className="images">
