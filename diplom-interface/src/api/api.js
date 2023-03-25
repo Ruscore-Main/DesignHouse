@@ -3,11 +3,11 @@ import axios from 'axios';
 const BASE_URL = "https://localhost:44336/api/";
 
 const houseProjectInstance = axios.create({
-    baseURL: BASE_URL + 'project'
+    baseURL: BASE_URL + 'project/'
 });
 
 const userInstance = axios.create({
-  baseURL: BASE_URL + 'user'
+  baseURL: BASE_URL + 'user/'
 })
 
 
@@ -35,4 +35,13 @@ export const userAPI = {
   registerUser (login, password, email, phoneNumber) {
     return userInstance.post('registration', {login, password, email, phoneNumber});
   },
+  authorizateUser(login, password) {
+    return userInstance.post('authorization', {login, password});
+  },
+  addFavorite (houseProject) {
+    return userInstance.post('addFavorite', houseProject).then(({data}) => data);
+  },
+  removeFavorite(houseProject) {
+    return userInstance.post('removeFavorite', houseProject).then(({data}) => data);
+  }
 }

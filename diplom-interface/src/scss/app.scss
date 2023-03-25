@@ -184,6 +184,12 @@ body {
     }
   }
 
+  .nothing-found {
+    height: 900px;
+    text-align: center;
+    font-weight: 400;
+  }
+
   &__top {
     display: flex;
     justify-content: space-around;

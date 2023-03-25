@@ -10,7 +10,7 @@ const Search = ({dispatch}) => {
 
   const onClickClear = () => {
     setValue('');
-    dispatch(setValue(''));
+    dispatch(setSearchValue(''));
     searchField.current?.focus();
   };
 

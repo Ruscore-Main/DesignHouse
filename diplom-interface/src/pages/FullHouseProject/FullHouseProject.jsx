@@ -16,30 +16,33 @@ const FullHouseProject = () => {
 
   return status !== 'success' ? (
     <div className="container">
-      <h2>Идет загрузка...</h2>
+      <h2 className={styles.loadingTitle}>Идет загрузка...</h2>
     </div>
   ) : (
     <div className="container">
-      <Carousel className={styles.carousel} autoplay wrapAround renderTopCenterControls={({ currentSlide }) => (
-    <div>Slide: {currentSlide}</div>
-  )}
-  renderCenterLeftControls={({ previousDisabled, previousSlide }) => (
-    <button onClick={previousSlide} disabled={previousDisabled} className={styles.prevBtn}>
-      &lt;  
-    </button>
-  )}
-  renderCenterRightControls={({ nextDisabled, nextSlide }) => (
-    <button onClick={nextSlide} disabled={nextDisabled} className={styles.nextBtn}>
-      &gt;
-    </button>
-  )}>
-          {data.images.map((img) => (
-            <img src={'data:image/jpeg;base64,' + img} alt="First slide" />
-          ))}
-        </Carousel>
+      <Carousel
+        className={styles.carousel}
+        autoplay
+        wrapAround
+        renderTopCenterControls={({ currentSlide }) => <div>Image: {currentSlide}</div>}
+        renderCenterLeftControls={({ previousDisabled, previousSlide }) => (
+          <button onClick={previousSlide} disabled={previousDisabled} className={styles.prevBtn}>
+            &lt;
+          </button>
+        )}
+        renderCenterRightControls={({ nextDisabled, nextSlide }) => (
+          <button onClick={nextSlide} disabled={nextDisabled} className={styles.nextBtn}>
+            &gt;
+          </button>
+        )}>
+        {data.images.map((img) => (
+          <img src={'data:image/jpeg;base64,' + img} key={img} alt="First slide" />
+        ))}
+      </Carousel>
+
       <div className={styles.root}>
         <h2 className={styles.title}>{data.name}</h2>
-        
+
         <span className={styles.description}>{data.description}</span>
         <span className={styles.area}>
           Площадь: <span className={styles.orange}>{data.area}</span> m2
@@ -47,6 +50,7 @@ const FullHouseProject = () => {
         <span className={styles.price}>Цена: от {data.price} ₽</span>
         <button className="button">Подать заявку</button>
       </div>
+
     </div>
   );
 };

@@ -80,7 +80,7 @@ namespace diplom_backend.Controllers
                 });
                 favorites.Add(new FavoriteJson()
                 {
-                    id = el.Id,
+                    id = el.HouseProjectId,
                     userId = el.UserId,
                     houseProjectId = el.HouseProjectId,
                     name = el.HouseProject.Name,
@@ -138,7 +138,7 @@ namespace diplom_backend.Controllers
         }
 
         // Добавление проекта в избранное
-        [Route("favorite")]
+        [Route("addFavorite")]
         [HttpPost]
         public async Task<ActionResult> AddFavorite(HouseProjectJson item)
         {
@@ -162,8 +162,8 @@ namespace diplom_backend.Controllers
         }
 
         // Удаление проекта из избранного
-        [Route("favorite")]
-        [HttpPost("{id}")]
+        [Route("removeFavorite")]
+        [HttpPost]
         public async Task<ActionResult> RemoveFavorite(HouseProjectJson item)
         {
             User currentUser = await _db.Users.FirstOrDefaultAsync(el => el.Id == item.userId);

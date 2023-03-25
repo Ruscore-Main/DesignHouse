@@ -56,11 +56,12 @@ const Home = () => {
           </h2>
           <div className="content__items">
           {status === 'success'
-          ? items.map((el) => <ItemBlock key={el.id} {...el} />)
+          ? items.map((el) => <ItemBlock key={el.id} dispatch={dispatch} {...el} />)
           : Array(6)
               .fill(null)
               .map((_, i) => <LoaderItemBlock key={i} />)}
           </div>
+          {(status === 'success' && items.length == 0) ? <h2 className='nothing-found'>Ничего не найдено 😕</h2> : ''}
 
           { amountPages < 2 ? '' : <Pagination amountPages={amountPages} setCurrentPage={(page) => dispatch(setCurrentPage(page))}/>}
         </div>
