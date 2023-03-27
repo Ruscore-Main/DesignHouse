@@ -4,6 +4,8 @@ import Carousel from 'nuka-carousel';
 import { fetchFullHouseProject } from '../../redux/slices/fullHouseProjectSlice';
 import { useParams } from 'react-router-dom';
 import styles from './FullHouseProject.module.scss';
+import AddRequest from '../../components/AddRequest/AddRequest';
+import { useAuth } from '../../hooks/useAuth';
 
 const FullHouseProject = () => {
   const { data, status } = useSelector(({ fullHouseProject }) => fullHouseProject);
@@ -44,13 +46,18 @@ const FullHouseProject = () => {
         <h2 className={styles.title}>{data.name}</h2>
 
         <span className={styles.description}>{data.description}</span>
+        <span className={styles.price}>
+          Дата публикации: <span className={styles.orange}>{data.amountFloors}</span> m2
+        </span>
+        <span className={styles.area}>
+          Кол-во этажей: <span className={styles.orange}>{data.amountFloors}</span> m2
+        </span>
         <span className={styles.area}>
           Площадь: <span className={styles.orange}>{data.area}</span> m2
         </span>
         <span className={styles.price}>Цена: от {data.price} ₽</span>
-        <button className="button">Подать заявку</button>
+        <AddRequest house={data} dispatch={dispatch} />
       </div>
-
     </div>
   );
 };

@@ -53,6 +53,16 @@ export const removeFavorite = createAsyncThunk('user/removeFavorite', async (par
   }
 });
 
+// Добавление запроса на строительство
+export const addRequest = createAsyncThunk('user/addRequest', async (params) => {
+  try {
+    const request = (await userAPI.addRequest(params));
+    return request;
+  } catch (error) {
+    return error.response.data;
+  }
+});
+
 
 const initialState = {
   id: null,
@@ -111,13 +121,18 @@ const userSlice = createSlice({
     },
     [addFavorite.fulfilled]: (state, action) => {
         if (action.payload?.id) {
-        state.favorites = [...state.favorites, action.payload]
+        state.favorites = [...state.favorites, action.payload];
       }
     },
     [removeFavorite.fulfilled]: (state, action) => {
       if (action.payload?.id) {
         debugger;
-        state.favorites = state.favorites.filter(el => el.id !== action.payload.id)
+        state.favorites = state.favorites.filter(el => el.id !== action.payload.id);
+      }
+    },
+    [addRequest.fulfilled]: (state, action) => {
+      if (action.payload?.id) {
+        state.requests = [...state.requests, action.payload];
       }
     }
   },

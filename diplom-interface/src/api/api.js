@@ -46,5 +46,8 @@ export const userAPI = {
   },
   removeFavorite(houseProject) {
     return userInstance.post('removeFavorite', houseProject).then(({data}) => data);
+  },
+  addRequest(request) {
+    return userInstance.post('request', request).then(({data}) => data);
   }
 }

@@ -60,7 +60,7 @@ namespace diplom_backend.Models
         public int area { get; set; } 
         public int price { get; set; }
         public DateTime datePublication { get; set; }
-        public int amountFlors { get; set; }
+        public int amountFloors { get; set; }
         public List<byte[]> images { get; set; }
         public string? userPhone { get; set; } = null;
     }

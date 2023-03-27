@@ -1,0 +1,25 @@
+
+.buttonRequest {
+    width: 30vw;
+    margin-bottom: 100px;
+}
+
+.root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    p {
+        align-self: flex-start;
+    }
+
+    textarea {
+        width: 100%;
+        max-width: 100%;
+        min-width: 50%;
+        max-height: 400px;
+        min-height: 80px;
+    }
+
+}

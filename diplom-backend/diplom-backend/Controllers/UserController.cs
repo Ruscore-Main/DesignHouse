@@ -115,7 +115,7 @@ namespace diplom_backend.Controllers
                     area = el.HouseProject.Area,
                     price = el.HouseProject.Price,
                     datePublication = el.HouseProject.DatePublication,
-                    amountFlors = el.HouseProject.AmountFloors,
+                    amountFloors = el.HouseProject.AmountFloors,
                     images = images
                 });
             });
@@ -235,7 +235,7 @@ namespace diplom_backend.Controllers
                     area = el.HouseProject.Area,
                     price = el.HouseProject.Price,
                     datePublication = el.HouseProject.DatePublication,
-                    amountFlors = el.HouseProject.AmountFloors,
+                    amountFloors = el.HouseProject.AmountFloors,
                     userPhone = el.User.PhoneNumber
                 });
             });
@@ -259,13 +259,18 @@ namespace diplom_backend.Controllers
 
             Request newRequest = new Request() {
                 ContentText = request.contentText,
-                DateCreating = request.dateCreating,
-                HouseProject = houseProject
+                DateCreating = DateTime.Now,
+                HouseProject = houseProject,
+                User = currentUser,
+                UserId = currentUser.Id,
+                HouseProjectId = houseProject.Id
             };
 
             request.userPhone = currentUser.PhoneNumber;
 
             currentUser.Requests.Add(newRequest);
+
+            _db.Requests.Add(newRequest);
 
             await _db.SaveChangesAsync();
 
