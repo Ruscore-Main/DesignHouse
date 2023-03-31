@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../redux/slices/userSlice';
+import AddUserProject from './AddUserProject';
 
 const isValidUpdate = (login, email, phoneNumber) => {
   const isEmail = /^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i;
@@ -52,8 +53,7 @@ const UserProfileForm = ({dispatch, ...user}) => {
       <p className='not-valid'>{textError} {isValid !== "Успешно!" ? isValid : ''}</p>
       <button className={classNames('button button--outline', { disabled: isValid !== "Успешно!" })} onClick={onSaveClick}>Сохранить</button>
 
-      <p>*Вы можете предложить свой собственный дизайн - проект дома</p>
-      <button className="button">Добавить проект</button>
+      <AddUserProject />
     </div>
   );
 };

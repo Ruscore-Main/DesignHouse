@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { addFavorite, removeFavorite } from '../redux/slices/userSlice';
 
-const ItemBlock = ({ id: houseId, name, description, area, price, images, dispatch }) => {
+const ItemBlock = ({ id: houseId=null, name, description, area, price, images, dispatch }) => {
   const { isAuth, id: userId, favorites } = useAuth();
 
   let isFavorite = favorites.find((el) => el.id === houseId);
@@ -14,7 +14,7 @@ const ItemBlock = ({ id: houseId, name, description, area, price, images, dispat
     <div className="item-block">
       <div className="images">
         <Link to={`house/${houseId}`}>
-          <img src={'data:image/jpeg;base64,' + images[images.length-1]} alt="itemImage" />
+          <img src={'data:image/jpeg;base64,' + images[0]} alt="itemImage" />
         </Link>
         {isAuth &&
           (isFavorite ? (

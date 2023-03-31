@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Description from '../components/Description';
 import Filters from '../components/Filters';
 import ItemBlock from '../components/ItemBlock';
@@ -12,7 +12,7 @@ import { setCurrentPage } from '../redux/slices/filterSlice';
 import { fetchProjects } from '../redux/slices/houseProjectSlice';
 
 const Home = () => {
-  const {isAuth} = useAuth();
+  const {isAuth, role} = useAuth();
 
   const listHeader = React.useRef();
 
@@ -63,9 +63,11 @@ const Home = () => {
           </div>
           {(status === 'success' && items.length == 0) ? <h2 className='nothing-found'>Ничего не найдено 😕</h2> : ''}
 
-          { amountPages < 2 ? '' : <Pagination amountPages={amountPages} setCurrentPage={(page) => dispatch(setCurrentPage(page))}/>}
+          { amountPages < 2 ? '' : <Pagination currentPage={currentPage} amountPages={amountPages} setCurrentPage={(page) => dispatch(setCurrentPage(page))}/>}
         </div>
       </div>
+
+      {role === "User" && <div className="admin--link"><Link to='/admin'>Admin</Link></div>}
     </>
   );
 };

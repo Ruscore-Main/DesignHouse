@@ -1,0 +1,73 @@
+@import './../../scss/variables';
+
+.root {
+    .projectImage {
+        color: $gray !important;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        img {
+            display: block;
+            width: 24px;
+            height: 24px;   
+        }
+        img:hover ~ .imageDescription {
+            display: block;
+        }
+        .imageInformation {
+            position: relative;
+            .imageDescription {
+                position: absolute;
+                right: -100px;
+                top: 30px;
+                background-color: white;
+                border: 1px solid $orange;
+                border-radius: 20px;
+                font-size: 14px;
+                width: 220px;
+                display: none;
+
+                ul {
+                    padding: 10px 10px 10px 30px;
+
+                }
+                ul li {
+                    list-style-type: disc;
+                    color: $gray;
+                }
+            }            
+        }
+        
+    }
+
+    .formGroup {
+        
+        display: flex;
+        flex-direction: column;
+    }
+
+    textarea {
+        max-width: 100%;
+        min-width: 50%;
+        max-height: 300px;
+        min-height: 50px;
+    }
+
+}
+
+.previewTitle {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.submitBlock {
+    display: flex;
+    justify-content: center;
+
+    button {
+        width: 50%;
+    }
+}

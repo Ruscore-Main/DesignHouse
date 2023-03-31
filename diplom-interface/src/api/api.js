@@ -28,6 +28,11 @@ export const houseProjectsAPI = {
 
     getFullProject(id) {
         return houseProjectInstance.get(`/${id}`).then(({data}) => data);
+    },
+
+    addProject(houseProject) {
+      debugger;
+      return houseProjectInstance.post('', houseProject).then(({data}) => data);
     }
 }
 

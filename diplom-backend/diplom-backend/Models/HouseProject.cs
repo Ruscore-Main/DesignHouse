@@ -21,6 +21,7 @@ namespace diplom_backend.Models
         public int Price { get; set; }
         public DateTime DatePublication { get; set; }
         public int AmountFloors { get; set; }
+        public bool IsPublished { get; set; }
 
         public virtual ICollection<Favorite> Favorites { get; set; }
         public virtual ICollection<ProjectImage> ProjectImages { get; set; }

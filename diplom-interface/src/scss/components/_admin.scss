@@ -1,0 +1,24 @@
+@import './../variables';
+
+.admin {
+    &--link {
+        position: fixed;
+        right: 15px;
+        bottom: 15px;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        transition: all $duration ease-in-out;
+        background: linear-gradient(180deg, $gray, $orange);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        a {
+            color: white;   
+        }
+    }
+    &--link:hover {
+        background: linear-gradient(135deg, $gray, $orange);
+        transition: all $duration ease-in-out;
+    }
+}

@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import Modal from "../Modal/Modal";
+import Modal from "../Modal";
 import styles from "./AddRequest.module.scss";
-import { addRequest } from "./../../redux/slices/userSlice";
+import { addRequest } from "../../redux/slices/userSlice";
 import { useAuth } from "../../hooks/useAuth";
 
 const AddRequest = ({ house, dispatch }) => {

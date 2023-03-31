@@ -3,7 +3,7 @@ import React from 'react';
 import ReactPaginate from 'react-paginate';
 import styles from './Pagination.module.scss'
 
-const Pagination = ({amountPages, setCurrentPage}) => {
+const Pagination = ({amountPages, setCurrentPage, currentPage}) => {
   return (
     <ReactPaginate
       className={styles.root}
@@ -15,6 +15,7 @@ const Pagination = ({amountPages, setCurrentPage}) => {
       previousLabel="<"
       nextClassName="nextBtn"
       previousClassName='prevBtn'
+      initialPage={currentPage-1}
     />
   );
 };

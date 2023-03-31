@@ -17,7 +17,7 @@ const Modal = ({ isVisible = false, title, content, footer, onClose }) => {
   });
 
   return !isVisible ? null : (
-    <div className={styles.modal} onClick={onClose}>
+    <div className={styles.modal}>
       <div className={styles.modalDialog} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <h3 className={styles.modalTitle}>{title}</h3>

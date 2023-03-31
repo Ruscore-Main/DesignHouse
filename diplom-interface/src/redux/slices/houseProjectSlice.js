@@ -1,10 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { houseProjectsAPI } from '../../api/api';
 
-export const fetchProjects = createAsyncThunk('pizzas/houseProject', async (params) => {
+export const fetchProjects = createAsyncThunk('houseProjects/houseProject', async (params) => {
   const { currentPage, sortType, category, searchValue } = params;
   const data = await houseProjectsAPI.getProjects(currentPage, sortType, category, searchValue);
   return data;
+});
+
+export const addProject = createAsyncThunk('houseProjects/addProject', async (params) => {
+  debugger;
+  try {
+    const houseProject = await houseProjectsAPI.addProject(params);
+    return houseProject;
+  } catch (error) {
+    return error.response.data;
+  }
 });
 
 const initialState = {
@@ -34,6 +44,11 @@ let houseProjectSlice = createSlice({
     [fetchProjects.pending]: (state) => {
       state.items = [];
       state.status = 'error';
+    },
+    [addProject.fulfilled]: (state, action) => {
+      if (action.payload?.isPublished) {
+        state.items = [...state.items, action.payload];
+      }
     },
   },
 });

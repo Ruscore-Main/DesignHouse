@@ -50,12 +50,12 @@ namespace diplom_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<JsonResult>>> Get(int? page, int limit, string searchValue, string category, string sort)
         {
-            List<HouseProject> allProjects = await _db.HouseProjects.ToListAsync();
+            List<HouseProject> allProjects = await _db.HouseProjects.Where(el => el.IsPublished).ToListAsync();
             List<HouseProjectJson> houseProjects = new List<HouseProjectJson>();
 
             allProjects.ForEach(el =>
             {
-                List<byte[]> images = el.ProjectImages.Select(s => this.GetImage(Convert.ToBase64String(s.Image))).ToList();
+                List<byte[]> images = el.ProjectImages.OrderBy(el => el.ImageName).Select(s => this.GetImage(Convert.ToBase64String(s.Image))).ToList();
                 HouseProjectJson curProject = new HouseProjectJson()
                 {
                     id = el.Id,
@@ -77,10 +77,6 @@ namespace diplom_backend.Controllers
                 return new JsonResult(houseProjects);
             }
 
-            if (page != null)
-            {
-                houseProjects = houseProjects.Skip(5 * ((int)page-1)).Take(limit).ToList();
-            }
 
             // Фильтрация списка проектов домов по содержимому заголовка
             if (searchValue != null)
@@ -150,10 +146,17 @@ namespace diplom_backend.Controllers
                 }
             }
 
+            int amountPages = Convert.ToInt32(Math.Ceiling(houseProjects.Count / (float)limit));
+
+            if (page != null)
+            {
+                houseProjects = houseProjects.Skip(5 * ((int)page - 1)).Take(limit).ToList();
+            }
+
             ResponseHuseProject responseHusePorject = new ResponseHuseProject()
             {
                 items = houseProjects,
-                amountPages = Convert.ToInt32(Math.Ceiling(houseProjects.Count / (float)limit))
+                amountPages = amountPages
             };
 
             return new JsonResult(responseHusePorject);
@@ -170,7 +173,7 @@ namespace diplom_backend.Controllers
                 return NotFound();
             }
 
-            List<byte[]> images = houseProject.ProjectImages.Select(s => this.GetImage(Convert.ToBase64String(s.Image))).ToList();
+            List<byte[]> images = houseProject.ProjectImages.OrderBy(el => el.ImageName).Select(s => this.GetImage(Convert.ToBase64String(s.Image))).ToList();
             HouseProjectJson houseProjectJson = new HouseProjectJson()
             {
                 id = houseProject.Id,
@@ -205,9 +208,11 @@ namespace diplom_backend.Controllers
                 Price = houseProject.price,
                 DatePublication = DateTime.Now,
                 AmountFloors = houseProject.amountFloors,
+                IsPublished = houseProject.isPublished
             };
 
             var i = _owebHostEnvironment;
+            int index = 0;
             houseProject.images.ToList().ForEach(async (el) =>
             {
                 if (el.Length > 0)
@@ -226,9 +231,11 @@ namespace diplom_backend.Controllers
                         var fileBytes = ms.ToArray();
                         newHouseProject.ProjectImages.Add(new ProjectImage()
                         {
-                            Image = fileBytes
+                            Image = fileBytes,
+                            ImageName = $"{index}"
                         });
                     }
+                    index++;
 
                     using (FileStream fileStream = System.IO.File.Create(path + fileName))
                     {

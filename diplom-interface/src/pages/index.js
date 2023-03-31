@@ -1,11 +1,13 @@
 import Home from "./Home";
 import Auth from "./Auth";
 import UserProfile from './UserProfile';
-import FullHouseProject from './FullHouseProject/FullHouseProject';
+import Admin from './Admin'
+import FullHouseProject from './FullHouseProject';
 
 export {
     Home,
     Auth,
     UserProfile,
-    FullHouseProject
+    FullHouseProject,
+    Admin
 };
