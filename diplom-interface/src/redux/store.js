@@ -3,6 +3,8 @@ import filterSlice from "./slices/filterSlice";
 import fullHouseProjectSlice from "./slices/fullHouseProjectSlice";
 import houseProjectSlice from "./slices/houseProjectSlice";
 import userSlice from "./slices/userSlice";
+import adminFilterSlice from "./slices/adminFilterSlice";
+import adminSlice from "./slices/adminSlice";
 
 
 export const store = configureStore({
@@ -10,7 +12,9 @@ export const store = configureStore({
         houseProjects: houseProjectSlice,
         filter: filterSlice,
         fullHouseProject: fullHouseProjectSlice,
-        user: userSlice
+        user: userSlice,
+        admin: adminSlice,
+        adminFilter: adminFilterSlice
     }
 });
 

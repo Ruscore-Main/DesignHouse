@@ -1,0 +1,36 @@
+.filters {
+    margin-bottom: 20px;
+
+    @media (max-width: 1500px) {
+
+        .categories {
+            max-width: 500px;
+        }
+    }
+
+    @media (max-width: 770px) {
+        flex-direction: column;
+
+        .search {
+            margin: 20px 0;
+            width: 350px;
+
+            input {
+                width: 300px;
+            }
+        }
+    }
+
+    @media (max-width: 450px) {
+        flex-direction: column;
+
+        .search {
+            margin: 20px 0;
+            width: 250px;
+
+            input {
+                width: 200px;
+            }
+        }
+    }
+}

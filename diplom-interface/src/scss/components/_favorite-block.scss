@@ -23,6 +23,13 @@
         border-radius: 20px;
     }
 
+    h4, span {
+        max-width: 180px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     &__title {
         color: $gray;
         margin: 5px 0;

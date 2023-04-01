@@ -1,11 +1,10 @@
+import classNames from 'classnames';
 import React from 'react';
 
-export const categories = ['Одноэтажные', 'Двухэтажные', 'Более этажей'];
-
-const Categories = ({activeCategory, setActiveCategory}) => {
+const Categories = ({categories, activeCategory, setActiveCategory, className}) => {
 
   return (
-    <div className="categories">
+    <div className={classNames("categories", className)}>
       <ul>
         <li className={activeCategory === null ? 'active' : ''} onClick={() => setActiveCategory(null)}>
           Все

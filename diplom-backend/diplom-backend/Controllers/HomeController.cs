@@ -48,9 +48,20 @@ namespace diplom_backend.Controllers
         // GET api/project
         // Получение списка проектов
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JsonResult>>> Get(int? page, int limit, string searchValue, string category, string sort)
+        public async Task<ActionResult<IEnumerable<JsonResult>>> Get(int? page, int limit, string searchValue, string category, string sort, string isPublished)
         {
-            List<HouseProject> allProjects = await _db.HouseProjects.Where(el => el.IsPublished).ToListAsync();
+            List<HouseProject> allProjects = await _db.HouseProjects.ToListAsync();
+            if (isPublished != null)
+            {
+                if (isPublished == "Опубликованные")
+                {
+                    allProjects = allProjects.Where(el => el.IsPublished).ToList();
+                }
+                else
+                {
+                    allProjects = allProjects.Where(el => !el.IsPublished).ToList();
+                }
+            }
             List<HouseProjectJson> houseProjects = new List<HouseProjectJson>();
 
             allProjects.ForEach(el =>
@@ -65,7 +76,8 @@ namespace diplom_backend.Controllers
                     price = el.Price,
                     datePublication = el.DatePublication,
                     amountFloors = el.AmountFloors,
-                    images = images
+                    images = images,
+                    isPublished = el.IsPublished
                 };
 
                 houseProjects.Add(curProject);
@@ -150,7 +162,7 @@ namespace diplom_backend.Controllers
 
             if (page != null)
             {
-                houseProjects = houseProjects.Skip(5 * ((int)page - 1)).Take(limit).ToList();
+                houseProjects = houseProjects.Skip(limit * ((int)page - 1)).Take(limit).ToList();
             }
 
             ResponseHuseProject responseHusePorject = new ResponseHuseProject()

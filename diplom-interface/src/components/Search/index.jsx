@@ -1,22 +1,22 @@
 import React from 'react';
 
 import debounce from 'lodash.debounce';
-import { setSearchValue } from '../redux/slices/filterSlice';
+import classNames from 'classnames';
 
-const Search = ({dispatch}) => {
+const Search = ({setSearchValue, className}) => {
   const [value, setValue] = React.useState('');
 
   const searchField = React.useRef(null);
 
   const onClickClear = () => {
     setValue('');
-    dispatch(setSearchValue(''));
+    setSearchValue('');
     searchField.current?.focus();
   };
 
   const updateSearchValue = React.useCallback(
     debounce((val) => {
-      dispatch(setSearchValue(val));
+      setSearchValue(val)
     }, 500),
     [],
   );
@@ -27,7 +27,7 @@ const Search = ({dispatch}) => {
   }, []);
 
   return (
-    <div className="search">
+    <div className={classNames(className, "search")}>
       <svg
         enableBackground="new 0 0 32 32"
         id="Glyph"

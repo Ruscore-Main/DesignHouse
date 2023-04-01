@@ -8,20 +8,28 @@ const houseProjectInstance = axios.create({
 
 const userInstance = axios.create({
   baseURL: BASE_URL + 'user/'
-})
+});
+
+const adminInstance = axios.create({
+  baseURL: BASE_URL + 'admin/'
+});
 
 
 // https://localhost:44336/api/project?page=1&limit=5&sort=name&category=%D0%9E%D0%B4%D0%BD%D0%BE%D1%8D%D1%82%D0%B0%D0%B6%D0%BD%D1%8B%D0%B5&searchValue=%D0%B4
 export const houseProjectsAPI = {
-    getProjects(page, sortType, category, searchValue) {
-        let fetchURL = `?page=${page}&limit=5&sort=${sortType.sort}`;
+    getProjects(page, sortType, category, searchValue, isPublished, limit=6) {
+        let fetchURL = `?page=${page}&limit=${limit}&sort=${sortType.sort}`;
       
         if (category !== null) {
           fetchURL += `&category=${category}`;
         }
+        if (isPublished !== null) {
+          fetchURL += `&isPublished=${isPublished}`;
+        }
         if (searchValue !== '') {
           fetchURL += `&searchValue=${searchValue}`;
         }
+
   
         return houseProjectInstance.get(fetchURL).then(({data}) => data);
     },
@@ -31,8 +39,11 @@ export const houseProjectsAPI = {
     },
 
     addProject(houseProject) {
-      debugger;
       return houseProjectInstance.post('', houseProject).then(({data}) => data);
+    },
+
+    deleteProject(houseProject) {
+      return houseProjectInstance.delete(`${houseProject.id}`).then(({data}) => data);
     }
 }
 
@@ -54,5 +65,11 @@ export const userAPI = {
   },
   addRequest(request) {
     return userInstance.post('request', request).then(({data}) => data);
+  }
+}
+
+export const adminAPI = {
+  getProjects() {
+    
   }
 }

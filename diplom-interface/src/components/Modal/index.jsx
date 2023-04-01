@@ -13,7 +13,11 @@ const Modal = ({ isVisible = false, title, content, footer, onClose }) => {
 
   useEffect(() => {
     document.addEventListener("keydown", keydownHandler);
-    return () => document.removeEventListener("keydown", keydownHandler);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener("keydown", keydownHandler);
+      document.body.style.overflow = 'visible';
+    }
   });
 
   return !isVisible ? null : (

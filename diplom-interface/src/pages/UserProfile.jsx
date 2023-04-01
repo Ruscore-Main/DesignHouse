@@ -16,7 +16,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="container container--user">
+    <div className="container--user">
         <UserProfileForm dispatch={dispatch} {...user}/>
 
         <div className="favorite">

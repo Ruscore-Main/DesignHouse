@@ -1,0 +1,26 @@
+@import 'scss/variables';
+
+.links {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+
+    span {
+        padding: 10px;
+        transition-duration: $duration;
+        border-radius: 20px;
+    }
+
+    span:hover, .active:hover {
+        background-color: $gray;
+        color: white;
+        transition-duration: $duration;
+        border-radius: 15px;
+        border-bottom: 2px solid rgba(black, 0);
+    }
+
+    span.active {
+        border-bottom: 2px solid $gray;
+        border-radius: 0;
+    }
+}

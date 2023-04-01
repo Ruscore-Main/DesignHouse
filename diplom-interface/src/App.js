@@ -4,8 +4,7 @@ import "./scss/app.scss";
 
 import Header from "./components/Header";
 import { Route, Routes } from "react-router-dom";
-import { Home, Auth, UserProfile, FullHouseProject, Admin } from "./pages";
-import { useAuth } from "./hooks/useAuth";
+import { Home, Auth, UserProfile, FullHouseProject, Admin, NotFound } from "./pages";
 
 function App() {
 
@@ -20,6 +19,7 @@ function App() {
           <Route exact path="/user" element={<UserProfile />} />
           <Route exact path="/admin" element={<Admin />} />
           <Route path="house/:id" element={<FullHouseProject />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
 

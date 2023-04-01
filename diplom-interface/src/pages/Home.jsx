@@ -32,6 +32,7 @@ const Home = () => {
         sortType,
         category,
         searchValue,
+        isPublished: 'Опубликованные'
       })
     );
 

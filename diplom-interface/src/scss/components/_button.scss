@@ -59,7 +59,7 @@
   }
 
   &--outline {
-    background-color: $gray;
+    background: rgba(0, 0, 0, 0);
     border-color: $orange;
     &,
     span {

@@ -2,15 +2,23 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { houseProjectsAPI } from '../../api/api';
 
 export const fetchProjects = createAsyncThunk('houseProjects/houseProject', async (params) => {
-  const { currentPage, sortType, category, searchValue } = params;
-  const data = await houseProjectsAPI.getProjects(currentPage, sortType, category, searchValue);
+  const { currentPage, sortType, category, searchValue, isPublished } = params;
+  const data = await houseProjectsAPI.getProjects(currentPage, sortType, category, searchValue, isPublished, 6);
   return data;
 });
 
 export const addProject = createAsyncThunk('houseProjects/addProject', async (params) => {
-  debugger;
   try {
     const houseProject = await houseProjectsAPI.addProject(params);
+    return houseProject;
+  } catch (error) {
+    return error.response.data;
+  }
+});
+
+export const deleteProject = createAsyncThunk('houseProjects/deleteProject', async (params) => {
+  try {
+    const houseProject = await houseProjectsAPI.deleteProject(params);
     return houseProject;
   } catch (error) {
     return error.response.data;

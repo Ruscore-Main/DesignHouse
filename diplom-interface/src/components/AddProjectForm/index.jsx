@@ -26,7 +26,7 @@ const checkValidation = (name, description, area, price, floors, images) => {
   return res;
 };
 
-const AddProjectForm = () => {
+const AddProjectForm = ({isPublished}) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [area, setArea] = useState();
@@ -66,7 +66,7 @@ const AddProjectForm = () => {
       formData.append('area', +area);
       formData.append('price', +price);
       formData.append('amountFloors', +floors);
-      formData.append('isPublished', true);
+      formData.append('isPublished', isPublished);
       const sendImages = [];
       images.forEach((img, i) => {
         sendImages.push(img);

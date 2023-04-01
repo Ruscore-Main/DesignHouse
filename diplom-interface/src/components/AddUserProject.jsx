@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import AddProjectForm from "../AddProjectForm";
-import Modal from "../Modal";
-import styles from './AddUserProject.module.scss'
+import AddProjectForm from "./AddProjectForm";
+import Modal from "./Modal";
 
 const AddUserProject = () => {
   const [isModal, setIsModal] = useState(false);
@@ -19,7 +18,7 @@ const AddUserProject = () => {
           onClose={() => setIsModal(false)}
           title="Добавление проекта"
           content={
-            <AddProjectForm />
+            <AddProjectForm isPublished={false} />
           }
         />
       )}
