@@ -16,7 +16,7 @@ const AddAdminProject = () => {
           isVisible={isModal}
           onClose={() => setIsModal(false)}
           title="Добавление проекта"
-          content={<AddProjectForm isPublished={true} />}
+          content={<AddProjectForm isPublished={true} closeModal={() => setIsModal(false)} />}
         />
       )}
     </>

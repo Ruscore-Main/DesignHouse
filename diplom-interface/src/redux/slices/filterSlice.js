@@ -23,9 +23,14 @@ let filterSlice = createSlice({
     setCurrentPage(state, action) {
       state.currentPage = action.payload;
     },
+    resetFilters(state) {
+      state.searchValue = "";
+      state.category = null;
+      state.currentPage = 1;
+    }
   },
 });
 
-export const { setSearchValue, setCategory, setSortType, setCurrentPage } = filterSlice.actions;
+export const { setSearchValue, setCategory, setSortType, setCurrentPage, resetFilters } = filterSlice.actions;
 
 export default filterSlice.reducer;

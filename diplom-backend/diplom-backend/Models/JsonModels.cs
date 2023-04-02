@@ -57,6 +57,10 @@ namespace diplom_backend.Models
         public string contentText { get; set; }
         public DateTime dateCreating { get; set; }
         public int userId { get; set; }
+        public string userLogin { get; set; }
+        public string userEmail { get; set; }
+        public string? userPhone { get; set; } = null;
+
         public int houseProjectId { get; set; }
         public string name { get; set; }
         public string description { get; set; }
@@ -65,7 +69,12 @@ namespace diplom_backend.Models
         public DateTime datePublication { get; set; }
         public int amountFloors { get; set; }
         public List<byte[]> images { get; set; }
-        public string? userPhone { get; set; } = null;
+    }
+
+    public class ResponseRequestJson
+    {
+        public int amountPages { get; set; }
+        public List<RequestJson> items { get; set; }
     }
 
     // Json Model for Favoriteitem of User

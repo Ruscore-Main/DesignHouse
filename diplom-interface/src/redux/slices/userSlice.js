@@ -112,7 +112,6 @@ const userSlice = createSlice({
       }
     },
     [updateUser.fulfilled]: (state, action) => {
-      debugger;
       if (action.payload?.id) {
         state.login = action.payload.login;
         state.email = action.payload.email;
@@ -126,7 +125,6 @@ const userSlice = createSlice({
     },
     [removeFavorite.fulfilled]: (state, action) => {
       if (action.payload?.id) {
-        debugger;
         state.favorites = state.favorites.filter(el => el.id !== action.payload.id);
       }
     },

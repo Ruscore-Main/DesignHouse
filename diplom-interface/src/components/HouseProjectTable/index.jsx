@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const HouseProjectsTable = ({ items, status, onDelete }) => {
   return (
-    <Table hover responsive striped>
+    <Table hover responsive striped className="mb-4">
       <thead>
         <tr>
           <th>#</th>
@@ -24,7 +24,7 @@ const HouseProjectsTable = ({ items, status, onDelete }) => {
           items.map((project) => (
             <tr>
               <td>{project.id}</td>
-              <td><Link to={`/house/${project.id}`}>{project.name}</Link></td>
+              <td><Link className="link" to={`/house/${project.id}`}>{project.name}</Link></td>
               <td>{project.area} m2</td>
               <td>{project.price} ₽</td>
               <td>{new Date(project.datePublication).toLocaleString()}</td>

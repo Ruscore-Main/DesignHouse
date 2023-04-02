@@ -18,7 +18,7 @@ const AddUserProject = () => {
           onClose={() => setIsModal(false)}
           title="Добавление проекта"
           content={
-            <AddProjectForm isPublished={false} />
+            <AddProjectForm closeModal={() => setIsModal(false)} isPublished={false}  />
           }
         />
       )}

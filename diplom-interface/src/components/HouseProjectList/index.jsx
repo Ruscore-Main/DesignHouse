@@ -1,9 +1,9 @@
 import React from "react";
 
-import HouseProjectsTable from "components/HouseProjectsTable";
+import HouseProjectsTable from "components/HouseProjectTable";
 import AddAdminProject from "components/AddAdminProject";
 import styles from "./HouseProjectList.module.scss";
-import Search from "components/Search";
+import Search from "components";
 import Categories from "components/Categories";
 import { useDispatch, useSelector } from "react-redux";
 import {

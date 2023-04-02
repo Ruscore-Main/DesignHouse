@@ -18,7 +18,7 @@ const adminFilterSlice = createSlice({
     },
     setIsPublished(state, action) {
       state.isPublished = action.payload;
-    },
+    }
   },
 });
 

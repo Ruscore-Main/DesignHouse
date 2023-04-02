@@ -229,13 +229,13 @@ namespace diplom_backend.Controllers
             {
                 if (el.Length > 0)
                 {
-                    string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
+                    /*string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
                     string fileName = "HouseImg_" + houseProject.name + "_" + $"{GetTimestamp(DateTime.Now)}" + ".png";
                     if (System.IO.File.Exists(path + fileName))
                     {
                         System.IO.File.Delete(path + fileName);
-                    }
+                    }*/
 
                     using (var ms = new MemoryStream())
                     {
@@ -249,11 +249,11 @@ namespace diplom_backend.Controllers
                     }
                     index++;
 
-                    using (FileStream fileStream = System.IO.File.Create(path + fileName))
+                    /*using (FileStream fileStream = System.IO.File.Create(path + fileName))
                     {
                         await el.CopyToAsync(fileStream);
                         await fileStream.FlushAsync();
-                    }
+                    }*/
                 }
             });
 
@@ -263,7 +263,7 @@ namespace diplom_backend.Controllers
             await _db.HouseProjects.AddAsync(newHouseProject);
             await _db.SaveChangesAsync();
 
-            return Ok(newHouseProject);
+            return Ok(newHouseProject.Id);
 
         }
 

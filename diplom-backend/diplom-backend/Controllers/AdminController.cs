@@ -21,7 +21,7 @@ namespace diplom_backend.Controllers
         // Получение всех запросов на строительство
         [Route("request")]
         [HttpGet]
-        public async Task<ActionResult> GetRequests()
+        public async Task<ActionResult> GetRequests(int? page, int limit, string searchValue, string category)
         {
             List<RequestJson> requestsJson = new List<RequestJson>();
 
@@ -37,16 +37,63 @@ namespace diplom_backend.Controllers
                     userId = el.UserId,
                     houseProjectId = el.HouseProjectId,
                     name = el.HouseProject.Name,
-                    description = el.HouseProject.Description,
-                    area = el.HouseProject.Area,
                     price = el.HouseProject.Price,
-                    datePublication = el.HouseProject.DatePublication,
+                    userEmail = el.User.Email,
+                    userPhone = el.User.PhoneNumber,
                     amountFloors = el.HouseProject.AmountFloors,
-                    userPhone = el.User.PhoneNumber
+                    userLogin = el.User.Login
                 });
             });
 
-            return new JsonResult(requestsJson);
+            // Если нет никаких параметров запроса, то сразу возвращаем результат, чтобы ускорить процесс
+            if (searchValue == null && category == null && page == null)
+            {
+                return new JsonResult(requestsJson);
+            }
+
+            // Фильтрация списка запросов по содержимому контента
+            if (searchValue != null)
+            {
+                requestsJson = requestsJson.Where(el => el.contentText.ToLower().Contains(searchValue.ToLower())).ToList();
+            }
+
+            // Фильтрация списка проектов домов по этажам
+            if (category != null)
+            {
+                switch (category)
+                {
+                    case "Одноэтажные":
+                        {
+                            requestsJson = requestsJson.Where(el => el.amountFloors == 1).ToList();
+                            break;
+                        }
+                    case "Двухэтажные":
+                        {
+                            requestsJson = requestsJson.Where(el => el.amountFloors == 2).ToList();
+                            break;
+                        }
+                    case "Более этажей":
+                        {
+                            requestsJson = requestsJson.Where(el => el.amountFloors > 2).ToList();
+                            break;
+                        }
+                }
+            }
+
+            int amountPages = Convert.ToInt32(Math.Ceiling(requestsJson.Count / (float)limit));
+
+            if (page != null)
+            {
+                requestsJson = requestsJson.Skip(limit * ((int)page - 1)).Take(limit).ToList();
+            }
+
+            ResponseRequestJson responseRequests = new ResponseRequestJson()
+            {
+                items = requestsJson,
+                amountPages = amountPages
+            };
+
+            return new JsonResult(responseRequests);
         }
 
         // Принятие запроса на строительство

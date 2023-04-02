@@ -26,7 +26,7 @@ const checkValidation = (name, description, area, price, floors, images) => {
   return res;
 };
 
-const AddProjectForm = ({isPublished}) => {
+const AddProjectForm = ({isPublished, closeModal}) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [area, setArea] = useState();
@@ -48,7 +48,6 @@ const AddProjectForm = ({isPublished}) => {
   }
  
   const onSubmitClick = () => {
-    debugger;
     const resValidation = checkValidation(
       name,
       description,
@@ -75,11 +74,12 @@ const AddProjectForm = ({isPublished}) => {
         formData.append('images', el);
       });
       dispatch(addProject(formData)).then((res) => {
-        console.log(res);
-        if (res.payload?.login !== undefined) {
+        console.log('--------------------', res);
+        if (res !== undefined) {
           alert('Запрос на добавление проекта успешно отправлен!')
+          closeModal();
         } else {
-          alert(res.payload);
+          alert('Ошибка, что-то не так с серверной частью :(');
         }
       });
     }
