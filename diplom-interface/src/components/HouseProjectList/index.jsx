@@ -15,6 +15,7 @@ import Pagination from "components/Pagination";
 import { fetchAdminProjects } from "redux/slices/adminSlice";
 import classNames from "classnames";
 import { deleteProject } from "redux/slices/houseProjectSlice";
+import swal from 'sweetalert'
 
 const categories = ["Опубликованные", "Предложенные"];
 
@@ -29,7 +30,7 @@ const HouseProjecList = () => {
   const setPublished = (value) => dispatch(setIsPublished(value));
   const setSearch = (value) => dispatch(setAdminSearchValue(value));
 
-  React.useEffect(() => {
+  const updateTable = () => {
     dispatch(
       fetchAdminProjects({
         searchValue,
@@ -37,28 +38,29 @@ const HouseProjecList = () => {
         isPublished,
       })
     );
+  }    
+
+  React.useEffect(() => {
+    updateTable();
   }, [searchValue, currentPage, isPublished]);
 
   const onClickDelete = async (project) => {
     if (window.confirm('Вы уверены, что хотите удалить проект?')) {
       await dispatch(deleteProject(project)).then((res) => {
-        alert('Успешно удалено')
+        swal({
+          icon: "success",
+          text: "Успешно удалено!",
+        });
       })
-      await dispatch(
-        fetchAdminProjects({
-          searchValue,
-          currentPage,
-          isPublished,
-        })
-      );
+      await updateTable();
     }
   }
 
   return (
     <>
       <div className={classNames("filters", styles.filters)}>
-        <AddAdminProject />
-        <Search setSearchValue={setSearch} className={styles.search} />
+        <AddAdminProject updateTable={updateTable}  />
+        <Search setSearchValue={setSearch} className={styles.search} placeholder="Поиск проекта.." />
         <Categories
           categories={categories}
           activeCategory={isPublished}

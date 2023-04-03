@@ -37,7 +37,7 @@ namespace diplom_backend.Models
         public int? userId { get; set; } = null;
     }
 
-    public class ResponseHuseProject
+    public class ResponseHouseProject
     {
         public int amountPages { get; set; }
         public List<HouseProjectJson> items { get; set; }
@@ -103,6 +103,12 @@ namespace diplom_backend.Models
         public string phoneNumber { get; set; }
         public List<RequestJson> requests { get; set; } = new List<RequestJson>();
         public List<FavoriteJson> favorites { get; set; } = new List<FavoriteJson>();
+    }
+
+    public class ResponseUserJson
+    {
+        public int amountPages { get; set; }
+        public List<UserJson> items { get; set; }
     }
 
 }

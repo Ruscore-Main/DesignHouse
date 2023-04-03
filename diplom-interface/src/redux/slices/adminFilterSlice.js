@@ -11,12 +11,14 @@ const adminFilterSlice = createSlice({
   initialState,
   reducers: {
     setAdminSearchValue(state, action) {
+      state.currentPage = 1;
       state.searchValue = action.payload;
     },
     setAdminCurrentPage(state, action) {
       state.currentPage = action.payload;
     },
     setIsPublished(state, action) {
+      state.currentPage = 1;
       state.isPublished = action.payload;
     }
   },

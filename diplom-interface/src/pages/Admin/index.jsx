@@ -1,13 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import styles from "./Admin.module.scss";
 import HouseProjecList from "components/HouseProjectList";
 import classNames from "classnames";
 import RequestList from "components/RequestList";
+import UserList from "components/UserList";
+import { useAuth } from "hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 const Admin = () => {
   const [activeList, setActiveList] = useState("projects");
+
+  const {role} = useAuth();
+
+  if (role !== 'Admin') {
+    return <Navigate to={'/'} />
+  }
+
   return (
     <div className="container">
       <div className={styles.links}>
@@ -35,6 +44,7 @@ const Admin = () => {
 
       {activeList == "projects" && <HouseProjecList />}
       {activeList == "requests" && <RequestList />}
+      {activeList == "users" && <UserList />}
     </div>
   );
 };

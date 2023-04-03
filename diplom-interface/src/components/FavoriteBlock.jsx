@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import heartFullImage from '../assets/img/heart-full.svg';
-import itemImage from '../assets/img/item-block-image.png';
 import { removeFavorite } from '../redux/slices/userSlice';
 
 const FavoriteBlock = ({id, name, area, price, images, dispatch, userId }) => {

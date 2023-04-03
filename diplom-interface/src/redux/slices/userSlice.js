@@ -3,9 +3,9 @@ import { userAPI } from '../../api/api';
 
 // Регистрация пользователя
 export const regUser = createAsyncThunk('user/regUser', async (params) => {
-  const { login, password, email, phoneNumber } = params;
+  const { login, password, email, phoneNumber, role } = params;
   try {
-    const user = (await userAPI.registerUser(login, password, email, phoneNumber)).data;
+    const user = (await userAPI.registerUser(login, password, email, phoneNumber, role)).data;
     return user;
   } catch (error) {
     return error.response.data;
@@ -102,7 +102,7 @@ const userSlice = createSlice({
   },
   extraReducers: {
     [regUser.fulfilled]: (state, action) => {
-      if (action.payload?.login) {
+      if (action.payload?.login && action.payload?.role === "User") {
         userSlice.caseReducers.setUser(state, action)
       }
     },

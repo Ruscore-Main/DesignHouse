@@ -8,7 +8,7 @@ import LoaderItemBlock from '../components/LoaderItemBlock';
 import Pagination from '../components/Pagination';
 import SortPopup from '../components/SortPopup';
 import { useAuth } from '../hooks/useAuth';
-import { setCurrentPage } from '../redux/slices/filterSlice';
+import { resetFilters, setCurrentPage } from '../redux/slices/filterSlice';
 import { fetchProjects } from '../redux/slices/houseProjectSlice';
 
 const Home = () => {
@@ -23,6 +23,10 @@ const Home = () => {
   const { category, sortType, searchValue, currentPage } = useSelector(
     ({ filter }) => filter
   );
+
+  React.useEffect(() => {
+    return () => dispatch(resetFilters())
+  }, [])
 
   React.useEffect(() => {
 
@@ -68,7 +72,7 @@ const Home = () => {
         </div>
       </div>
 
-      {role === "User" && <div className="admin--link"><Link to='/admin'>Admin</Link></div>}
+      {role === "Admin" && <div className="admin--link"><Link to='/admin'>Admin</Link></div>}
     </>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-import classNames from "classnames";
 import { Link } from "react-router-dom";
 
 const RequestTable = ({ items, status, onComplete }) => {
@@ -19,7 +18,7 @@ const RequestTable = ({ items, status, onComplete }) => {
         </tr>
       </thead>
       <tbody>
-        {status === 'success' ?  items.map(request => <tr>
+        {status === 'success' ?  items.map(request => <tr key={request.id}>
             <td>{request.id}</td>
             <td>{request.userLogin}</td>
             <td><Link className="link" to={`/house/${request.houseProjectId}`}>{request.name}</Link></td>
@@ -27,7 +26,7 @@ const RequestTable = ({ items, status, onComplete }) => {
             <td>{new Date(request.dateCreating).toLocaleString()}</td>
             <td><Link className="link" to={`tel:${request.userPhone}`}>{request.userPhone}</Link></td>
             <td>{request.userEmail}</td>
-            <td className="pointer" onClick={() => onComplete(request)}>✔️</td>
+            <td className="pointer" title="Выполнить" onClick={() => onComplete(request)}>✔️</td>
         </tr>) : <tr>
           <td>...</td>
           <td>...</td>

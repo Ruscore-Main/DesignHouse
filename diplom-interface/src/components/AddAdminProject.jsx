@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import AddProjectForm from "./AddProjectForm";
 
-const AddAdminProject = () => {
+const AddAdminProject = ({updateTable}) => {
   const [isModal, setIsModal] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ const AddAdminProject = () => {
           isVisible={isModal}
           onClose={() => setIsModal(false)}
           title="Добавление проекта"
-          content={<AddProjectForm isPublished={true} closeModal={() => setIsModal(false)} />}
+          content={<AddProjectForm isPublished={true} closeModal={() => setIsModal(false)} updateTable={updateTable} />}
         />
       )}
     </>

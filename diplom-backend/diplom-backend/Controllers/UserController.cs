@@ -37,7 +37,7 @@ namespace diplom_backend.Controllers
             {
                 Login = login,
                 Password = userJson.password,
-                Role = "User",
+                Role = userJson.role,
                 Email = userJson.email,
                 PhoneNumber = userJson.phoneNumber,
                 Favorites = new List<Favorite>(),

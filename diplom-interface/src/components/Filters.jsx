@@ -7,13 +7,13 @@ import { setSearchValue } from '../redux/slices/filterSlice';
 
 export const categories = ['Одноэтажные', 'Двухэтажные', 'Более этажей'];
 
-const Filters = () => {
+const Filters = ({placeholder="Поиск проекта.."}) => {
   const dispatch = useDispatch();
   const activeCategory = useSelector(({ filter }) => filter.category);
   const setSearch = (value) => dispatch(setSearchValue(value));
   return (
     <div className="filters">
-      <Search setSearchValue={setSearch}/>
+      <Search setSearchValue={setSearch} placeholder={placeholder}/>
       <Categories
         categories={categories}
         activeCategory={activeCategory}

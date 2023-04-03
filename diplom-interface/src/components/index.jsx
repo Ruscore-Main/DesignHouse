@@ -3,7 +3,7 @@ import React from 'react';
 import debounce from 'lodash.debounce';
 import classNames from 'classnames';
 
-const Search = ({setSearchValue, className}) => {
+const Search = ({setSearchValue, className, placeholder}) => {
   const [value, setValue] = React.useState('');
 
   const searchField = React.useRef(null);
@@ -40,7 +40,7 @@ const Search = ({setSearchValue, className}) => {
         />
       </svg>
       <input
-        placeholder="Поиск проекта.."
+        placeholder={placeholder}
         type="text"
         value={value}
         ref={searchField}

@@ -2,9 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Carousel from "nuka-carousel";
 import { fetchFullHouseProject } from "../../redux/slices/fullHouseProjectSlice";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import styles from "./FullHouseProject.module.scss";
 import AddRequest from "../../components/AddRequest";
+import { useAuth } from "hooks/useAuth";
 
 const FullHouseProject = () => {
   const { data, status } = useSelector(
@@ -13,9 +14,17 @@ const FullHouseProject = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
+  const {isAuth} = useAuth();
+
+  
+
   React.useEffect(() => {
     dispatch(fetchFullHouseProject(id));
   }, []);
+  
+  if (!isAuth) {
+    return <Navigate to={'/login'} />
+  }
 
   return status !== "success" ? (
     <div className="container">
@@ -53,7 +62,7 @@ const FullHouseProject = () => {
           <img
             src={"data:image/jpeg;base64," + img}
             key={img}
-            alt="First slide"
+            alt="slide"
           />
         ))}
       </Carousel>

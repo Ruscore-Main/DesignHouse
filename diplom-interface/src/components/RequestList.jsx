@@ -1,10 +1,11 @@
 import Filters from "components/Filters";
 import RequestTable from "components/RequestTable";
-import React from "react";
+import React, { useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteRequest, fetchRequests } from "redux/slices/adminSlice";
 import { resetFilters, setCurrentPage } from "redux/slices/filterSlice";
+import swal from 'sweetalert'
 
 const RequestList = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const RequestList = () => {
     ({ filter }) => filter
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(
       fetchRequests({
         searchValue,
@@ -24,14 +25,17 @@ const RequestList = () => {
   }, [searchValue, category, currentPage]);
 
   // Очистка фильтров после удаления компонента
-  React.useEffect(() => {
+  useEffect(() => {
     return () => dispatch(resetFilters())
   }, [])
 
   const onClickComplete = async (request) => {
-    if (window.confirm('Вы уверены, что выполнили запрос?')) {
+    if (window.confirm('Вы уверены, что выполнили запрос пользователя?')) {
         await dispatch(deleteRequest(request)).then((res) => {
-          alert('Успешно!')
+          swal({
+            icon: "success",
+            text: "Успешно!"
+          })
         })
         await dispatch(
           fetchRequests({
@@ -45,7 +49,7 @@ const RequestList = () => {
 
   return (
     <>
-      <Filters />
+      <Filters placeholder="Поиск по содержимому.."/>
       <RequestTable items={requests} status={status} onComplete={onClickComplete} />
 
       {amountPages < 2 ? '' : <Pagination

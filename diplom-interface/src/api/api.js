@@ -48,12 +48,13 @@ export const houseProjectsAPI = {
 };
 
 export const userAPI = {
-  registerUser(login, password, email, phoneNumber) {
+  registerUser(login, password, email, phoneNumber, role) {
     return userInstance.post("registration", {
       login,
       password,
       email,
       phoneNumber,
+      role
     });
   },
   authorizateUser(login, password) {
@@ -87,10 +88,25 @@ export const adminAPI = {
     if (searchValue !== "") {
       fetchURL += `&searchValue=${searchValue}`;
     }
-    return adminInstance.get(fetchURL).then(({ data }) => data);;
+    return adminInstance.get(fetchURL).then(({ data }) => data);
   },
 
   deleteRequest(request) {
     return adminInstance.delete(`request?id=${request.id}`).then(({ data }) => data);
+  },
+
+  getUsers({page, role, searchValue, limit}) {
+    let fetchURL = `users?page=${page}&limit=${limit}`;
+
+    if (role !== null) {
+      fetchURL += `&role=${role}`;
+    }
+    if (searchValue !== "") {
+      fetchURL += `&searchValue=${searchValue}`;
+    }
+    return adminInstance.get(fetchURL).then(({ data }) => data);
+  },
+  deleteUser(user) {
+    return adminInstance.delete(`users?id=${user.id}`).then(({ data }) => data);
   }
 };

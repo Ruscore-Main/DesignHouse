@@ -34,6 +34,23 @@ export const deleteRequest = createAsyncThunk(
   }
 );
 
+export const fetchUsers = createAsyncThunk(
+  "admin/fetchUsers",
+  async (params) => {
+    // params === { searchValue, role, currentPage };
+    const data = await adminAPI.getUsers({limit: 10, ...params});
+    return data;
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "admin/deleteUser",
+  async (params) => {
+    const data = await adminAPI.deleteUser(params);
+    return data;
+  }
+);
+
 const initialState = {
   projects: [],
   users: [],
@@ -56,10 +73,11 @@ const adminSlice = createSlice({
       state.amountPages = action.payload.amountPages;
       state.status = "success";
     },
-    [fetchAdminProjects.pending]: (state) => {
+    [fetchAdminProjects.rejected]: (state) => {
       state.projects = [];
       state.status = "error";
     },
+
     [fetchRequests.pending]: (state) => {
       state.requests = [];
       state.status = "loading";
@@ -69,8 +87,22 @@ const adminSlice = createSlice({
       state.amountPages = action.payload.amountPages;
       state.status = "success";
     },
-    [fetchRequests.pending]: (state) => {
+    [fetchRequests.rejected]: (state) => {
       state.requests = [];
+      state.status = "error";
+    },
+
+    [fetchUsers.pending]: (state) => {
+      state.users = [];
+      state.status = "loading";
+    },
+    [fetchUsers.fulfilled]: (state, action) => {
+      state.users = action.payload.items;
+      state.amountPages = action.payload.amountPages;
+      state.status = "success";
+    },
+    [fetchUsers.rejected]: (state) => {
+      state.users = [];
       state.status = "error";
     },
   },

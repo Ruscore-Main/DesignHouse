@@ -165,7 +165,7 @@ namespace diplom_backend.Controllers
                 houseProjects = houseProjects.Skip(limit * ((int)page - 1)).Take(limit).ToList();
             }
 
-            ResponseHuseProject responseHusePorject = new ResponseHuseProject()
+            ResponseHouseProject responseHusePorject = new ResponseHouseProject()
             {
                 items = houseProjects,
                 amountPages = amountPages

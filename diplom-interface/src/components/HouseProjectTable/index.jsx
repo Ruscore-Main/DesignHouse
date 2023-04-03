@@ -22,7 +22,7 @@ const HouseProjectsTable = ({ items, status, onDelete }) => {
       <tbody>
         {status === "success" ? (
           items.map((project) => (
-            <tr>
+            <tr key={project.id}>
               <td>{project.id}</td>
               <td><Link className="link" to={`/house/${project.id}`}>{project.name}</Link></td>
               <td>{project.area} m2</td>
@@ -43,6 +43,7 @@ const HouseProjectsTable = ({ items, status, onDelete }) => {
                 <span
                   className="deleteButton"
                   onClick={() => onDelete(project)}
+                  title="Удалить"
                 >
                   &#10006;
                 </span>

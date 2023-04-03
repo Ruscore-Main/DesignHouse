@@ -4,6 +4,7 @@ import defaultImage from "assets/img/house-default-image.jpg";
 import imageInfo from "assets/img/information-image.svg";
 import { useDispatch } from "react-redux";
 import { addProject } from "redux/slices/houseProjectSlice";
+import swal from "sweetalert";
 
 const checkValidation = (name, description, area, price, floors, images) => {
   let res = "";
@@ -26,7 +27,7 @@ const checkValidation = (name, description, area, price, floors, images) => {
   return res;
 };
 
-const AddProjectForm = ({isPublished, closeModal}) => {
+const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [area, setArea] = useState();
@@ -38,15 +39,15 @@ const AddProjectForm = ({isPublished, closeModal}) => {
   const dispatch = useDispatch();
 
   const setPreviewImage = (imageName) => {
-    const file = images.find(el => el.name == imageName);
+    const file = images.find((el) => el.name == imageName);
     const reader = new FileReader();
     reader.onload = (x) => {
       setImageSrc(x.target.result);
     };
     reader.readAsDataURL(file);
-    setImages([file, ...images.filter(el => el !== file)]);
-  }
- 
+    setImages([file, ...images.filter((el) => el !== file)]);
+  };
+
   const onSubmitClick = () => {
     const resValidation = checkValidation(
       name,
@@ -57,38 +58,49 @@ const AddProjectForm = ({isPublished, closeModal}) => {
       images
     );
     if (resValidation !== "") {
-      alert(resValidation);
+      swal({
+        icon: "warning",
+        text: resValidation,
+      });
     } else {
       const formData = new FormData();
-      formData.append('name', name);
-      formData.append('description', description);
-      formData.append('area', +area);
-      formData.append('price', +price);
-      formData.append('amountFloors', +floors);
-      formData.append('isPublished', isPublished);
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("area", +area);
+      formData.append("price", +price);
+      formData.append("amountFloors", +floors);
+      formData.append("isPublished", isPublished);
       const sendImages = [];
       images.forEach((img, i) => {
         sendImages.push(img);
-      })
-      sendImages.forEach(el => {
-        formData.append('images', el);
+      });
+      sendImages.forEach((el) => {
+        formData.append("images", el);
       });
       dispatch(addProject(formData)).then((res) => {
-        console.log('--------------------', res);
+        console.log("--------------------", res);
         if (res !== undefined) {
-          alert('Запрос на добавление проекта успешно отправлен!')
+          swal({
+            icon: "success",
+            text: "Запрос на добавление проекта успешно отправлен!",
+          });
+          if (isPublished) {
+            updateTable();
+          }
           closeModal();
         } else {
-          alert('Ошибка, что-то не так с серверной частью :(');
+          swal({
+            icon: "error",
+            text: "Ошибка, что-то не так с серверной частью :(",
+          });
         }
       });
     }
   };
 
-
   const showPreview = (e) => {
     let files = e.target.files;
-    let loadedImages = []
+    let loadedImages = [];
     if (files && files[0]) {
       for (let i = 0; i < files.length; i++) {
         let imageFile = files[i];
@@ -145,7 +157,11 @@ const AddProjectForm = ({isPublished, closeModal}) => {
               value={images[0].name}
               onChange={(e) => setPreviewImage(e.target.value)}
             >
-              {images.map(el => <option value={el.name} key={el.name}>{el.name}</option>)}
+              {images.map((el) => (
+                <option value={el.name} key={el.name}>
+                  {el.name}
+                </option>
+              ))}
             </select>
           </div>
         )}

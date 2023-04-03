@@ -113,5 +113,73 @@ namespace diplom_backend.Controllers
 
             return Ok(request);
         }
+
+        // Получение всех пользователей
+        [Route("users")]
+        [HttpGet]
+        public async Task<ActionResult> GetUsers(int? page, int limit, string role, string searchValue)
+        {
+            List<User> users = await _db.Users.ToListAsync();
+
+            if (searchValue != null)
+            {
+                users = users.Where(el => el.Login.ToLower().Contains(searchValue.ToLower())).ToList();
+            }
+
+            if (role != null)
+            {
+                users = users.Where(el => el.Role == role).ToList();
+            }
+
+            int amountPages = Convert.ToInt32(Math.Ceiling(users.Count / (float)limit));
+
+            if (page != null)
+            {
+                users = users.Skip(limit * ((int)page - 1)).Take(limit).ToList();
+            }
+
+            List<UserJson> usersJson = new List<UserJson>();
+
+            users.ForEach(user =>
+            {
+                UserJson userJson = new UserJson()
+                {
+                    id = user.Id,
+                    login = user.Login,
+                    role = user.Role,
+                    email = user.Email,
+                    phoneNumber = user.PhoneNumber
+                };
+
+                usersJson.Add(userJson);
+            });
+
+            ResponseUserJson responseUser = new ResponseUserJson()
+            {
+                items = usersJson,
+                amountPages = amountPages
+            };
+
+            return new JsonResult(responseUser);
+        }
+
+        // Получение всех пользователей
+        [Route("users")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            User user = await _db.Users.FirstOrDefaultAsync(el => el.Id == id);
+            
+            if (user == null)
+            {
+                return NotFound("Пользователь не найден!");
+            }
+
+            _db.Users.Remove(user);
+            await _db.SaveChangesAsync();
+
+            return Ok(user);
+
+        }
     }
 }

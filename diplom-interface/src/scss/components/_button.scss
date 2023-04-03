@@ -1,6 +1,7 @@
 @import './../variables';
 
-.button {
+
+.button, .swal-button  {
   display: inline-block;
   background-color: $orange;
   border-radius: 30px;

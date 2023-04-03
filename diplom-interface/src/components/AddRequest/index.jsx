@@ -4,6 +4,7 @@ import Modal from "../Modal";
 import styles from "./AddRequest.module.scss";
 import { addRequest } from "../../redux/slices/userSlice";
 import { useAuth } from "../../hooks/useAuth";
+import swal from 'sweetalert'
 
 const AddRequest = ({ house, dispatch }) => {
   const { id, phoneNumber } = useAuth();
@@ -21,9 +22,15 @@ const AddRequest = ({ house, dispatch }) => {
       })
     ).then((res) => {
       if (res.payload?.id !== undefined) {
-        alert('Запрос успешно отправлен!');
+        swal({
+          icon: "success",
+          text: "Запрос успешно отправлен!",
+        });
       } else {
-        alert(res.error.message)
+        swal({
+          icon: "error",
+          text: res.error.message,
+        });
       }
     });
   };

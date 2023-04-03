@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../redux/slices/userSlice';
 import AddUserProject from './AddUserProject';
+import swal from 'sweetalert'
 
 const isValidUpdate = (login, email, phoneNumber) => {
   const isEmail = /^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i;
@@ -19,12 +20,14 @@ const UserProfileForm = ({dispatch, ...user}) => {
   const [email, setEmail] = useState(user.email);
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [textError, setTextError] = useState('');
-  const navigate = useNavigate();
 
   const onSaveClick = () => {
     dispatch(updateUser({...user, login, email, phoneNumber})).then((res) => {
       if (res.payload?.login !== undefined) {
-        alert("Успешно обновлено!")
+        swal({
+          icon: "success",
+          text: "Успешно обновлено!"
+        })
         setTextError('');
       } else {
         setTextError(res.payload);
