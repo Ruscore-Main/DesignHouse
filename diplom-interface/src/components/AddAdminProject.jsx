@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
 import AddProjectForm from "./AddProjectForm";
+import { Modal } from "react-bootstrap";
 
 const AddAdminProject = ({updateTable}) => {
   const [isModal, setIsModal] = useState(false);
@@ -11,14 +11,16 @@ const AddAdminProject = ({updateTable}) => {
         Добавить проект
       </button>
 
-      {isModal && (
-        <Modal
-          isVisible={isModal}
-          onClose={() => setIsModal(false)}
-          title="Добавление проекта"
-          content={<AddProjectForm isPublished={true} closeModal={() => setIsModal(false)} updateTable={updateTable} />}
-        />
-      )}
+      <Modal show={isModal} onHide={() => setIsModal(false)} className="p-2">
+        <Modal.Header closeButton>
+          <Modal.Title>Добавление проекта</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <AddProjectForm isPublished={true} closeModal={() => setIsModal(false)} updateTable={updateTable} />
+        </Modal.Body>
+      </Modal>
+
+
     </>
   );
 };

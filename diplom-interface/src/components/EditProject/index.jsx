@@ -1,51 +1,54 @@
-import React, { useState } from "react";
-import styles from "./AddProjectForm.module.scss";
-import defaultImage from "assets/img/house-default-image.jpg";
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import styles from './EditProject.module.scss';
+import swal from 'sweetalert';
+import { checkValidation } from 'components/AddProjectForm';
+import { updateProject } from 'redux/slices/houseProjectSlice';
 import imageInfo from "assets/img/information-image.svg";
-import { useDispatch } from "react-redux";
-import { addProject } from "redux/slices/houseProjectSlice";
-import swal from "sweetalert";
+import defaultImage from "assets/img/house-default-image.jpg";
 
-export const checkValidation = (name, description, area, price, floors, images) => {
-  let res = "";
-  if (name.length == 0) res += "Название не должно быть пустым;\n";
-  if (description.length == 0) res += "Описание не должно быть пустым;\n";
-  if (isNaN(area)) res += "Площадь должна быть числом;\n";
-  if (isNaN(price)) res += "Цена должна быть числом;\n";
-  if (isNaN(floors)) res += "Кол-во этажей должна быть числом;\n";
-  if (+area <= 0) res += "Площадь должна быть больше 0;\n";
-  if (+price <= 0) res += "Цена должна быть больше 0;\n";
-  if (+floors <= 0) res += "Количество этажей должно быть больше 0;\n";
-  if (
-    !Number.isInteger(+area) &&
-    !Number.isInteger(+price) &&
-    !Number.isInteger(+floors)
-  )
-    res += "Числа должны быть целочисленными;\n";
-  if (!images.length) res += "Не загружено ни одно изображение;\n";
+var BASE64_MARKER = ';base64,';
 
-  return res;
-};
+function convertDataURIToBinary(dataURI) {
+  var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+  var base64 = dataURI.substring(base64Index);
+  var raw = window.atob(base64);
+  var rawLength = raw.length;
+  var array = new Uint8Array(new ArrayBuffer(rawLength));
 
-const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [area, setArea] = useState();
-  const [price, setPrice] = useState();
-  const [floors, setFloors] = useState();
+  for(let i = 0; i < rawLength; i++) {
+    array[i] = raw.charCodeAt(i);
+  }
+  return array;
+}
+
+const EditProject = ({project, updateTable, closeModal}) => {
+  const [name, setName] = useState(project.name);
+  const [description, setDescription] = useState(project.description);
+  const [area, setArea] = useState(project.area);
+  const [price, setPrice] = useState(project.price);
+  const [floors, setFloors] = useState(project.amountFloors);
   const [images, setImages] = useState([]);
+  const [isPublished, setIsPublished] = useState(project.isPublished);
   const [imageSrc, setImageSrc] = useState("");
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    let images = [];
+    project.images.forEach((img, i) => {
+      images.push({name: i, image: img});
+      if (i == 0) {
+        setImageSrc('data:image/jpeg;base64,'+img.toString('base64'));
+      }
+    })
+    setImages(images);
+  }, [])
+
   const setPreviewImage = (imageName) => {
-    const file = images.find((el) => el.name == imageName);
-    const reader = new FileReader();
-    reader.onload = (x) => {
-      setImageSrc(x.target.result);
-    };
-    reader.readAsDataURL(file);
-    setImages([file, ...images.filter((el) => el !== file)]);
+    const img = images.find((el) => el.name == imageName);
+    setImageSrc('data:image/jpeg;base64,'+img.image.toString('base64'));
+    setImages([img, ...images.filter((el) => el !== img)]);
   };
 
   const onSubmitClick = () => {
@@ -64,6 +67,7 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
       });
     } else {
       const formData = new FormData();
+      formData.append("id", project.id);
       formData.append("name", name);
       formData.append("description", description);
       formData.append("area", +area);
@@ -71,15 +75,16 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
       formData.append("amountFloors", +floors);
       formData.append("isPublished", isPublished);
       const sendImages = [];
-      images.forEach((img, i) => {
-        sendImages.push(img);
+      images.forEach((img) => {
+        sendImages.push(img.image);
       });
+
       sendImages.forEach((el) => {
         formData.append("images", el);
       });
-      dispatch(addProject(formData)).then((res) => {
-        console.log("--------------------", res);
-        if (res !== undefined) {
+
+      dispatch(updateProject(formData)).then((res) => {
+        if (res.payload?.id !== undefined) {
           swal({
             icon: "success",
             text: "Запрос на добавление проекта успешно отправлен!",
@@ -88,7 +93,8 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
             updateTable();
           }
           closeModal();
-        } else {
+        }
+        else {
           swal({
             icon: "error",
             text: "Ошибка, что-то не так с серверной частью :(",
@@ -98,54 +104,9 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
     }
   };
 
-  const showPreview = (e) => {
-    let files = e.target.files;
-    let loadedImages = [];
-    if (files && files[0]) {
-      for (let i = 0; i < files.length; i++) {
-        let imageFile = files[i];
-        const reader = new FileReader();
-        reader.onload = (x) => {
-          setImageSrc(x.target.result);
-        };
-        reader.readAsDataURL(imageFile);
-        loadedImages.push(imageFile);
-      }
-      setImages(loadedImages);
-    }
-  };
-
-  //debugger;
-
   return (
     <>
       <form className={styles.root}>
-        <div className={styles.formGroup}>
-          <label className={styles.projectImage}>
-            Изображения:
-            <div className={styles.imageInformation}>
-              <img src={imageInfo} alt="info" />
-              <div className={styles.imageDescription}>
-                <ul>
-                  <li>Вы можете выбрать несколько изображений</li>
-                  <li>Первое загруженное изображение - Карточка проекта</li>
-                  <li>
-                    Рекомендуемые соотношения сторон для изображения карточки
-                    проекта: 16:9, 4:3
-                  </li>
-                  <li>Рекомендуемый размер изображения: 850 &times; 460 px</li>
-                </ul>
-              </div>
-            </div>
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            className="input"
-            multiple
-            onChange={showPreview}
-          ></input>
-        </div>
         {!!images.length && (
           <div className={styles.formGroup}>
             <label>Изображение карточки: </label>
@@ -217,6 +178,15 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
             onChange={(e) => setFloors(e.target.value)}
           ></input>
         </div>
+        <div className='d-flex justify-content-start align-items-center'>
+          <label>Опубликовано? </label>
+          <input
+            type="checkbox"
+            className='input'
+            checked={isPublished}
+            onChange={() => setIsPublished(!isPublished)}
+          ></input>
+        </div>
       </form>
 
       <h4 className={styles.previewTitle}>Превью</h4>
@@ -233,11 +203,11 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
       </div>
       <div className={styles.submitBlock}>
         <button className="button" onClick={onSubmitClick}>
-          Отправить
+          Сохранить
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AddProjectForm;
+export default EditProject

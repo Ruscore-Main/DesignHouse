@@ -269,8 +269,8 @@ namespace diplom_backend.Controllers
 
         // Обновление проекта
         // PUT api/project
-        [HttpPut("{id}")]
-        public async Task<ActionResult<HouseProject>> Put(HouseProjectJson houseProject)
+        [HttpPut]
+        public async Task<ActionResult<HouseProject>> Put([FromForm]HouseProjectJson houseProject)
         {
             if (houseProject == null)
             {
@@ -289,6 +289,7 @@ namespace diplom_backend.Controllers
             foundHouseProject.Area = houseProject.area;
             foundHouseProject.Price = houseProject.price;
             foundHouseProject.AmountFloors = houseProject.amountFloors;
+            foundHouseProject.IsPublished = houseProject.isPublished;
 
             foundHouseProject.ProjectImages.Clear();
 

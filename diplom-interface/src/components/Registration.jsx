@@ -70,14 +70,12 @@ const Registration = ({ dispatch, isAdmin = false, closeModal=null, updateTable 
       <div className="auth__body">
         <input
           placeholder="Логин"
-          type="text"
           className="auth__input"
           value={login}
           onChange={(e) => setLogin(e.target.value)}
         />
         <input
           placeholder="Email"
-          type="text"
           className="auth__input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -95,6 +93,7 @@ const Registration = ({ dispatch, isAdmin = false, closeModal=null, updateTable 
           type="password"
           className="auth__input"
           value={password}
+          autoComplete="new-password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
@@ -110,7 +109,7 @@ const Registration = ({ dispatch, isAdmin = false, closeModal=null, updateTable 
         className={classNames("button", { disabled: isValid !== "Успешно!" })}
         onClick={onClickRegister}
       >
-        Зарегистрироваться
+        {isAdmin ? 'Добавить' : 'Зарегистрироваться'}
       </button>
       <p className="not-valid">
         {textError} {isValid !== "Успешно!" ? isValid : ""}

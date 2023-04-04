@@ -16,6 +16,16 @@ export const addProject = createAsyncThunk('houseProjects/addProject', async (pa
   }
 });
 
+export const updateProject = createAsyncThunk('houseProjects/updateProject', async (params) => {
+  try {
+    // params {id: houseId, data: houseProject}
+    const houseProject = await houseProjectsAPI.updateProject(params);
+    return houseProject;
+  } catch (error) {
+    return error.response.data;
+  }
+});
+
 export const deleteProject = createAsyncThunk('houseProjects/deleteProject', async (params) => {
   try {
     const houseProject = await houseProjectsAPI.deleteProject(params);
@@ -53,9 +63,16 @@ let houseProjectSlice = createSlice({
       state.items = [];
       state.status = 'error';
     },
+
     [addProject.fulfilled]: (state, action) => {
       if (action.payload?.isPublished) {
         state.items = [...state.items, action.payload];
+      }
+    },
+
+    [updateProject.fulfilled]: (state, action) => {
+      if (action.payload?.isPublished) {
+        state.items = [...state.items.filter(el => el.id !== action.payload.id), action.payload];
       }
     },
   },

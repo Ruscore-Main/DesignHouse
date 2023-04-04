@@ -81,6 +81,8 @@ body {
     display: flex;
     justify-content: space-around;
     font-weight: 300;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 
     @media (max-width: 1350px) {
       flex-direction: column;

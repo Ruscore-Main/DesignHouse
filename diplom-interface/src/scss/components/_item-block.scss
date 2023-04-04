@@ -29,7 +29,7 @@
         width: 400px;
         height: 380px;
 
-        img {
+        .preview {
             width: 360px;
         }
 
@@ -43,7 +43,7 @@
         width: 320px;
         height: 340px;
 
-        img {
+        .preview {
             width: 340px;
         }
 
@@ -60,7 +60,7 @@
         width: 420px;
         height: 400px;
 
-        img {
+        .preview {
             width: 400px;
         }
 
@@ -79,7 +79,7 @@
         height: 340px;
         margin-bottom: 20px;
 
-        img {
+        .preview {
             width: 340px;
         }
 
@@ -94,7 +94,7 @@
         width: 420px;
         height: 400px;
 
-        img {
+        .preview {
             width: 400px;
         }
 
@@ -112,7 +112,7 @@
         width: 320px;
         height: 340px;
 
-        img {
+        .preview {
             width: 340px;
         }
 
@@ -128,8 +128,9 @@
         padding: 15px 5px;
         justify-content: space-between;
 
-        img {
+        .preview {
             width: 220px;
+            height: 150px;
         }
 
         h4 {
@@ -144,7 +145,7 @@
     }
 
 
-    img {
+    .preview {
         max-width: 100%;
         width: 360px;
         height: auto;

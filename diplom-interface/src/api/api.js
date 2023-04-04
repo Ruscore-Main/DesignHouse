@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = "https://localhost:44336/api/";
 
 const houseProjectInstance = axios.create({
-  baseURL: BASE_URL + "project/",
+  baseURL: BASE_URL + "project",
 });
 
 const userInstance = axios.create({
@@ -37,7 +37,11 @@ export const houseProjectsAPI = {
   },
 
   addProject(houseProject) {
-    return houseProjectInstance.post("", houseProject).then(({ data }) => data);
+    return houseProjectInstance.post('', houseProject).then(({ data }) => data);
+  },
+
+  updateProject(houseProject) {
+    return houseProjectInstance.put('', houseProject).then(({ data }) => data);
   },
 
   deleteProject(houseProject) {

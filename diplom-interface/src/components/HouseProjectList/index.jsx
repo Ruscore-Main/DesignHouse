@@ -69,7 +69,7 @@ const HouseProjecList = () => {
         />
       </div>
 
-      <HouseProjectsTable items={projects} status={status} onDelete={onClickDelete} />
+      <HouseProjectsTable items={projects} status={status} onDelete={onClickDelete} updateTable={updateTable} />
 
       {amountPages < 2 ? '' : <Pagination
           currentPage={currentPage}

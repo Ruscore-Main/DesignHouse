@@ -14,7 +14,7 @@ const ItemBlock = ({ id: houseId=null, name, description, area, price, images, d
     <div className="item-block">
       <div className="images">
         <Link to={`house/${houseId}`}>
-          <img src={'data:image/jpeg;base64,' + images[0]} alt="itemImage" />
+          <img src={'data:image/jpeg;base64,' + images[0]} className="preview" alt="itemImage" />
         </Link>
         {isAuth &&
           (isFavorite ? (

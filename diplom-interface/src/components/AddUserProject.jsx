@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AddProjectForm from "./AddProjectForm";
-import Modal from "./Modal";
+import { Modal } from "react-bootstrap";
 
 const AddUserProject = () => {
   const [isModal, setIsModal] = useState(false);
@@ -11,17 +11,14 @@ const AddUserProject = () => {
     <>
       <p>*Вы можете предложить свой собственный дизайн - проект дома</p>
       <button className="button" onClick={() => setIsModal(true)}>Добавить проект</button>
-
-      {isModal && (
-        <Modal
-          isVisible={isModal}
-          onClose={() => setIsModal(false)}
-          title="Добавление проекта"
-          content={
-            <AddProjectForm closeModal={() => setIsModal(false)} isPublished={false}  />
-          }
-        />
-      )}
+      <Modal show={isModal} onHide={() => setIsModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Запрос на строительство дома</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <AddProjectForm closeModal={() => setIsModal(false)} isPublished={false}  />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

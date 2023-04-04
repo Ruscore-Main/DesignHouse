@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import Registration from './Registration';
-import Modal from './Modal';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import Registration from "./Registration";
+import { useDispatch } from "react-redux";
+import { Modal } from "react-bootstrap";
 
-const AddUser = ({updateTable}) => {
+const AddUser = ({ updateTable }) => {
   const [isModal, setIsModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -16,18 +16,21 @@ const AddUser = ({updateTable}) => {
         Добавить админа
       </button>
 
-      {isModal && (
-        <Modal
-          isVisible={isModal}
-          onClose={() => setIsModal(false)}
-          title="Добавление администратора"
-          content={
-           <Registration dispatch={dispatch} isAdmin closeModal={() => setIsModal(false)} updateTable={updateTable}/>
-          }
-        />
-      )}
+      <Modal show={isModal} onHide={() => setIsModal(false)} className="p-2">
+        <Modal.Header closeButton>
+          <Modal.Title>Добавление администратора</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Registration
+            dispatch={dispatch}
+            isAdmin
+            closeModal={() => setIsModal(false)}
+            updateTable={updateTable}
+          />
+        </Modal.Body>
+      </Modal>
     </>
-  )
-}
+  );
+};
 
-export default AddUser
+export default AddUser;

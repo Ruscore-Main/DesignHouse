@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import Modal from "../Modal";
 import styles from "./AddRequest.module.scss";
 import { addRequest } from "../../redux/slices/userSlice";
 import { useAuth } from "../../hooks/useAuth";
-import swal from 'sweetalert'
+import swal from "sweetalert";
+import { Modal } from "react-bootstrap";
 
 const AddRequest = ({ house, dispatch }) => {
   const { id, phoneNumber } = useAuth();
@@ -44,30 +44,28 @@ const AddRequest = ({ house, dispatch }) => {
         Подать заявку
       </button>
 
-      {isModal && (
-        <Modal
-          isVisible={isModal}
-          onClose={() => setIsModal(false)}
-          title="Запрос на строительство дома"
-          content={
-            <div className={styles.root}>
-              <h4>{house.name}</h4>
-              <p>Сообщение запроса:</p>
-              <textarea
-                className="input"
-                placeholder="Введите текст запроса..."
-                value={requestContent}
-                onChange={(e) => setRequestContent(e.target.value)}
-              />
-            </div>
-          }
-          footer={
-            <button className="button" onClick={onSubmitClick}>
-              Отправить
-            </button>
-          }
-        />
-      )}
+      <Modal show={isModal} onHide={() => setIsModal(false)} className="p-2">
+        <Modal.Header closeButton>
+          <Modal.Title>Запрос на строительство дома</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className={styles.root}>
+            <h4>{house.name}</h4>
+            <p>Сообщение запроса:</p>
+            <textarea
+              className="input"
+              placeholder="Введите текст запроса..."
+              value={requestContent}
+              onChange={(e) => setRequestContent(e.target.value)}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="button mx-auto" onClick={onSubmitClick}>
+            Отправить
+          </button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
