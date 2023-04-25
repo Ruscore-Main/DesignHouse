@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory } from '../redux/slices/filterSlice';
 import Categories from './Categories';
-import Search from '.';
+import Search from './Search';
 import { setSearchValue } from '../redux/slices/filterSlice';
 
 export const categories = ['Одноэтажные', 'Двухэтажные', 'Более этажей'];

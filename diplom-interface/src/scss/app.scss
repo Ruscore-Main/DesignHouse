@@ -132,6 +132,13 @@ body {
     .favorite {
       display: flex;
       flex-direction: column;
+
+      h4.empty {
+        font-weight: 300;
+        text-align: center;
+        color: $orange;
+        margin: 0 auto;
+      }
     }
 
     .favorite__items {
@@ -169,6 +176,8 @@ body {
       text-align: center;
       color: white;
     }
+
+    
 
     button {
       margin-top: 5px;

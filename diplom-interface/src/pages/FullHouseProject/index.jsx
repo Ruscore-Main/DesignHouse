@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Carousel from "nuka-carousel";
 import { fetchFullHouseProject } from "../../redux/slices/fullHouseProjectSlice";
@@ -36,9 +36,6 @@ const FullHouseProject = () => {
         className={styles.carousel}
         autoplay
         wrapAround
-        renderTopCenterControls={({ currentSlide }) => (
-          <div className={styles.imageDescription}>Image: {currentSlide}</div>
-        )}
         renderCenterLeftControls={({ previousDisabled, previousSlide }) => (
           <button
             onClick={previousSlide}
@@ -58,10 +55,10 @@ const FullHouseProject = () => {
           </button>
         )}
       >
-        {data.images.map((img) => (
+        {data.images.map((img, i) => (
           <img
             src={"data:image/jpeg;base64," + img}
-            key={img}
+            key={i}
             alt="slide"
           />
         ))}

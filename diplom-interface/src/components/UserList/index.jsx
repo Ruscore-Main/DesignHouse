@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import Search from "components";
+import Search from "components/Search";
 import Categories from "components/Categories";
 import Pagination from "components/Pagination";
 import UserTable from "components/UserTable";

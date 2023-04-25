@@ -8453,19 +8453,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\oobit\\.nuget\\packages\\": {}
+    "C:\\Users\\Ruslan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\4course\\DesignHouse\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
+      "projectUniqueName": "D:\\4 курс\\DIPLOM\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
       "projectName": "diplom-backend",
-      "projectPath": "C:\\4course\\DesignHouse\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
-      "packagesPath": "C:\\Users\\oobit\\.nuget\\packages\\",
-      "outputPath": "C:\\4course\\DesignHouse\\diplom-backend\\diplom-backend\\obj\\",
+      "projectPath": "D:\\4 курс\\DIPLOM\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
+      "packagesPath": "C:\\Users\\Ruslan\\.nuget\\packages\\",
+      "outputPath": "D:\\4 курс\\DIPLOM\\diplom-backend\\diplom-backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\oobit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ruslan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8544,7 +8544,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

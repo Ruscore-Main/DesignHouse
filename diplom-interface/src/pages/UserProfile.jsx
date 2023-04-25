@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
-import FavoriteBlock from "../components/FavoriteBlock";
-import LoaderFavoriteBlock from "../components/LoaderFavoriteBlock";
-import UserProfileForm from "../components/UserProfileForm";
-import { useAuth } from "../hooks/useAuth";
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import FavoriteBlock from '../components/FavoriteBlock';
+import LoaderFavoriteBlock from '../components/LoaderFavoriteBlock';
+import UserProfileForm from '../components/UserProfileForm';
+import { useAuth } from '../hooks/useAuth';
 
 const UserProfile = () => {
   const { isAuth, ...user } = useAuth();
@@ -16,7 +16,7 @@ const UserProfile = () => {
   }, []);
 
   if (!isAuth) {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={'/login'} />;
   }
 
   return (
@@ -26,13 +26,17 @@ const UserProfile = () => {
       <div className="favorite">
         <h2>Избранные проекты 💕</h2>
 
-        <div className="favorite__items">
-          {!isLoaded
-            ? Array(6).fill(<LoaderFavoriteBlock />)
-            : user.favorites.map((el) => (
-                <FavoriteBlock dispatch={dispatch} userId={user.id} {...el} />
-              ))}
-        </div>
+        {isLoaded && user.favorites.length == 0 ? (
+          <h4 className="empty">Здесь пока что пусто...</h4>
+        ) : (
+          <div className="favorite__items">
+            {!isLoaded
+              ? Array(6).fill(<LoaderFavoriteBlock />)
+              : user.favorites.map((el) => (
+                  <FavoriteBlock dispatch={dispatch} userId={user.id} {...el} />
+                ))}
+          </div>
+        )}
       </div>
     </div>
   );

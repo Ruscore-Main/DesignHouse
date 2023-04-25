@@ -38,6 +38,7 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
 
   const dispatch = useDispatch();
 
+  // Show selected image
   const setPreviewImage = (imageName) => {
     const file = images.find((el) => el.name == imageName);
     const reader = new FileReader();
@@ -45,7 +46,7 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
       setImageSrc(x.target.result);
     };
     reader.readAsDataURL(file);
-    setImages([file, ...images.filter((el) => el !== file)]);
+    setImages([file, ...images.filter((el) => el.name !== file.name)]);
   };
 
   const onSubmitClick = () => {
@@ -70,13 +71,12 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
       formData.append("price", +price);
       formData.append("amountFloors", +floors);
       formData.append("isPublished", isPublished);
-      const sendImages = [];
-      images.forEach((img, i) => {
-        sendImages.push(img);
-      });
-      sendImages.forEach((el) => {
+
+      images.forEach((el) => {
         formData.append("images", el);
       });
+      console.log('IMAGES ==== ', images)
+      
       dispatch(addProject(formData)).then((res) => {
         console.log("--------------------", res);
         if (res !== undefined) {
@@ -98,17 +98,19 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
     }
   };
 
-  const showPreview = (e) => {
+  // Show dialog-select images 
+  const showPreview = async (e) => {
     let files = e.target.files;
     let loadedImages = [];
     if (files && files[0]) {
-      for (let i = 0; i < files.length; i++) {
+      let maxLength = files.length <= 10 ? files.length : 10;
+      for (let i = 0; i < maxLength; i++) {
         let imageFile = files[i];
         const reader = new FileReader();
         reader.onload = (x) => {
           setImageSrc(x.target.result);
         };
-        reader.readAsDataURL(imageFile);
+        await reader.readAsDataURL(imageFile);
         loadedImages.push(imageFile);
       }
       setImages(loadedImages);
@@ -134,6 +136,7 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
                     проекта: 16:9, 4:3
                   </li>
                   <li>Рекомендуемый размер изображения: 850 &times; 460 px</li>
+                  <li>Максимальное кол-во изображений: 10</li>
                 </ul>
               </div>
             </div>
@@ -141,9 +144,10 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
           <input
             type="file"
             accept="image/*"
-            className="input"
+            className="input form-control"
             multiple
             onChange={showPreview}
+            maxLength={10}
           ></input>
         </div>
         {!!images.length && (

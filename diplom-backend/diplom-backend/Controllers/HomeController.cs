@@ -66,7 +66,12 @@ namespace diplom_backend.Controllers
 
             allProjects.ForEach(el =>
             {
-                List<byte[]> images = el.ProjectImages.OrderBy(el => el.ImageName).Select(s => this.GetImage(Convert.ToBase64String(s.Image))).ToList();
+                List<byte[]> images = new();
+                if (el.ProjectImages.Count > 0)
+                {
+                    images = new() { this.GetImage(Convert.ToBase64String(el.ProjectImages.OrderBy(el => el.ImageName).ToList()[0].Image)) };
+                }
+
                 HouseProjectJson curProject = new HouseProjectJson()
                 {
                     id = el.Id,
@@ -204,6 +209,7 @@ namespace diplom_backend.Controllers
         // POST api/project
         // Создание проекта
         [HttpPost]
+        [RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
         public async Task<ActionResult<HouseProject>> Post([FromForm] UploadHouseProject houseProject)
         {
 
@@ -236,7 +242,6 @@ namespace diplom_backend.Controllers
                     {
                         System.IO.File.Delete(path + fileName);
                     }*/
-
                     using (var ms = new MemoryStream())
                     {
                         await el.CopyToAsync(ms);
@@ -246,6 +251,7 @@ namespace diplom_backend.Controllers
                             Image = fileBytes,
                             ImageName = $"{index}"
                         });
+                        ms.SetLength(0);
                     }
                     index++;
 
