@@ -1,5 +1,25 @@
+import { PayloadAction } from '@reduxjs/toolkit';
+import { HouseProject } from './houseProjectSlice';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { userAPI } from '../../api/api';
+
+export type Request = HouseProject & {
+  houseProjectId: number,
+  userId: number,
+  userPhone: string,
+  contentText: string,
+}
+
+export type User = {
+  id: number | null,
+  login: string | null,
+  password: string | null,
+  role: string | null,
+  email: string | null,
+  phoneNumber: string | null,
+  requests: Request[],
+  favorites: HouseProject[]
+}
 
 // Регистрация пользователя
 export const regUser = createAsyncThunk('user/regUser', async (params) => {
@@ -64,7 +84,7 @@ export const addRequest = createAsyncThunk('user/addRequest', async (params) => 
 });
 
 
-const initialState = {
+const initialState: User = {
   id: null,
   login: null,
   password: null,
@@ -79,7 +99,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(state, action) {
+    setUser(state, action: PayloadAction<User>) {
       state.id = action.payload.id;
       state.login = action.payload.login;
       state.password = action.payload.password;

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Carousel from "nuka-carousel";
 import { fetchFullHouseProject } from "../../redux/slices/fullHouseProjectSlice";
 import { Navigate, useParams } from "react-router-dom";
 import styles from "./FullHouseProject.module.scss";
 import AddRequest from "../../components/AddRequest";
-import { useAuth } from "hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
-const FullHouseProject = () => {
+const FullHouseProject: React.FC = () => {
   const { data, status } = useSelector(
     ({ fullHouseProject }) => fullHouseProject
   );
@@ -55,7 +55,7 @@ const FullHouseProject = () => {
           </button>
         )}
       >
-        {data.images.map((img, i) => (
+        {data.images.map((img, i: number) => (
           <img
             src={"data:image/jpeg;base64," + img}
             key={i}

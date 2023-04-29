@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import styles from "./Admin.module.scss";
-import HouseProjecList from "components/HouseProjectList";
+import HouseProjecList from "../../components/HouseProjectList";
 import classNames from "classnames";
-import RequestList from "components/RequestList";
-import UserList from "components/UserList";
-import { useAuth } from "hooks/useAuth";
+import RequestList from "../../components/RequestList";
+import UserList from "../../components/UserList";
+import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
 const Admin = () => {

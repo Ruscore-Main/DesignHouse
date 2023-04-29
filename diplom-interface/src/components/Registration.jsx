@@ -20,7 +20,7 @@ const isValidRegistration = (login, email, phoneNumber, pas, pasr) => {
   return "Успешно!";
 };
 
-const Registration = ({ dispatch, isAdmin = false, closeModal=null, updateTable }) => {
+const Registration = ({ dispatch, isAdmin = false, closeModal=null, updateTable=null }) => {
   const navigate = useNavigate();
 
   const [login, setLogin] = useState("");

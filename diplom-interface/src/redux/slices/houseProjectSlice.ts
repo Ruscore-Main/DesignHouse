@@ -1,5 +1,25 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { houseProjectsAPI } from '../../api/api';
+
+export type HouseProject = {
+  id: number,
+  name: string,
+  description: string,
+  area: number,
+  price: number,
+  datePublication: Date,
+  amountFloors: number,
+  isPublished: boolean,
+  images: string[],
+  userId: number | null
+}
+
+export interface HouseProjectSliceState {
+  items: HouseProject[],
+  amountPages: number,
+  status: "loading" | "success" | "error"
+}
 
 export const fetchProjects = createAsyncThunk('houseProjects/houseProject', async (params) => {
   const { currentPage, sortType, category, searchValue, isPublished } = params;
@@ -35,7 +55,7 @@ export const deleteProject = createAsyncThunk('houseProjects/deleteProject', asy
   }
 });
 
-const initialState = {
+const initialState: HouseProjectSliceState = {
   items: [],
   amountPages: 0,
   status: 'loading', // loading | success | error
@@ -45,7 +65,7 @@ let houseProjectSlice = createSlice({
   name: 'houseProject',
   initialState,
   reducers: {
-    setItems(state, action) {
+    setItems(state, action: PayloadAction<HouseProject[]>) {
       state.items = action.payload;
     },
   },

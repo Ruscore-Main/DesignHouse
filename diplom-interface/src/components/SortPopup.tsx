@@ -1,8 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSortType } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
-export const sorts = [
+
+
+type PopupClick = MouseEvent & {
+  path: Node[]
+};
+
+export type SortItem = {
+  name: string,
+  sort: 'name' | '-name' | 'area' | '-area' | 'date' | '-date'
+}
+
+export const sorts: SortItem[] = [
   { name: 'Названию (ASC)', sort: 'name' },
   { name: 'Названию (DESC)', sort: '-name' },
   { name: 'Площади (ASC)', sort: 'area' },
@@ -11,17 +23,18 @@ export const sorts = [
   { name: 'Дате создания  (DESC)', sort: '-date'},
 ];
 
-const SortPopup = () => {
+const SortPopup: React.FC = () => {
   const dispatch = useDispatch();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const {sortType:currentSort} = useSelector(({filter}) => filter);
+  const {sortType:currentSort} = useSelector(({filter}: RootState) => filter);
 
   const popup = useRef(null);
 
-  const handleClick = (e) => {
-    const path = e.path || (e.composedPath && e.composedPath());
-    popup.current && !path.includes(popup.current) && setIsVisible(false);
+  const handleClick = (e: MouseEvent) => {
+    const _e = e as PopupClick;
+    const path = _e.path || (_e.composedPath && _e.composedPath());
+    (popup.current && !path.includes(popup.current)) && setIsVisible(false);
   };
 
   useEffect(() => {

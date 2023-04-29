@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import styles from './EditProject.module.scss';
 import swal from 'sweetalert';
-import { checkValidation } from 'components/AddProjectForm';
-import { updateProject } from 'redux/slices/houseProjectSlice';
-import imageInfo from "assets/img/information-image.svg";
-import defaultImage from "assets/img/house-default-image.jpg";
+import { checkValidation } from '../../components/AddProjectForm';
+import { updateProject } from '../../redux/slices/houseProjectSlice';
+import imageInfo from "../../assets/img/information-image.svg";
+import defaultImage from "../../assets/img/house-default-image.jpg";
 
 var BASE64_MARKER = ';base64,';
 

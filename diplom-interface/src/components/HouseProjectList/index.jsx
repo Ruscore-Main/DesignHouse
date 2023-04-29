@@ -1,20 +1,20 @@
 import React from "react";
 
-import HouseProjectsTable from "components/HouseProjectTable";
-import AddAdminProject from "components/AddAdminProject";
+import HouseProjectsTable from "../../components/HouseProjectTable";
+import AddAdminProject from "../../components/AddAdminProject";
 import styles from "./HouseProjectList.module.scss";
-import Search from "components/Search";
-import Categories from "components/Categories";
+import Search from "../../components/Search";
+import Categories from "../../components/Categories";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAdminCurrentPage,
   setAdminSearchValue,
   setIsPublished,
-} from "redux/slices/adminFilterSlice";
-import Pagination from "components/Pagination";
-import { fetchAdminProjects } from "redux/slices/adminSlice";
+} from "../../redux/slices/adminFilterSlice";
+import Pagination from "../../components/Pagination";
+import { fetchAdminProjects } from "../../redux/slices/adminSlice";
 import classNames from "classnames";
-import { deleteProject } from "redux/slices/houseProjectSlice";
+import { deleteProject } from "../../redux/slices/houseProjectSlice";
 import swal from 'sweetalert'
 
 const categories = ["Опубликованные", "Предложенные"];

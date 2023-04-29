@@ -4,7 +4,7 @@ import styles from "./HouseProjectTable.module.scss";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import EditProject from "components/EditProject";
+import EditProject from "../../components/EditProject";
 import { Button, Modal } from "react-bootstrap";
 
 const HouseProjectsTable = ({ items, status, onDelete, updateTable }) => {

@@ -1,10 +1,10 @@
-import Filters from "components/Filters";
-import RequestTable from "components/RequestTable";
+import Filters from "./Filters";
+import RequestTable from ".//RequestTable";
 import React, { useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteRequest, fetchRequests } from "redux/slices/adminSlice";
-import { resetFilters, setCurrentPage } from "redux/slices/filterSlice";
+import { deleteRequest, fetchRequests } from "../redux/slices/adminSlice";
+import { resetFilters, setCurrentPage } from "../redux/slices/filterSlice";
 import swal from 'sweetalert'
 
 const RequestList = () => {

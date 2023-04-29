@@ -1,3 +1,6 @@
+import { User, Request } from './../redux/slices/userSlice';
+import { HouseProject } from './../redux/slices/houseProjectSlice';
+import { SortItem } from './../components/SortPopup';
 import axios from "axios";
 
 const BASE_URL = "https://localhost:44336/api/";
@@ -16,7 +19,7 @@ const adminInstance = axios.create({
 
 // https://localhost:44336/api/project?page=1&limit=5&sort=name&category=%D0%9E%D0%B4%D0%BD%D0%BE%D1%8D%D1%82%D0%B0%D0%B6%D0%BD%D1%8B%D0%B5&searchValue=%D0%B4
 export const houseProjectsAPI = {
-  getProjects(page, sortType, category, searchValue, isPublished, limit = 6) {
+  getProjects(page: number, sortType: SortItem, category: string | null, searchValue: string, isPublished: boolean, limit = 6) {
     let fetchURL = `?page=${page}&limit=${limit}&sort=${sortType.sort}`;
 
     if (category !== null) {
@@ -32,19 +35,19 @@ export const houseProjectsAPI = {
     return houseProjectInstance.get(fetchURL).then(({ data }) => data);
   },
 
-  getFullProject(id) {
+  getFullProject(id: number) {
     return houseProjectInstance.get(`/${id}`).then(({ data }) => data);
   },
 
-  addProject(houseProject) {
+  addProject(houseProject: HouseProject) {
     return houseProjectInstance.post('', houseProject).then(({ data }) => data);
   },
 
-  updateProject(houseProject) {
+  updateProject(houseProject: HouseProject) {
     return houseProjectInstance.put('', houseProject).then(({ data }) => data);
   },
 
-  deleteProject(houseProject) {
+  deleteProject(houseProject: HouseProject) {
     return houseProjectInstance
       .delete(`${houseProject.id}`)
       .then(({ data }) => data);
@@ -52,7 +55,7 @@ export const houseProjectsAPI = {
 };
 
 export const userAPI = {
-  registerUser(login, password, email, phoneNumber, role) {
+  registerUser(login: string, password: string, email: string, phoneNumber: string, role: string) {
     return userInstance.post("registration", {
       login,
       password,
@@ -61,29 +64,29 @@ export const userAPI = {
       role
     });
   },
-  authorizateUser(login, password) {
+  authorizateUser(login: string, password: string) {
     return userInstance.post("authorization", { login, password });
   },
-  updateUser(user) {
+  updateUser(user: User) {
     return userInstance.post("update", user);
   },
-  addFavorite(houseProject) {
+  addFavorite(houseProject: HouseProject) {
     return userInstance
       .post("addFavorite", houseProject)
       .then(({ data }) => data);
   },
-  removeFavorite(houseProject) {
+  removeFavorite(houseProject: HouseProject) {
     return userInstance
       .post("removeFavorite", houseProject)
       .then(({ data }) => data);
   },
-  addRequest(request) {
+  addRequest(request: Request) {
     return userInstance.post("request", request).then(({ data }) => data);
   },
 };
 
 export const adminAPI = {
-  getRequests({ page, category, searchValue, limit }) {
+  getRequests({ page, category, searchValue, limit }: Record<string, string>) {
     let fetchURL = `request?page=${page}&limit=${limit}`;
 
     if (category !== null) {
@@ -95,11 +98,11 @@ export const adminAPI = {
     return adminInstance.get(fetchURL).then(({ data }) => data);
   },
 
-  deleteRequest(request) {
+  deleteRequest(request: Request) {
     return adminInstance.delete(`request?id=${request.id}`).then(({ data }) => data);
   },
 
-  getUsers({page, role, searchValue, limit}) {
+  getUsers({page, role, searchValue, limit}: Record<string, string>) {
     let fetchURL = `users?page=${page}&limit=${limit}`;
 
     if (role !== null) {
@@ -110,7 +113,7 @@ export const adminAPI = {
     }
     return adminInstance.get(fetchURL).then(({ data }) => data);
   },
-  deleteUser(user) {
+  deleteUser(user: User) {
     return adminInstance.delete(`users?id=${user.id}`).then(({ data }) => data);
   }
 };

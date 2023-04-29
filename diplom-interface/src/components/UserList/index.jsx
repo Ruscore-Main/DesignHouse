@@ -1,21 +1,21 @@
 import classNames from "classnames";
-import Search from "components/Search";
-import Categories from "components/Categories";
-import Pagination from "components/Pagination";
-import UserTable from "components/UserTable";
+import Search from "../../components/Search";
+import Categories from "../Categories";
+import Pagination from "../Pagination";
+import UserTable from "../UserTable";
 import styles from "./UserList.module.scss";
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, fetchUsers } from "redux/slices/adminSlice";
+import { deleteUser, fetchUsers } from "../../redux/slices/adminSlice";
 import {
   resetFilters,
   setCurrentPage,
   setRole,
   setSearchValue,
-} from "redux/slices/filterSlice";
-import AddUser from "components/AddUser";
-import { useAuth } from "hooks/useAuth";
+} from "../../redux/slices/filterSlice";
+import AddUser from "../AddUser";
+import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import swal from 'sweetalert'
 
