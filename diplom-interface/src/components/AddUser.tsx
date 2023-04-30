@@ -3,7 +3,7 @@ import Registration from "./Registration";
 import { useDispatch } from "react-redux";
 import { Modal } from "react-bootstrap";
 
-const AddUser = ({ updateTable }) => {
+const AddUser = ({ updateTable }:{updateTable: ()=>void}) => {
   const [isModal, setIsModal] = useState(false);
   const dispatch = useDispatch();
 

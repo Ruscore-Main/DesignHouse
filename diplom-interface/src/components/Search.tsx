@@ -3,10 +3,15 @@ import React from 'react';
 import debounce from 'lodash.debounce';
 import classNames from 'classnames';
 
-const Search = ({setSearchValue, className, placeholder}) => {
+type SearchPropos = {
+  setSearchValue: (str:string)=>void,
+  className?: string,
+  placeholder: string
+};
+const Search: React.FC<SearchPropos> = ({setSearchValue, className, placeholder}) => {
   const [value, setValue] = React.useState('');
 
-  const searchField = React.useRef(null);
+  const searchField = React.useRef(document.createElement("input"))
 
   const onClickClear = () => {
     setValue('');
@@ -15,13 +20,13 @@ const Search = ({setSearchValue, className, placeholder}) => {
   };
 
   const updateSearchValue = React.useCallback(
-    debounce((val) => {
+    debounce((val: string) => {
       setSearchValue(val)
     }, 500),
     [],
   );
 
-  const onChangeText = React.useCallback((e) => {
+  const onChangeText = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   }, []);

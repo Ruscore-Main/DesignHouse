@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import Search from "../../components/Search";
+import Search from "../Search";
 import Categories from "../Categories";
 import Pagination from "../Pagination";
 import UserTable from "../UserTable";
 import styles from "./UserList.module.scss";
 
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { deleteUser, fetchUsers } from "../../redux/slices/adminSlice";
 import {
   resetFilters,
@@ -18,12 +18,14 @@ import AddUser from "../AddUser";
 import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 import swal from 'sweetalert'
+import { RootState, useAppDispatch } from "redux/store";
+import { User } from "redux/slices/userSlice";
 
 const UserList = () => {
-  const dispatch = useDispatch();
-  const { users, status, amountPages } = useSelector(({ admin }) => admin);
+  const dispatch = useAppDispatch();
+  const { users, status, amountPages } = useSelector(({ admin }: RootState) => admin);
   const { searchValue, role, currentPage } = useSelector(
-    ({ filter }) => filter
+    ({ filter }: RootState) => filter
   );
   const { isAuth } = useAuth();
 
@@ -32,7 +34,7 @@ const UserList = () => {
   }, [searchValue, role, currentPage]);
 
   // Очистка фильтров после удаления компонента
-  useEffect(() => {
+  useEffect((): ()=>void => {
     return () => dispatch(resetFilters());
   }, []);
 
@@ -40,21 +42,21 @@ const UserList = () => {
     return <Navigate to={'/login'} />
   }
 
-  const setSearch = (value) => dispatch(setSearchValue(value));
+  const setSearch = (value: string) => dispatch(setSearchValue(value));
 
   const updateTable = () => {
     dispatch(
       fetchUsers({
         searchValue,
-        role,
+        role: String(role),
         page: currentPage,
       })
     );
   };
 
-  const onClickDelete = async (user) => {
+  const onClickDelete = async (user: User) => {
     if (window.confirm("Вы уверены, что хотите удалить пользователя?")) {
-      await dispatch(deleteUser(user)).then((res) => {
+      await dispatch(deleteUser(user)).then(() => {
         swal({
           icon: "success",
           text: "Успешно удалено!",
@@ -76,7 +78,7 @@ const UserList = () => {
         <Categories
           categories={["User", "Admin"]}
           activeCategory={role}
-          setActiveCategory={(newRole) => dispatch(setRole(newRole))}
+          setActiveCategory={(newRole: string|null) => dispatch(setRole(String(newRole)))}
         />
       </div>
       <UserTable items={users} status={status} onDelete={onClickDelete} />

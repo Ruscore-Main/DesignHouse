@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { regUser } from "../redux/slices/userSlice";
 import swal from 'sweetalert'
+import { AppDispatch } from "redux/store";
 
-const isValidRegistration = (login, email, phoneNumber, pas, pasr) => {
+const isValidRegistration = (login: string, email: string, phoneNumber: string, pas: string, pasr: string) => {
   const isEmail = /^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i;
   const isPhoneNumber = /^[\d\+][\d\(\)\ -]{4,10}\d$/;
   let maxNumberLength = 11;
@@ -20,7 +21,13 @@ const isValidRegistration = (login, email, phoneNumber, pas, pasr) => {
   return "Успешно!";
 };
 
-const Registration = ({ dispatch, isAdmin = false, closeModal=null, updateTable=null }) => {
+type RegistrationProps = {
+  dispatch: AppDispatch,
+  isAdmin?: boolean,
+  closeModal?: ()=>void|null,
+  updateTable?: ()=>void|null
+};
+const Registration: React.FC<RegistrationProps> = ({ dispatch, isAdmin = false, closeModal=null, updateTable=null }) => {
   const navigate = useNavigate();
 
   const [login, setLogin] = useState("");
@@ -58,7 +65,7 @@ const Registration = ({ dispatch, isAdmin = false, closeModal=null, updateTable=
           text: "Администратор успешно добавлен!"
         });
         closeModal && closeModal();
-        updateTable();
+        updateTable && updateTable();
       } else {
         setTextError(res.payload);
       }

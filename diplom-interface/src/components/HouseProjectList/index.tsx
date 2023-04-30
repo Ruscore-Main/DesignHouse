@@ -1,41 +1,42 @@
 import React from "react";
 
-import HouseProjectsTable from "../../components/HouseProjectTable";
-import AddAdminProject from "../../components/AddAdminProject";
+import HouseProjectsTable from "../HouseProjectTable";
+import AddAdminProject from "../AddAdminProject";
 import styles from "./HouseProjectList.module.scss";
-import Search from "../../components/Search";
-import Categories from "../../components/Categories";
-import { useDispatch, useSelector } from "react-redux";
+import Search from "../Search";
+import Categories from "../Categories";
+import { useSelector } from "react-redux";
 import {
   setAdminCurrentPage,
   setAdminSearchValue,
   setIsPublished,
 } from "../../redux/slices/adminFilterSlice";
-import Pagination from "../../components/Pagination";
+import Pagination from "../Pagination";
 import { fetchAdminProjects } from "../../redux/slices/adminSlice";
 import classNames from "classnames";
-import { deleteProject } from "../../redux/slices/houseProjectSlice";
+import { HouseProject, deleteProject } from "../../redux/slices/houseProjectSlice";
 import swal from 'sweetalert'
+import { RootState, useAppDispatch } from "redux/store";
 
 const categories = ["Опубликованные", "Предложенные"];
 
 
 
 const HouseProjecList = () => {
-  const dispatch = useDispatch();
-  const { projects, status, amountPages } = useSelector(({ admin }) => admin);
+  const dispatch = useAppDispatch();
+  const { projects, status, amountPages } = useSelector(({ admin }: RootState) => admin);
   const { searchValue, currentPage, isPublished } = useSelector(
-    ({ adminFilter }) => adminFilter
+    ({ adminFilter }: RootState) => adminFilter
   );
-  const setPublished = (value) => dispatch(setIsPublished(value));
-  const setSearch = (value) => dispatch(setAdminSearchValue(value));
+  const setPublished = (value: string) => dispatch(setIsPublished(value));
+  const setSearch = (value: string) => dispatch(setAdminSearchValue(value));
 
   const updateTable = () => {
     dispatch(
       fetchAdminProjects({
         searchValue,
         currentPage,
-        isPublished,
+        isPublished: String(isPublished)
       })
     );
   }    
@@ -44,9 +45,9 @@ const HouseProjecList = () => {
     updateTable();
   }, [searchValue, currentPage, isPublished]);
 
-  const onClickDelete = async (project) => {
+  const onClickDelete = async (project: HouseProject) => {
     if (window.confirm('Вы уверены, что хотите удалить проект?')) {
-      await dispatch(deleteProject(project)).then((res) => {
+      await dispatch(deleteProject(project)).then(() => {
         swal({
           icon: "success",
           text: "Успешно удалено!",
@@ -74,7 +75,7 @@ const HouseProjecList = () => {
       {amountPages < 2 ? '' : <Pagination
           currentPage={currentPage}
           amountPages={amountPages}
-          setCurrentPage={(page) => dispatch(setAdminCurrentPage(page))}
+          setCurrentPage={(page: number) => dispatch(setAdminCurrentPage(page))}
         />
       }
     </>

@@ -8,6 +8,8 @@ export type Request = HouseProject & {
   userId: number,
   userPhone: string,
   contentText: string,
+  dateCreating?: Date,
+  userLogin?: string,
 }
 
 export type User = {
@@ -22,63 +24,74 @@ export type User = {
 }
 
 // Регистрация пользователя
-export const regUser = createAsyncThunk('user/regUser', async (params) => {
+type RegUserArgs = {
+  login: string,
+  password: string,
+  email: string,
+  phoneNumber: string,
+  role: string
+}
+export const regUser = createAsyncThunk('user/regUser', async (params: RegUserArgs) => {
   const { login, password, email, phoneNumber, role } = params;
   try {
     const user = (await userAPI.registerUser(login, password, email, phoneNumber, role)).data;
     return user;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
 
 // Авторизация пользователя
-export const authUser = createAsyncThunk('user/authUser', async (params) => {
+type AuthUserArgs = {
+  login: string,
+  password: string
+}
+export const authUser = createAsyncThunk('user/authUser', async (params: AuthUserArgs) => {
   const { login, password } = params;
   try {
     const user = (await userAPI.authorizateUser(login, password)).data;
     return user;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
 
 // Обновление информации о пользователе
-export const updateUser = createAsyncThunk('user/updateUser', async (params) => {
+export const updateUser = createAsyncThunk('user/updateUser', async (params: User) => {
   try {
     const user = (await userAPI.updateUser(params)).data;
     return user;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 })
 
 // Добавление проекта в избранное
-export const addFavorite = createAsyncThunk('user/addFavorite', async (params) => {
+export const addFavorite = createAsyncThunk('user/addFavorite', async (params: {id: number, userId: number}) => {
   try {
     const houseProject = (await userAPI.addFavorite(params));
     return houseProject;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
 
 // Удаление проекта из избранного
-export const removeFavorite = createAsyncThunk('user/removeFavorite', async (params) => {
+export const removeFavorite = createAsyncThunk('user/removeFavorite', async (params: {id: number, userId: number}) => {
   try {
     const houseProject = (await userAPI.removeFavorite(params));
     return houseProject;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
 
 // Добавление запроса на строительство
-export const addRequest = createAsyncThunk('user/addRequest', async (params) => {
+export const addRequest = createAsyncThunk('user/addRequest', async (params: Request) => {
   try {
     const request = (await userAPI.addRequest(params));
     return request;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
@@ -120,40 +133,41 @@ const userSlice = createSlice({
       state.favorites = [];
     }
   },
-  extraReducers: {
-    [regUser.fulfilled]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(regUser.fulfilled, (state, action) => {
       if (action.payload?.login && action.payload?.role === "User") {
         userSlice.caseReducers.setUser(state, action)
       }
-    },
-    [authUser.fulfilled]: (state, action) => {
+    });
+    builder.addCase(authUser.fulfilled, (state, action) => {
       if (action.payload?.login) {
         userSlice.caseReducers.setUser(state, action)
       }
-    },
-    [updateUser.fulfilled]: (state, action) => {
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
       if (action.payload?.id) {
         state.login = action.payload.login;
         state.email = action.payload.email;
         state.phoneNumber = action.payload.phoneNumber;
       }
-    },
-    [addFavorite.fulfilled]: (state, action) => {
-        if (action.payload?.id) {
-        state.favorites = [...state.favorites, action.payload];
-      }
-    },
-    [removeFavorite.fulfilled]: (state, action) => {
+    });
+
+    builder.addCase(addFavorite.fulfilled, (state, action) => {
+      if (action.payload?.id) {
+      state.favorites = [...state.favorites, action.payload];
+    }
+  });
+    builder.addCase(removeFavorite.fulfilled, (state, action) => {
       if (action.payload?.id) {
         state.favorites = state.favorites.filter(el => el.id !== action.payload.id);
       }
-    },
-    [addRequest.fulfilled]: (state, action) => {
+    });
+    builder.addCase(addRequest.fulfilled, (state, action) => {
       if (action.payload?.id) {
         state.requests = [...state.requests, action.payload];
       }
-    }
-  },
+    });
+  }
 });
 
 export const {setUser, removeUser} = userSlice.actions;

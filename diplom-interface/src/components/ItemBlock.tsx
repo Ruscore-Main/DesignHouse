@@ -4,12 +4,21 @@ import heartFullImage from '../assets/img/heart-full.svg';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { addFavorite, removeFavorite } from '../redux/slices/userSlice';
+import { AppDispatch } from 'redux/store';
 
-const ItemBlock = ({ id: houseId=null, name, description, area, price, images, dispatch }) => {
+type ItemBlockProps = {
+  id: number,
+  name: string, 
+  description: string,
+  area: number,
+  price: number,
+  images: string[],
+  dispatch: AppDispatch
+}
+const ItemBlock: React.FC<ItemBlockProps> = ({ id: houseId, name, description, area, price, images, dispatch }) => {
   const { isAuth, id: userId, favorites } = useAuth();
 
   let isFavorite = favorites.find((el) => el.id === houseId);
-
   return (
     <div className="item-block">
       <div className="images">
@@ -21,7 +30,7 @@ const ItemBlock = ({ id: houseId=null, name, description, area, price, images, d
             <img
               className="like-item"
               src={heartFullImage}
-              onClick={() => dispatch(removeFavorite({ id:houseId, name, description, area, price, images, userId }))
+              onClick={() => userId && dispatch(removeFavorite({ id:houseId, userId }))
               }
             />
           ) : (
@@ -29,7 +38,7 @@ const ItemBlock = ({ id: houseId=null, name, description, area, price, images, d
               className="like-item"
               src={heartImage}
               alt="hearImage"
-              onClick={() => dispatch(addFavorite({ id:houseId, name, description, area, price, images, userId }))
+              onClick={() => userId && dispatch(addFavorite({ id:houseId, userId }))
               }
             />
           ))}

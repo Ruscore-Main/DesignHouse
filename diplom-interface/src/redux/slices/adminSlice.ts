@@ -1,5 +1,5 @@
 import { User, Request } from './userSlice';
-import { HouseProject } from './houseProjectSlice';
+import { HouseProject, Status } from './houseProjectSlice';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { adminAPI, houseProjectsAPI } from '../../api/api';
 
@@ -8,14 +8,14 @@ export interface AdminSliceState {
   projects: HouseProject[];
   users: User[];
   requests: Request[];
-  status: 'loading' | 'success' | 'error';
+  status: Status;
   amountPages: number;
 }
 
 type FetchAdminProjectsArgs = {
   currentPage: number;
   searchValue: string;
-  isPublished: boolean;
+  isPublished: string | null;
 };
 
 type FetchUsersArgs = {
@@ -82,7 +82,7 @@ const initialState: AdminSliceState = {
   projects: [],
   users: [],
   requests: [],
-  status: 'loading',
+  status: Status.loading,
   amountPages: 0,
 };
 
@@ -93,44 +93,44 @@ const adminSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchAdminProjects.pending, (state) => {
       state.projects = [];
-      state.status = 'loading';
+      state.status = Status.loading;
     });
     builder.addCase(fetchAdminProjects.fulfilled, (state, action) => {
       state.projects = action.payload.items;
       state.amountPages = action.payload.amountPages;
-      state.status = 'success';
+      state.status = Status.success;
     });
     builder.addCase(fetchAdminProjects.rejected, (state) => {
       state.projects = [];
-      state.status = 'error';
+      state.status = Status.error;
     });
 
     builder.addCase(fetchRequests.pending, (state) => {
       state.requests = [];
-      state.status = 'loading';
+      state.status = Status.loading;
     });
     builder.addCase(fetchRequests.fulfilled, (state, action) => {
       state.requests = action.payload.items;
       state.amountPages = action.payload.amountPages;
-      state.status = 'success';
+      state.status = Status.success;
     });
     builder.addCase(fetchRequests.rejected, (state) => {
       state.requests = [];
-      state.status = 'error';
+      state.status = Status.error;
     });
 
     builder.addCase(fetchUsers.pending, (state) => {
       state.users = [];
-      state.status = 'loading';
+      state.status = Status.loading;
     });
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       state.users = action.payload.items;
       state.amountPages = action.payload.amountPages;
-      state.status = 'success';
+      state.status = Status.success;
     });
     builder.addCase(fetchUsers.rejected, (state) => {
       state.users = [];
-      state.status = 'error';
+      state.status = Status.error;
     });
   },
 });

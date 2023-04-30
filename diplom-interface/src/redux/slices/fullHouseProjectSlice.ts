@@ -1,10 +1,10 @@
-import { HouseProject } from './houseProjectSlice';
+import { HouseProject, Status } from './houseProjectSlice';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { houseProjectsAPI } from '../../api/api';
 
 export interface FullHouseProjectSliceState {
     data: HouseProject | null,
-    status: "loading" | "success" | "error"
+    status: Status
 }
 
 export const fetchFullHouseProject = createAsyncThunk<HouseProject, number>('fullHouseProject/fetchFullHouseProject', async (id) => {
@@ -15,7 +15,7 @@ export const fetchFullHouseProject = createAsyncThunk<HouseProject, number>('ful
 
 const initialState: FullHouseProjectSliceState = {
     data: null,
-    status: 'loading' // loading | success | error
+    status: Status.loading // loading | success | error
 }
 
 let fullHouseProjectSlice = createSlice({
@@ -24,15 +24,15 @@ let fullHouseProjectSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchFullHouseProject.pending, (state: FullHouseProjectSliceState) => {
-            state.status = 'loading';
+            state.status = Status.loading;
             state.data = null;
         });
         builder.addCase(fetchFullHouseProject.fulfilled, (state, action) => {
-            state.status = 'success';
+            state.status = Status.success;
             state.data = action.payload;
         });
-        builder.addCase(fetchFullHouseProject.pending, (state) => {
-            state.status = 'error';
+        builder.addCase(fetchFullHouseProject.rejected, (state) => {
+            state.status = Status.error;
             state.data = null;
         });
     }

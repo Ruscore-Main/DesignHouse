@@ -3,7 +3,8 @@ import React from 'react'
 import descriptionImg from '../assets/img/description-image.jpg';
 
 
-const Description = ({list}) => {
+const Description = ({list}:{list: React.MutableRefObject<HTMLDivElement>}) => {
+  if (list == null) return <></>
   return (
     <div className="description-block">
         <div className="description-block__content">

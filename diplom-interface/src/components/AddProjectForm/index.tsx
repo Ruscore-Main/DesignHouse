@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import styles from './AddProjectForm.module.scss';
 import defaultImage from '../../assets/img/house-default-image.jpg';
 import imageInfo from '../../assets/img/information-image.svg';
-import { useDispatch } from 'react-redux';
 import { addProject } from 'redux/slices/houseProjectSlice';
 import swal from 'sweetalert';
+import { useAppDispatch } from 'redux/store';
 
 type AddProjectFormProps = {
   isPublished: boolean;
   closeModal: () => void;
-  updateTable: () => void;
+  updateTable?: () => void;
 };
 
 export const checkValidation = (
@@ -18,7 +18,7 @@ export const checkValidation = (
   area: string,
   price: string,
   floors: string,
-  images: File[],
+  images: File[] | string[],
 ) => {
   let res = '';
   if (name.length == 0) res += 'Название не должно быть пустым;\n';
@@ -49,7 +49,7 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
   const [images, setImages] = useState<File[]>([]);
   const [imageSrc, setImageSrc] = useState('');
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Show selected image
   const setPreviewImage = (imageName: string) => {
@@ -86,14 +86,13 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
       console.log('IMAGES ==== ', images);
 
       dispatch(addProject(formData)).then((res) => {
-        console.log('--------------------', res);
         if (res !== undefined) {
           swal({
             icon: 'success',
             text: 'Запрос на добавление проекта успешно отправлен!',
           });
           if (isPublished) {
-            updateTable();
+            updateTable && updateTable();
           }
           closeModal();
         } else {

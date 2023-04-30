@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { updateUser } from '../redux/slices/userSlice';
+import { User, updateUser } from '../redux/slices/userSlice';
 import AddUserProject from './AddUserProject';
 import swal from 'sweetalert'
+import { AppDispatch } from 'redux/store';
 
-const isValidUpdate = (login, email, phoneNumber) => {
+const isValidUpdate = (login: string, email: string, phoneNumber: string) => {
   const isEmail = /^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i;
   const isPhoneNumber = /^[\d\+][\d\(\)\ -]{4,14}\d$/;
   if (login.length < 6) return 'Логин должен содержать больше 5 символов!';
@@ -14,11 +14,14 @@ const isValidUpdate = (login, email, phoneNumber) => {
   return 'Успешно!';
 };
 
-const UserProfileForm = ({dispatch, ...user}) => {
-
-  const [login, setLogin] = useState(user.login);
-  const [email, setEmail] = useState(user.email);
-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+interface UserProfileFormProps {
+  user: User,
+  dispatch: AppDispatch
+};
+const UserProfileForm: React.FC<UserProfileFormProps> = ({dispatch, user}) => {
+  const [login, setLogin] = useState(String(user.login));
+  const [email, setEmail] = useState(String(user.email));
+  const [phoneNumber, setPhoneNumber] = useState(String(user.phoneNumber));
   const [textError, setTextError] = useState('');
 
   const onSaveClick = () => {

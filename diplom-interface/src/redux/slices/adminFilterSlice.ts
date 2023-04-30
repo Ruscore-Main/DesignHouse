@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface AdminFilterSliceState {
   searchValue: string,
-  isPublished: boolean | null,
+  isPublished: string | null,
   currentPage: number,
 }
 
@@ -23,7 +23,7 @@ const adminFilterSlice = createSlice({
     setAdminCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },
-    setIsPublished(state, action: PayloadAction<boolean>) {
+    setIsPublished(state, action: PayloadAction<string>) {
       state.currentPage = 1;
       state.isPublished = action.payload;
     }

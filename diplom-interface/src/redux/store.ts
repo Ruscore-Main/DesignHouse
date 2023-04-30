@@ -5,6 +5,7 @@ import houseProjectSlice from "./slices/houseProjectSlice";
 import userSlice from "./slices/userSlice";
 import adminFilterSlice from "./slices/adminFilterSlice";
 import adminSlice from "./slices/adminSlice";
+import { useDispatch } from "react-redux";
 
 
 export const store = configureStore({
@@ -19,6 +20,9 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
 
 store.subscribe(() => {
     console.log(store.getState());

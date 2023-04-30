@@ -1,32 +1,39 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Carousel from "nuka-carousel";
-import { fetchFullHouseProject } from "../../redux/slices/fullHouseProjectSlice";
-import { Navigate, useParams } from "react-router-dom";
-import styles from "./FullHouseProject.module.scss";
-import AddRequest from "../../components/AddRequest";
-import { useAuth } from "../../hooks/useAuth";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Carousel from 'nuka-carousel';
+import { fetchFullHouseProject } from '../../redux/slices/fullHouseProjectSlice';
+import { Navigate, useParams } from 'react-router-dom';
+import styles from './FullHouseProject.module.scss';
+import AddRequest from '../../components/AddRequest';
+import { useAuth } from '../../hooks/useAuth';
+import { RootState, useAppDispatch } from 'redux/store';
 
 const FullHouseProject: React.FC = () => {
-  const { data, status } = useSelector(
-    ({ fullHouseProject }) => fullHouseProject
-  );
-  const dispatch = useDispatch();
+  const { data, status } = useSelector(({ fullHouseProject }: RootState) => fullHouseProject);
+  const dispatch = useAppDispatch();
   const { id } = useParams();
 
-  const {isAuth} = useAuth();
-
-  
+  const { isAuth } = useAuth();
 
   React.useEffect(() => {
-    dispatch(fetchFullHouseProject(id));
+    if (id) {
+      dispatch(fetchFullHouseProject(+id));
+    }
   }, []);
-  
+
   if (!isAuth) {
-    return <Navigate to={'/login'} />
+    return <Navigate to={'/login'} />;
   }
 
-  return status !== "success" ? (
+  if (!data) {
+    return (
+      <div className="container">
+        <h2 className={styles.loadingTitle}>Идет загрузка...</h2>
+      </div>
+    );
+  }
+
+  return status !== 'success' ? (
     <div className="container">
       <h2 className={styles.loadingTitle}>Идет загрузка...</h2>
     </div>
@@ -37,30 +44,17 @@ const FullHouseProject: React.FC = () => {
         autoplay
         wrapAround
         renderCenterLeftControls={({ previousDisabled, previousSlide }) => (
-          <button
-            onClick={previousSlide}
-            disabled={previousDisabled}
-            className={styles.prevBtn}
-          >
+          <button onClick={previousSlide} disabled={previousDisabled} className={styles.prevBtn}>
             &lt;
           </button>
         )}
         renderCenterRightControls={({ nextDisabled, nextSlide }) => (
-          <button
-            onClick={nextSlide}
-            disabled={nextDisabled}
-            className={styles.nextBtn}
-          >
+          <button onClick={nextSlide} disabled={nextDisabled} className={styles.nextBtn}>
             &gt;
           </button>
-        )}
-      >
+        )}>
         {data.images.map((img, i: number) => (
-          <img
-            src={"data:image/jpeg;base64," + img}
-            key={i}
-            alt="slide"
-          />
+          <img src={'data:image/jpeg;base64,' + img} key={i} alt="slide" />
         ))}
       </Carousel>
 

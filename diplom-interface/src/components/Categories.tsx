@@ -1,7 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
-const Categories = ({categories, activeCategory, setActiveCategory, className}) => {
+type CategoriesProps = {
+  categories: string[],
+  activeCategory: string | null,
+  setActiveCategory: (category: any)=>void,
+  className?: string
+}
+const Categories: React.FC<CategoriesProps> = ({categories, activeCategory, setActiveCategory, className=""}) => {
 
   return (
     <div className={classNames("categories", className)}>

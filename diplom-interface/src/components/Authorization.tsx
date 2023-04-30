@@ -2,8 +2,9 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authUser } from '../redux/slices/userSlice';
+import { AppDispatch } from 'redux/store';
 
-const Authorization = ({ dispatch }) => {
+const Authorization = ({ dispatch }:{dispatch: AppDispatch}) => {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');

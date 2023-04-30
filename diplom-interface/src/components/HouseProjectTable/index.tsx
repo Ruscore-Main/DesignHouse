@@ -3,16 +3,21 @@ import Table from "react-bootstrap/Table";
 import styles from "./HouseProjectTable.module.scss";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import EditProject from "../../components/EditProject";
-import { Button, Modal } from "react-bootstrap";
+import EditProject from "../EditProject";
+import { Modal } from "react-bootstrap";
+import { HouseProject, Status } from "redux/slices/houseProjectSlice";
 
-const HouseProjectsTable = ({ items, status, onDelete, updateTable }) => {
+type HouseProjectTableProps = {
+  items: HouseProject[],
+  status: Status,
+  onDelete: (project: HouseProject)=>void,
+  updateTable: ()=>void
+};
+const HouseProjectsTable: React.FC<HouseProjectTableProps> = ({ items, status, onDelete, updateTable }) => {
   const [isModal, setIsModal] = useState(false);
-  const [currentProject, setCurrentProject] = useState(null);
-  const dispatch = useDispatch();
+  const [currentProject, setCurrentProject] = useState<HouseProject|null>(null);
 
-  const onClickEdit = (project) => {
+  const onClickEdit = (project: HouseProject) => {
     setCurrentProject(project);
     setIsModal(true);
   }
@@ -23,7 +28,7 @@ const HouseProjectsTable = ({ items, status, onDelete, updateTable }) => {
           <Modal.Title>Изменение проекта</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EditProject project={currentProject} updateTable={updateTable} closeModal={() => setIsModal(false)} />
+          {currentProject && <EditProject project={currentProject} updateTable={updateTable} closeModal={() => setIsModal(false)} />}
         </Modal.Body>
       </Modal>
 

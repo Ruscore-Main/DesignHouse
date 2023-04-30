@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddProjectForm from "./AddProjectForm";
 import { Modal } from "react-bootstrap";
 
-const AddAdminProject = ({updateTable}) => {
+const AddAdminProject = ({updateTable}:{updateTable: ()=>void}) => {
   const [isModal, setIsModal] = useState(false);
 
   return (

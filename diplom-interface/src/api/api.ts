@@ -19,7 +19,7 @@ const adminInstance = axios.create({
 
 // https://localhost:44336/api/project?page=1&limit=5&sort=name&category=%D0%9E%D0%B4%D0%BD%D0%BE%D1%8D%D1%82%D0%B0%D0%B6%D0%BD%D1%8B%D0%B5&searchValue=%D0%B4
 export const houseProjectsAPI = {
-  getProjects(page: number, sortType: SortItem, category: string | null, searchValue: string, isPublished: boolean, limit = 6) {
+  getProjects(page: number, sortType: SortItem, category: string | null, searchValue: string, isPublished: string | null, limit = 6) {
     let fetchURL = `?page=${page}&limit=${limit}&sort=${sortType.sort}`;
 
     if (category !== null) {
@@ -39,11 +39,11 @@ export const houseProjectsAPI = {
     return houseProjectInstance.get(`/${id}`).then(({ data }) => data);
   },
 
-  addProject(houseProject: HouseProject) {
+  addProject(houseProject: FormData) {
     return houseProjectInstance.post('', houseProject).then(({ data }) => data);
   },
 
-  updateProject(houseProject: HouseProject) {
+  updateProject(houseProject: FormData) {
     return houseProjectInstance.put('', houseProject).then(({ data }) => data);
   },
 
@@ -70,12 +70,12 @@ export const userAPI = {
   updateUser(user: User) {
     return userInstance.post("update", user);
   },
-  addFavorite(houseProject: HouseProject) {
+  addFavorite(houseProject: {id: number, userId: number}) {
     return userInstance
       .post("addFavorite", houseProject)
       .then(({ data }) => data);
   },
-  removeFavorite(houseProject: HouseProject) {
+  removeFavorite(houseProject: {id: number, userId: number}) {
     return userInstance
       .post("removeFavorite", houseProject)
       .then(({ data }) => data);

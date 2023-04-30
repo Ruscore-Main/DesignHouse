@@ -1,7 +1,7 @@
 import React from "react"
 import ContentLoader from "react-content-loader"
 
-const LoaderFavoriteBlock = (props) => (
+const LoaderFavoriteBlock = () => (
   <ContentLoader 
     speed={1}
     width={200}
@@ -9,7 +9,6 @@ const LoaderFavoriteBlock = (props) => (
     viewBox="0 0 200 200"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
-    {...props}
     className="favorite-block"
   >
     <rect x="10" y="10" rx="15" ry="15" width="180" height="98" /> 

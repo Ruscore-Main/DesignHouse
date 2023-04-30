@@ -1,8 +1,15 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import { Status } from "redux/slices/houseProjectSlice";
+import { Request } from "redux/slices/userSlice";
 
-const RequestTable = ({ items, status, onComplete }) => {
+type RequestTableProps = {
+  items: (Request & {userLogin: string, dateCreating: Date, userEmail: string})[],
+  status: Status,
+  onComplete: (req: Request)=>void
+}
+const RequestTable: React.FC<RequestTableProps> = ({ items, status, onComplete }) => {
   return (
     <Table hover responsive striped className="mt-2 mb-4">
       <thead>

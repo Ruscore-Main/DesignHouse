@@ -5,34 +5,43 @@ import { addRequest } from "../../redux/slices/userSlice";
 import { useAuth } from "../../hooks/useAuth";
 import swal from "sweetalert";
 import { Modal } from "react-bootstrap";
+import { AppDispatch } from "redux/store";
+import { HouseProject } from "redux/slices/houseProjectSlice";
 
-const AddRequest = ({ house, dispatch }) => {
+type AddRequestProps = {
+  house: HouseProject,
+  dispatch: AppDispatch
+}
+const AddRequest: React.FC<AddRequestProps> = ({ house, dispatch }) => {
   const { id, phoneNumber } = useAuth();
   const [isModal, setIsModal] = useState(false);
   const [requestContent, setRequestContent] = useState("");
 
   const onSubmitClick = () => {
-    dispatch(
-      addRequest({
-        ...house,
-        houseProjectId: house.id,
-        userId: id,
-        userPhone: phoneNumber,
-        contentText: requestContent,
-      })
-    ).then((res) => {
-      if (res.payload?.id !== undefined) {
-        swal({
-          icon: "success",
-          text: "Запрос успешно отправлен!",
-        });
-      } else {
-        swal({
-          icon: "error",
-          text: res.error.message,
-        });
-      }
-    });
+    if (id && phoneNumber) {
+      dispatch(
+        addRequest({
+          ...house,
+          houseProjectId: house.id,
+          userId: id,
+          userPhone: phoneNumber,
+          contentText: requestContent,
+        })
+      ).then((res: any) => {
+        if (res.payload?.id !== undefined) {
+          swal({
+            icon: "success",
+            text: "Запрос успешно отправлен!",
+          });
+        } else {
+          swal({
+            icon: "error",
+            text: res.error.message,
+          });
+        }
+      });
+    }
+    
   };
 
   return (

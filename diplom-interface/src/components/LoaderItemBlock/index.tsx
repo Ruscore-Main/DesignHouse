@@ -2,7 +2,7 @@ import React from 'react';
 import ContentLoader from 'react-content-loader';
 import styles from './LoaderItemBlock.module.scss'
 
-const LoaderItemBlock = (props) => (
+const LoaderItemBlock = () => (
   <div className={styles.root}>
     <ContentLoader
       speed={1}
@@ -22,7 +22,6 @@ const LoaderItemBlock = (props) => (
       viewBox="0 0 250 27"
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
-      {...props}
       className={styles.titleLoader}>
       <rect x="0" y="0" rx="0" ry="0" width="250" height="27" />
     </ContentLoader>
@@ -34,7 +33,6 @@ const LoaderItemBlock = (props) => (
       viewBox="0 0 380 42"
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
-      {...props}
       className={styles.descriptionLoader}>
       <rect x="0" y="0" rx="0" ry="0" width="380" height="42" />
     </ContentLoader>
@@ -46,7 +44,6 @@ const LoaderItemBlock = (props) => (
       viewBox="0 0 50 21"
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
-      {...props}
       className={styles.areaLoader}>
       <rect x="0" y="0" rx="0" ry="0" width="50" height="21" />
     </ContentLoader>
@@ -58,7 +55,6 @@ const LoaderItemBlock = (props) => (
       viewBox="0 0 100 21"
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
-      {...props}
       className={styles.priceLoader}>
       <rect x="0" y="0" rx="0" ry="0" width="100" height="21" />
     </ContentLoader>

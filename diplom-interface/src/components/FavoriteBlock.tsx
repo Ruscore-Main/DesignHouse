@@ -3,8 +3,18 @@ import { Link } from 'react-router-dom';
 
 import heartFullImage from '../assets/img/heart-full.svg';
 import { removeFavorite } from '../redux/slices/userSlice';
+import { AppDispatch } from 'redux/store';
 
-const FavoriteBlock = ({id, name, area, price, images, dispatch, userId }) => {
+type FavoriteBlockProps = {
+  id: number,
+  name: string,
+  area: number,
+  price: number,
+  images: string[], 
+  dispatch: AppDispatch,
+  userId: number
+};
+const FavoriteBlock: React.FC<FavoriteBlockProps> = ({id, name, area, price, images, dispatch, userId }) => {
   return (
     <div className="favorite-block">
       <Link to={`/house/${id}`}><img src={'data:image/jpeg;base64,' + images[0]} alt="favoriteImg" /></Link>
@@ -12,7 +22,7 @@ const FavoriteBlock = ({id, name, area, price, images, dispatch, userId }) => {
       <span className="favorite-block__area">{area} m2</span>
       <span className="favorite-block__price">от {price} ₽</span>
       <div className="like-item">
-        <img src={heartFullImage} onClick={() => dispatch(removeFavorite({ id, name, area, price, images, userId }))} alt="heartImg" />
+        <img src={heartFullImage} onClick={() => dispatch(removeFavorite({ id, userId }))} alt="heartImg" />
       </div>
     </div>
   );

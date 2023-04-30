@@ -1,6 +1,13 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { houseProjectsAPI } from '../../api/api';
+import { SortItem } from 'components/SortPopup';
+
+export enum Status {
+  loading = "loading",
+  success = "success",
+  error = "error"
+}
 
 export type HouseProject = {
   id: number,
@@ -10,47 +17,53 @@ export type HouseProject = {
   price: number,
   datePublication: Date,
   amountFloors: number,
-  isPublished: boolean,
+  isPublished: string | boolean | null ,
   images: string[],
-  userId: number | null
+  userId: number | null | undefined
 }
 
 export interface HouseProjectSliceState {
   items: HouseProject[],
   amountPages: number,
-  status: "loading" | "success" | "error"
+  status: Status
 }
 
-export const fetchProjects = createAsyncThunk('houseProjects/houseProject', async (params) => {
+export type FetchProjectsArgs = {
+  currentPage: number,
+  sortType: SortItem,
+  category: string | null,
+  searchValue: string,
+  isPublished: string | null
+}
+export const fetchProjects = createAsyncThunk('houseProjects/fetchProjects', async (params: FetchProjectsArgs) => {
   const { currentPage, sortType, category, searchValue, isPublished } = params;
   const data = await houseProjectsAPI.getProjects(currentPage, sortType, category, searchValue, isPublished, 6);
   return data;
 });
 
-export const addProject = createAsyncThunk('houseProjects/addProject', async (params) => {
+export const addProject = createAsyncThunk('houseProjects/addProject', async (params: FormData) => {
   try {
     const houseProject = await houseProjectsAPI.addProject(params);
     return houseProject;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
 
-export const updateProject = createAsyncThunk('houseProjects/updateProject', async (params) => {
+export const updateProject = createAsyncThunk('houseProjects/updateProject', async (params: FormData) => {
   try {
-    // params {id: houseId, data: houseProject}
     const houseProject = await houseProjectsAPI.updateProject(params);
     return houseProject;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
 
-export const deleteProject = createAsyncThunk('houseProjects/deleteProject', async (params) => {
+export const deleteProject = createAsyncThunk('houseProjects/deleteProject', async (params: HouseProject) => {
   try {
     const houseProject = await houseProjectsAPI.deleteProject(params);
     return houseProject;
-  } catch (error) {
+  } catch (error: any) {
     return error.response.data;
   }
 });
@@ -58,7 +71,7 @@ export const deleteProject = createAsyncThunk('houseProjects/deleteProject', asy
 const initialState: HouseProjectSliceState = {
   items: [],
   amountPages: 0,
-  status: 'loading', // loading | success | error
+  status: Status.loading, // loading | success | error
 };
 
 let houseProjectSlice = createSlice({
@@ -69,33 +82,33 @@ let houseProjectSlice = createSlice({
       state.items = action.payload;
     },
   },
-  extraReducers: {
-    [fetchProjects.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchProjects.pending, (state) => {
       state.items = [];
-      state.status = 'loading';
-    },
-    [fetchProjects.fulfilled]: (state, action) => {
+      state.status = Status.loading;
+    });
+    builder.addCase(fetchProjects.fulfilled, (state, action) => {
       state.items = action.payload.items;
       state.amountPages = action.payload.amountPages;
-      state.status = 'success';
-    },
-    [fetchProjects.pending]: (state) => {
+      state.status = Status.success;
+    });
+    builder.addCase(fetchProjects.rejected, (state) => {
       state.items = [];
-      state.status = 'error';
-    },
+      state.status = Status.error;
+    });
 
-    [addProject.fulfilled]: (state, action) => {
+    builder.addCase(addProject.fulfilled, (state, action) => {
       if (action.payload?.isPublished) {
         state.items = [...state.items, action.payload];
       }
-    },
-
-    [updateProject.fulfilled]: (state, action) => {
+    });
+    builder.addCase(updateProject.fulfilled, (state, action) => {
       if (action.payload?.isPublished) {
         state.items = [...state.items.filter(el => el.id !== action.payload.id), action.payload];
       }
-    },
+    });
   },
+
 });
 
 export const { setItems } = houseProjectSlice.actions;

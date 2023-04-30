@@ -1,7 +1,14 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { Status } from "redux/slices/houseProjectSlice";
+import { User } from "redux/slices/userSlice";
 
-const UserTable = ({ items, status, onDelete }) => {
+type UserTableProps = {
+  items: User[],
+  status: Status,
+  onDelete: (user: User)=>void
+};
+const UserTable: React.FC<UserTableProps> = ({ items, status, onDelete }) => {
   return (
     <Table hover responsive striped className="mt-2 mb-4">
       <thead>
