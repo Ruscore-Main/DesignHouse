@@ -209,7 +209,6 @@ namespace diplom_backend.Controllers
         // POST api/project
         // Создание проекта
         [HttpPost]
-        [RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
         public async Task<ActionResult<HouseProject>> Post([FromForm] UploadHouseProject houseProject)
         {
 

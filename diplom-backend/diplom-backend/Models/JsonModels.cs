@@ -16,8 +16,7 @@ namespace diplom_backend.Models
         public int price { get; set; }
         public int amountFloors { get; set; }
         public bool isPublished { get; set; }
-        public IFormFile[] images { get; set; }
-
+        public List<IFormFile> images { get; set; }
     }
 
 
