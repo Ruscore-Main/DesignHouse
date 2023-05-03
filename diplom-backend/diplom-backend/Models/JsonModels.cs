@@ -102,7 +102,7 @@ namespace diplom_backend.Models
         public string email { get; set; }
         public string phoneNumber { get; set; }
         public List<RequestJson> requests { get; set; } = new List<RequestJson>();
-        public List<FavoriteJson> favorites { get; set; } = new List<FavoriteJson>();
+        public List<int> favorites { get; set; } = new List<int>();
     }
 
     public class ResponseUserJson

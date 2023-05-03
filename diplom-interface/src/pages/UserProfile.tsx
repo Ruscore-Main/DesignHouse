@@ -1,24 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import FavoriteBlock from '../components/FavoriteBlock';
 import LoaderFavoriteBlock from '../components/LoaderFavoriteBlock';
 import UserProfileForm from '../components/UserProfileForm';
 import { useAuth } from '../hooks/useAuth';
-import { useAppDispatch } from 'redux/store';
+import { RootState, useAppDispatch } from 'redux/store';
 import { User } from 'redux/slices/userSlice';
+import { Status } from 'redux/slices/houseProjectSlice';
+import { useSelector } from 'react-redux';
+import { fetchFavorites } from 'redux/slices/favoriteSlice';
 
 const UserProfile: React.FC = () => {
   const { isAuth, ...user } = useAuth();
+
   const dispatch = useAppDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
   const id = user.id;
-  useEffect(() => {
-    setTimeout(() => setIsLoaded(true), 1000);
+  const {items, status} = useSelector(({ favorites }: RootState) => favorites);
+
+  React.useEffect(()=>{
+    if (id != null) {
+      dispatch(
+        fetchFavorites(id)
+      );
+    }
+    
   }, []);
 
   if (id == null) {
     return <Navigate to={'/login'} />;
   }
+
+
 
   return (
     <div className="container--user">
@@ -27,14 +39,14 @@ const UserProfile: React.FC = () => {
       <div className="favorite">
         <h2>Избранные проекты 💕</h2>
 
-        {isLoaded && user.favorites.length == 0 ? (
+        {user.favorites.length === 0 ? ( 
           <h4 className="empty">Здесь пока что пусто...</h4>
         ) : (
           <div className="favorite__items">
-            {!isLoaded
-              ? Array(6).fill(<LoaderFavoriteBlock />)
-              : user.favorites.map((el) => (
-                  <FavoriteBlock key={el.id} dispatch={dispatch} {...el} userId={id}/>
+            {status == Status.loading
+              ? Array(6).fill(null).map((_, idx) => <LoaderFavoriteBlock key={idx} />)
+              : items.map((el) => (
+                  user.favorites?.includes(el.id) && <FavoriteBlock key={el.id} dispatch={dispatch} {...el} userId={id}/>  
                 ))}
           </div>
         )}

@@ -7,7 +7,6 @@ export const getUserFromLS = () => {
         role: null,
         email: null,
         phoneNumber: null,
-        requests: [],
         favorites: []
     };
 }

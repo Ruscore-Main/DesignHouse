@@ -67,6 +67,9 @@ export const userAPI = {
   authorizateUser(login: string, password: string) {
     return userInstance.post("authorization", { login, password });
   },
+  getFavorites(userId: number) {
+    return userInstance.get(`favorites?userId=${userId}`).then(({ data }) => data);;
+  },
   updateUser(user: User) {
     return userInstance.post("update", user);
   },

@@ -20,8 +20,7 @@ export type User = {
   role: string | null,
   email: string | null,
   phoneNumber: string | null,
-  requests: Request[],
-  favorites: HouseProject[]
+  favorites: number[]
 }
 
 // Регистрация пользователя
@@ -56,6 +55,7 @@ export const authUser = createAsyncThunk('user/authUser', async (params: AuthUse
     return error.response.data;
   }
 });
+
 
 // Обновление информации о пользователе
 export const updateUser = createAsyncThunk('user/updateUser', async (params: User) => {
@@ -98,6 +98,16 @@ export const addRequest = createAsyncThunk('user/addRequest', async (params: Req
 });
 
 
+// const initialState: User = {
+//   id: null,
+//   login: null,
+//   password: null,
+//   role: null,
+//   email: null,
+//   phoneNumber: null,
+//   favorites: [],
+// };
+
 const initialState: User = getUserFromLS();
 
 const userSlice = createSlice({
@@ -111,7 +121,6 @@ const userSlice = createSlice({
       state.role = action.payload.role;
       state.email = action.payload.email;
       state.phoneNumber = action.payload.phoneNumber;
-      state.requests = action.payload.requests;
       state.favorites = action.payload.favorites;
     },
     removeUser(state) {
@@ -121,7 +130,6 @@ const userSlice = createSlice({
       state.role = null;
       state.email = null;
       state.phoneNumber = null;
-      state.requests = [];
       state.favorites = [];
     }
   },
@@ -146,19 +154,22 @@ const userSlice = createSlice({
 
     builder.addCase(addFavorite.fulfilled, (state, action) => {
       if (action.payload?.id) {
-      state.favorites = [...state.favorites, action.payload];
+      state.favorites = [...state.favorites, action.payload.id];
     }
   });
     builder.addCase(removeFavorite.fulfilled, (state, action) => {
       if (action.payload?.id) {
-        state.favorites = state.favorites.filter(el => el.id !== action.payload.id);
+        state.favorites = state.favorites.filter(el => el !== action.payload.id);
       }
     });
-    builder.addCase(addRequest.fulfilled, (state, action) => {
-      if (action.payload?.id) {
-        state.requests = [...state.requests, action.payload];
-      }
-    });
+
+    
+
+    // builder.addCase(addRequest.fulfilled, (state, action) => {
+    //   if (action.payload?.id) {
+    //     state.requests = [...state.requests, action.payload];
+    //   }
+    // });
   }
 });
 

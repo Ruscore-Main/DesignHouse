@@ -18,7 +18,7 @@ type ItemBlockProps = {
 const ItemBlock: React.FC<ItemBlockProps> = ({ id: houseId, name, description, area, price, images, dispatch }) => {
   const { isAuth, id: userId, favorites } = useAuth();
 
-  let isFavorite = favorites.find((el) => el.id === houseId);
+  let isFavorite = favorites.find((el) => el === houseId);
   return (
     <div className="item-block">
       <div className="images">

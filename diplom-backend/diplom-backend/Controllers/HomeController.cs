@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Http;
 namespace diplom_backend.Controllers
 {
 
-
     [Route("api/project")]
     [ApiController]
     public class HomeController : Controller
@@ -28,6 +27,10 @@ namespace diplom_backend.Controllers
             _owebHostEnvironment = owebHostEnvironment;
         }
 
+        public static String GetTimestamp(DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
+        }
         public byte[] GetImage(string sBase64String)
         {
             byte[] bytes = null;
@@ -39,12 +42,6 @@ namespace diplom_backend.Controllers
 
             return bytes;
         }
-
-        public static String GetTimestamp(DateTime value)
-        {
-            return value.ToString("yyyyMMddHHmmssffff");
-        }
-
         // GET api/project
         // Получение списка проектов
         [HttpGet]

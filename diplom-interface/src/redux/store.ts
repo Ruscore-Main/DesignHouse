@@ -6,6 +6,7 @@ import userSlice from "./slices/userSlice";
 import adminFilterSlice from "./slices/adminFilterSlice";
 import adminSlice from "./slices/adminSlice";
 import { useDispatch } from "react-redux";
+import favoriteSlice from "./slices/favoriteSlice";
 
 
 export const store = configureStore({
@@ -15,7 +16,8 @@ export const store = configureStore({
         fullHouseProject: fullHouseProjectSlice,
         user: userSlice,
         admin: adminSlice,
-        adminFilter: adminFilterSlice
+        adminFilter: adminFilterSlice,
+        favorites: favoriteSlice
     }
 });
 

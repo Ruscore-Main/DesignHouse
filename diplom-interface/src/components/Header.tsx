@@ -19,7 +19,7 @@ const Header = () => {
       localStorage.setItem('user', json);
     }
     isMounted.current = true;
-  }, [user.isAuth]);
+  }, [user.isAuth, user.favorites]);
 
   return (
     <div className="header">

@@ -20,6 +20,18 @@ namespace diplom_backend.Controllers
             _db = projectContext;
         }
 
+        public byte[] GetImage(string sBase64String)
+        {
+            byte[] bytes = null;
+
+            if (!string.IsNullOrEmpty(sBase64String))
+            {
+                bytes = Convert.FromBase64String(sBase64String);
+            }
+
+            return bytes;
+        }
+
         // POST /registration
         // Регистрация пользователя
         [Route("registration")]
@@ -69,7 +81,7 @@ namespace diplom_backend.Controllers
             }
 
             // Добавление всех избранных проектов
-            List<FavoriteJson> favorites = new List<FavoriteJson>();
+            List<int> favorites = new List<int>();
 
             currentUser.Favorites.ToList().ForEach(el =>
             {
@@ -78,19 +90,7 @@ namespace diplom_backend.Controllers
                 {
                     images.Add(el.Image);
                 });
-                favorites.Add(new FavoriteJson()
-                {
-                    id = el.HouseProjectId,
-                    userId = el.UserId,
-                    houseProjectId = el.HouseProjectId,
-                    name = el.HouseProject.Name,
-                    description = el.HouseProject.Description,
-                    area = el.HouseProject.Area,
-                    price = el.HouseProject.Price,
-                    datePublication = el.HouseProject.DatePublication,
-                    amountFlors = el.HouseProject.AmountFloors,
-                    images = images
-                });
+                favorites.Add(el.HouseProjectId);
             });
 
             List<RequestJson> requests = new List<RequestJson>();
@@ -135,6 +135,43 @@ namespace diplom_backend.Controllers
             };
 
             return new JsonResult(user);
+        }
+
+        // GET /favorited
+        // Получение списка избранных проектов
+        [Route("favorites")]
+        [HttpGet]
+        public async Task<ActionResult> AddFavorite(int userId)
+        {
+            User currentUser = await _db.Users.FirstOrDefaultAsync(el => el.Id == userId);
+
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            List<HouseProjectJson> houseProjects = new List<HouseProjectJson>();
+            currentUser.Favorites.ToList().ForEach(el =>
+            {
+                HouseProject hs = el.HouseProject;
+                List<byte[]> images = new();
+                if (hs.ProjectImages.Count > 0)
+                {
+                    images = new() { this.GetImage(Convert.ToBase64String(hs.ProjectImages.OrderBy(el => el.ImageName).ToList()[0].Image)) };
+                }
+                houseProjects.Add(new HouseProjectJson()
+                {
+                    id = hs.Id,
+                    name = hs.Name,
+                    area = hs.Area,
+                    price = hs.Price,
+                    images = images,
+                    isPublished = hs.IsPublished
+                });
+            });
+
+
+            return new JsonResult(houseProjects);
         }
 
         // POST /update
