@@ -108,7 +108,9 @@ const AddProjectForm = ({ isPublished, closeModal, updateTable }) => {
         let imageFile = files[i];
         const reader = new FileReader();
         reader.onload = (x) => {
-          setImageSrc(x.target.result);
+          if (i==0) {
+            setImageSrc(x.target.result);
+          }
         };
         await reader.readAsDataURL(imageFile);
         loadedImages.push(imageFile);

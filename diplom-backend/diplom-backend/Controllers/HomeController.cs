@@ -230,7 +230,7 @@ namespace diplom_backend.Controllers
 
             var i = _owebHostEnvironment;
             int index = 0;
-            houseProject.images.ToList().ForEach(async (el) =>
+            houseProject.images.ToList().ForEach((el) =>
             {
                 if (el.Length > 0)
                 {
