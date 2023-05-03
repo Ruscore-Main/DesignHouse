@@ -2,6 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { HouseProject } from './houseProjectSlice';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { userAPI } from '../../api/api';
+import { getUserFromLS } from 'utils/getUserFromLS';
 
 export type Request = HouseProject & {
   houseProjectId: number,
@@ -67,7 +68,7 @@ export const updateUser = createAsyncThunk('user/updateUser', async (params: Use
 })
 
 // Добавление проекта в избранное
-export const addFavorite = createAsyncThunk('user/addFavorite', async (params: {id: number, userId: number}) => {
+export const addFavorite = createAsyncThunk('user/addFavorite', async (params: {id: number, name: string, description: string, area: number, price: number, images: string[], userId: number }) => {
   try {
     const houseProject = (await userAPI.addFavorite(params));
     return houseProject;
@@ -97,16 +98,7 @@ export const addRequest = createAsyncThunk('user/addRequest', async (params: Req
 });
 
 
-const initialState: User = {
-  id: null,
-  login: null,
-  password: null,
-  role: null,
-  email: null,
-  phoneNumber: null,
-  requests: [],
-  favorites: [],
-};
+const initialState: User = getUserFromLS();
 
 const userSlice = createSlice({
   name: 'user',

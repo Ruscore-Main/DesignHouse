@@ -10,8 +10,11 @@ const Authorization = ({ dispatch }:{dispatch: AppDispatch}) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   let [textError, setTextError] = useState('');
+  let [isSending, setIsSending] = useState(false);
+
 
   const onClickLogin = () => {
+    setIsSending(true);
     dispatch(authUser({ login, password })).then((res) => {
       console.log(res);
       if (res.payload?.login !== undefined) {
@@ -19,6 +22,7 @@ const Authorization = ({ dispatch }:{dispatch: AppDispatch}) => {
       } else {
         setTextError(res.payload);
       }
+      setIsSending(false);
     });
   };
 
@@ -42,7 +46,7 @@ const Authorization = ({ dispatch }:{dispatch: AppDispatch}) => {
       </div>
 
       <button
-        className={classNames('button', { disabled: login.length === 0 || password.length === 0 })}
+        className={classNames('button', { disabled: login.length === 0 || password.length === 0 || isSending})}
         onClick={onClickLogin}>
         Войти
       </button>

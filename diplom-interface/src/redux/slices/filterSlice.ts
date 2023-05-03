@@ -26,7 +26,7 @@ let filterSlice = createSlice({
       state.currentPage = 1;
       state.searchValue = action.payload;
     },
-    setCategory(state, action: PayloadAction<string>) {
+    setCategory(state, action: PayloadAction<string | null>) {
       state.currentPage = 1;
       state.category = action.payload;
     },

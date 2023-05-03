@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import styles from "./AddRequest.module.scss";
 import { addRequest } from "../../redux/slices/userSlice";
@@ -17,8 +17,11 @@ const AddRequest: React.FC<AddRequestProps> = ({ house, dispatch }) => {
   const [isModal, setIsModal] = useState(false);
   const [requestContent, setRequestContent] = useState("");
 
+  const btnSubmit = useRef(document.createElement('button'));
+
   const onSubmitClick = () => {
     if (id && phoneNumber) {
+      btnSubmit.current.disabled = true;
       dispatch(
         addRequest({
           ...house,
@@ -39,6 +42,8 @@ const AddRequest: React.FC<AddRequestProps> = ({ house, dispatch }) => {
             text: res.error.message,
           });
         }
+        btnSubmit.current.disabled = false;
+
       });
     }
     
@@ -70,7 +75,7 @@ const AddRequest: React.FC<AddRequestProps> = ({ house, dispatch }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <button className="button mx-auto" onClick={onSubmitClick}>
+          <button className="button mx-auto" onClick={onSubmitClick} ref={btnSubmit}>
             Отправить
           </button>
         </Modal.Footer>

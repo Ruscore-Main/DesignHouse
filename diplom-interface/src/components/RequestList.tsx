@@ -20,7 +20,7 @@ const RequestList = () => {
     dispatch(
       fetchRequests({
         searchValue,
-        category: String(category),
+        category,
         page: currentPage,
       })
     );

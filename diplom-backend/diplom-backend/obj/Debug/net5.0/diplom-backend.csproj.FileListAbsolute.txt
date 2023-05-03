@@ -149,3 +149,4 @@ C:\4course\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\ref\diplom
 C:\4course\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\diplom-backend.pdb
 C:\4course\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\diplom-backend.genruntimeconfig.cache
 D:\4 курс\DIPLOM\diplom-backend\diplom-backend\bin\Debug\net5.0\web.config
+C:\4course\DesignHouse\diplom-backend\diplom-backend\bin\Debug\net5.0\web.config

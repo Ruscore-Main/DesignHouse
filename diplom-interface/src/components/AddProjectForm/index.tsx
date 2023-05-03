@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './AddProjectForm.module.scss';
 import defaultImage from '../../assets/img/house-default-image.jpg';
 import imageInfo from '../../assets/img/information-image.svg';
@@ -49,6 +49,7 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
   const [images, setImages] = useState<File[]>([]);
   const [imageSrc, setImageSrc] = useState('');
 
+  const btnSubmit = useRef(document.createElement('button'));
   const dispatch = useAppDispatch();
 
   // Show selected image
@@ -84,8 +85,8 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
         formData.append('images', el);
       });
       console.log('IMAGES ==== ', images);
-
-      dispatch(addProject(formData)).then((res) => {
+      btnSubmit.current.disabled = true;
+      dispatch(addProject(formData)).then((res: any) => {
         if (res !== undefined) {
           swal({
             icon: 'success',
@@ -101,6 +102,8 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
             text: 'Ошибка, что-то не так с серверной частью :(',
           });
         }
+        btnSubmit.current.disabled = false;
+
       });
     }
   };
@@ -231,7 +234,7 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
         <span className="item-block__price">{price} ₽</span>
       </div>
       <div className={styles.submitBlock}>
-        <button className="button" onClick={onSubmitClick}>
+        <button className="button" onClick={onSubmitClick} ref={btnSubmit}>
           Отправить
         </button>
       </div>

@@ -17,7 +17,7 @@ type FavoriteBlockProps = {
 const FavoriteBlock: React.FC<FavoriteBlockProps> = ({id, name, area, price, images, dispatch, userId }) => {
   return (
     <div className="favorite-block">
-      <Link to={`/house/${id}`}><img src={'data:image/jpeg;base64,' + images[0]} alt="favoriteImg" /></Link>
+      <Link to={`/house/${id}`}><img src={'data:image/jpeg;base64,' + `${images?.length ? images[0] : ''}`} alt="favoriteImg" /></Link>
       <Link to={`/house/${id}`}><h4 className="favorite-block__title">{name}</h4></Link>
       <span className="favorite-block__area">{area} m2</span>
       <span className="favorite-block__price">от {price} ₽</span>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './EditProject.module.scss';
 import swal from 'sweetalert';
 import { checkValidation } from '../AddProjectForm';
@@ -24,6 +24,7 @@ const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeMod
   const [imageSrc, setImageSrc] = useState("");
 
   const dispatch = useAppDispatch();
+  const btnSubmit = useRef(document.createElement('button'));
 
   useEffect(() => {
     let images: Image[] = [];
@@ -76,7 +77,7 @@ const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeMod
       sendImages.forEach((el) => {
         formData.append("images", el);
       });
-
+      btnSubmit.current.disabled = true;
       dispatch(updateProject(formData)).then((res: any) => {
         if (res.payload?.id !== undefined) {
           swal({
@@ -94,6 +95,7 @@ const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeMod
             text: "Ошибка, что-то не так с серверной частью :(",
           });
         }
+        btnSubmit.current.disabled = false;
       });
     }
   };
@@ -194,7 +196,7 @@ const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeMod
         <span className="item-block__price">{price} ₽</span>
       </div>
       <div className={styles.submitBlock}>
-        <button className="button" onClick={onSubmitClick}>
+        <button className="button" onClick={onSubmitClick} ref={btnSubmit}>
           Сохранить
         </button>
       </div>

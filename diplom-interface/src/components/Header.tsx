@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -8,8 +8,18 @@ import { useAuth } from '../hooks/useAuth';
 import { removeUser } from '../redux/slices/userSlice';
 
 const Header = () => {
-  const { isAuth } = useAuth();
+  const { ...user } = useAuth();
   const dispatch = useDispatch();
+
+  const isMounted = useRef(false);
+
+  React.useEffect(()=>{
+    if (isMounted.current) {
+      const json = JSON.stringify(user);
+      localStorage.setItem('user', json);
+    }
+    isMounted.current = true;
+  }, [user.isAuth]);
 
   return (
     <div className="header">
@@ -20,7 +30,7 @@ const Header = () => {
             <span className="orange">House</span>
           </div>
         </Link>
-        {isAuth && (
+        {user.isAuth && (
           <div className="header__icons">
             <img className="icon icon--small" src={logoutIcom} alt="logout" onClick={() => dispatch(removeUser())} />
             <Link to={'/user'}>

@@ -86,7 +86,7 @@ export const userAPI = {
 };
 
 export const adminAPI = {
-  getRequests({ page, category, searchValue, limit }: Record<string, string>) {
+  getRequests({ page, category, searchValue, limit }: Record<string, string|null>) {
     let fetchURL = `request?page=${page}&limit=${limit}`;
 
     if (category !== null) {
@@ -102,7 +102,7 @@ export const adminAPI = {
     return adminInstance.delete(`request?id=${request.id}`).then(({ data }) => data);
   },
 
-  getUsers({page, role, searchValue, limit}: Record<string, string>) {
+  getUsers({page, role, searchValue, limit}: Record<string, string|null>) {
     let fetchURL = `users?page=${page}&limit=${limit}`;
 
     if (role !== null) {

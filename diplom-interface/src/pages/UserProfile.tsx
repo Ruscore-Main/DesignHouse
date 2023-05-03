@@ -34,7 +34,7 @@ const UserProfile: React.FC = () => {
             {!isLoaded
               ? Array(6).fill(<LoaderFavoriteBlock />)
               : user.favorites.map((el) => (
-                  <FavoriteBlock dispatch={dispatch} {...el} userId={id}/>
+                  <FavoriteBlock key={el.id} dispatch={dispatch} {...el} userId={id}/>
                 ))}
           </div>
         )}

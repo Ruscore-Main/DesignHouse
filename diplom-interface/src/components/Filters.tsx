@@ -18,7 +18,7 @@ const Filters = ({placeholder="Поиск проекта.."}) => {
       <Categories
         categories={categories}
         activeCategory={activeCategory}
-        setActiveCategory={(category) => dispatch(setCategory(category))}
+        setActiveCategory={(category: string | null) => dispatch(setCategory(category))}
       />
     </div>
   );

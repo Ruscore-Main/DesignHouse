@@ -231,7 +231,7 @@ namespace diplom_backend.Controllers
 
             var i = _owebHostEnvironment;
             int index = 0;
-            houseProject.images.ToList().ForEach(async (el) =>
+            houseProject.images.ToList().ForEach((el) =>
             {
                 if (el.Length > 0)
                 {
@@ -244,7 +244,7 @@ namespace diplom_backend.Controllers
                     }*/
                     using (var ms = new MemoryStream())
                     {
-                        await el.CopyToAsync(ms);
+                        el.CopyToAsync(ms);
                         var fileBytes = ms.ToArray();
                         newHouseProject.ProjectImages.Add(new ProjectImage()
                         {

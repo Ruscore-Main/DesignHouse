@@ -36,7 +36,7 @@ const HouseProjecList = () => {
       fetchAdminProjects({
         searchValue,
         currentPage,
-        isPublished: String(isPublished)
+        isPublished
       })
     );
   }    

@@ -38,7 +38,7 @@ const ItemBlock: React.FC<ItemBlockProps> = ({ id: houseId, name, description, a
               className="like-item"
               src={heartImage}
               alt="hearImage"
-              onClick={() => userId && dispatch(addFavorite({ id:houseId, userId }))
+              onClick={() => userId && dispatch(addFavorite({ id:houseId, name, description, area, price, images, userId }))
               }
             />
           ))}

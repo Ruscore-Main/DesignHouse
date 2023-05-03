@@ -48,7 +48,7 @@ const UserList = () => {
     dispatch(
       fetchUsers({
         searchValue,
-        role: String(role),
+        role,
         page: currentPage,
       })
     );

@@ -36,6 +36,7 @@ const Registration: React.FC<RegistrationProps> = ({ dispatch, isAdmin = false, 
   const [password, setPassword] = useState("");
   const [passwordR, setPasswordR] = useState("");
   const [textError, setTextError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   let isValid = isValidRegistration(
     login,
@@ -48,6 +49,7 @@ const Registration: React.FC<RegistrationProps> = ({ dispatch, isAdmin = false, 
   
 
   const onClickRegister = () => {
+    setIsLoading(true);
     dispatch(
       regUser({
         login,
@@ -69,6 +71,7 @@ const Registration: React.FC<RegistrationProps> = ({ dispatch, isAdmin = false, 
       } else {
         setTextError(res.payload);
       }
+      setIsLoading(false);
     });
   };
 
@@ -113,7 +116,7 @@ const Registration: React.FC<RegistrationProps> = ({ dispatch, isAdmin = false, 
       </div>
 
       <button
-        className={classNames("button", { disabled: isValid !== "Успешно!" })}
+        className={classNames("button", { disabled: isValid !== "Успешно!" || isLoading})}
         onClick={onClickRegister}
       >
         {isAdmin ? 'Добавить' : 'Зарегистрироваться'}

@@ -20,13 +20,13 @@ type FetchAdminProjectsArgs = {
 
 type FetchUsersArgs = {
   searchValue: string;
-  role: string;
+  role: string | null;
   page: number;
 };
 
 type FetchRequestsArgs = {
   searchValue: string;
-  category: string;
+  category: string | null;
   page: number;
 };
 
