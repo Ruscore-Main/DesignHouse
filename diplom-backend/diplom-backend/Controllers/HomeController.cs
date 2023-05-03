@@ -236,14 +236,14 @@ namespace diplom_backend.Controllers
                 {
                     /*string path = _owebHostEnvironment.WebRootPath + "\\HouseProjectImages\\";
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                    string fileName = "HouseImg_" + houseProject.name + "_" + $"{GetTimestamp(DateTime.Now)}" + ".png";
+                    string fileName = "HouseImg_" + houseProject.name + $"_{index}" + $"{GetTimestamp(DateTime.Now)}" + ".png";
                     if (System.IO.File.Exists(path + fileName))
                     {
                         System.IO.File.Delete(path + fileName);
                     }*/
                     using (var ms = new MemoryStream())
                     {
-                        await el.CopyToAsync(ms);
+                        el.CopyTo(ms);
                         var fileBytes = ms.ToArray();
                         newHouseProject.ProjectImages.Add(new ProjectImage()
                         {
