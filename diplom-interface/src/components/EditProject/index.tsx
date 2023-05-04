@@ -2,40 +2,64 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './EditProject.module.scss';
 import swal from 'sweetalert';
 import { checkValidation } from '../AddProjectForm';
-import { HouseProject, updateProject } from '../../redux/slices/houseProjectSlice';
+import { Status, updateProject } from '../../redux/slices/houseProjectSlice';
 import defaultImage from "../../assets/img/house-default-image.jpg";
-import { useAppDispatch } from 'redux/store';
+import { RootState, useAppDispatch } from 'redux/store';
+import { useSelector } from 'react-redux';
+import { fetchFullHouseProject, resetHouse } from 'redux/slices/fullHouseProjectSlice';
 
 
 type Image = {name: number, image: string}
 type EditProjectProps = {
-  project: HouseProject,
+  projectId: number,
   updateTable: ()=>void,
   closeModal: ()=>void
 };
-const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeModal}) => {
-  const [name, setName] = useState(project.name);
-  const [description, setDescription] = useState(project.description);
-  const [area, setArea] = useState(project.area);
-  const [price, setPrice] = useState(project.price);
-  const [floors, setFloors] = useState(project.amountFloors);
+const EditProject: React.FC<EditProjectProps> = ({projectId, updateTable, closeModal}) => {
+  const { data, status } = useSelector(({ fullHouseProject }: RootState) => fullHouseProject);
+  const dispatch = useAppDispatch();
+
+
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [area, setArea] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [floors, setFloors] = useState(0);
   const [images, setImages] = useState<Image[]>([]);
-  const [isPublished, setIsPublished] = useState(project.isPublished);
+  const [isPublished, setIsPublished] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
 
-  const dispatch = useAppDispatch();
   const btnSubmit = useRef(document.createElement('button'));
 
-  useEffect(() => {
-    let images: Image[] = [];
-    project.images.forEach((img: string, i: number) => {
-      images.push({name: i, image: img});
-      if (i == 0) {
-        setImageSrc('data:image/jpeg;base64,'+img);
-      }
-    })
-    setImages(images);
+  useEffect((): ()=>void => {
+    if (projectId) {
+      dispatch(fetchFullHouseProject(+projectId)).then((el: any)=>{
+        let images: Image[] = [];
+        if (el.payload) {
+          setName(el.payload.name);
+          setDescription(el.payload.description);
+          setArea(el.payload.area);
+          setPrice(el.payload.price);
+          setFloors(el.payload.amountFloors);
+          setIsPublished(Boolean(el.payload.isPublished));
+
+          el.payload.images.forEach((img: string, i: number) => {
+            images.push({name: i, image: img});
+            if (i == 0) {
+              setImageSrc('data:image/jpeg;base64,'+img);
+            }
+          })
+          setImages(images);
+        }
+      });
+    }
+    
+    return () => dispatch(resetHouse());
   }, [])
+
+  if (status === Status.success) {
+    
+  }
 
   const setPreviewImage = (imageName: number) => {
     const img = images.find((el) => el.name == imageName);
@@ -62,7 +86,7 @@ const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeMod
       });
     } else {
       const formData = new FormData();
-      formData.append("id", String(project.id));
+      formData.append("id", String(data && data.id));
       formData.append("name", name);
       formData.append("description", description);
       formData.append("area", String(area));
@@ -100,7 +124,7 @@ const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeMod
     }
   };
 
-  return (
+  return status === Status.success ?
     <>
       <form className={styles.root}>
         {!!images.length && (
@@ -200,8 +224,9 @@ const EditProject: React.FC<EditProjectProps> = ({project, updateTable, closeMod
           Сохранить
         </button>
       </div>
-    </>
-  )
+    </> 
+    :
+    <p>Идет загрузка</p>
 }
 
 export default EditProject

@@ -48,6 +48,7 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
   const [floors, setFloors] = useState('');
   const [images, setImages] = useState<File[]>([]);
   const [imageSrc, setImageSrc] = useState('');
+  const [infoText, setInfoText] = useState('');
 
   const btnSubmit = useRef(document.createElement('button'));
   const dispatch = useAppDispatch();
@@ -114,6 +115,9 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
     let loadedImages = [];
     if (files && files[0]) {
       let maxLength = files.length <= 10 ? files.length : 10;
+      if (files.length > 10) {
+        setInfoText('Количество выбранных изображений превышает допустимое. Общее количество будет обрезано до 10');
+      }
       for (let i = 0; i < maxLength; i++) {
         let imageFile = files[i];
         const reader = new FileReader();
@@ -174,6 +178,7 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
             </select>
           </div>
         )}
+        <p className='not-valid'>{infoText}</p>
         <div className={styles.formGroup}>
           <label>Название: </label>
           <input

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import EditProject from "../EditProject";
 import { Modal } from "react-bootstrap";
 import { HouseProject, Status } from "redux/slices/houseProjectSlice";
+import { useAppDispatch } from "redux/store";
+import { resetHouse } from "redux/slices/fullHouseProjectSlice";
 
 type HouseProjectTableProps = {
   items: HouseProject[],
@@ -16,7 +18,7 @@ type HouseProjectTableProps = {
 const HouseProjectsTable: React.FC<HouseProjectTableProps> = ({ items, status, onDelete, updateTable }) => {
   const [isModal, setIsModal] = useState(false);
   const [currentProject, setCurrentProject] = useState<HouseProject|null>(null);
-
+  const dispatch = useAppDispatch();
   const onClickEdit = (project: HouseProject) => {
     setCurrentProject(project);
     setIsModal(true);
@@ -28,7 +30,9 @@ const HouseProjectsTable: React.FC<HouseProjectTableProps> = ({ items, status, o
           <Modal.Title>Изменение проекта</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {currentProject && <EditProject project={currentProject} updateTable={updateTable} closeModal={() => setIsModal(false)} />}
+          {currentProject && <EditProject projectId={currentProject.id} updateTable={updateTable} closeModal={() => {
+            dispatch(resetHouse());
+            setIsModal(false)}} />}
         </Modal.Body>
       </Modal>
 

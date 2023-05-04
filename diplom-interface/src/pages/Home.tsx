@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Description from '../components/Description';
 import Filters from '../components/Filters';
 import ItemBlock from '../components/ItemBlock';
@@ -13,7 +13,7 @@ import { fetchProjects } from '../redux/slices/houseProjectSlice';
 import { RootState, useAppDispatch } from 'redux/store';
 
 const Home: React.FC = () => {
-  const {isAuth, role} = useAuth();
+  const { role } = useAuth();
 
   const listHeader = React.useRef(document.createElement("div"));
 
@@ -44,9 +44,7 @@ const Home: React.FC = () => {
 
   }, [category, sortType, searchValue, currentPage]);
 
-  if (!isAuth) {
-    return <Navigate to={'/login'} />
-  }
+  
   return (
     <>
       <Description list={listHeader} />
@@ -68,7 +66,7 @@ const Home: React.FC = () => {
               .fill(null)
               .map((_, i) => <LoaderItemBlock key={i} />)}
           </div>
-          {(status === 'success' && items.length == 0) ? <h2 className='nothing-found'>Ничего не найдено 😕</h2> : ''}
+          {(status === 'success' && items.length === 0) ? <h2 className='nothing-found'>Ничего не найдено 😕</h2> : ''}
 
           { amountPages < 2 ? '' : <Pagination currentPage={currentPage} amountPages={amountPages} setCurrentPage={(page: number) => dispatch(setCurrentPage(page))}/>}
         </div>

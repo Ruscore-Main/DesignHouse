@@ -21,9 +21,14 @@ const initialState: FullHouseProjectSliceState = {
 let fullHouseProjectSlice = createSlice({
     name: 'fullHouseProject',
     initialState,
-    reducers: {},
+    reducers: {
+        resetHouse(state) {
+            state.data = null;
+            state.status = Status.loading;
+        }
+    },
     extraReducers: (builder) => {
-        builder.addCase(fetchFullHouseProject.pending, (state: FullHouseProjectSliceState) => {
+        builder.addCase(fetchFullHouseProject.pending, (state) => {
             state.status = Status.loading;
             state.data = null;
         });
@@ -37,5 +42,7 @@ let fullHouseProjectSlice = createSlice({
         });
     }
 });
+
+export const {resetHouse} = fullHouseProjectSlice.actions;
 
 export default fullHouseProjectSlice.reducer;

@@ -197,6 +197,7 @@ namespace diplom_backend.Controllers
                 price = houseProject.Price,
                 datePublication = houseProject.DatePublication,
                 amountFloors = houseProject.AmountFloors,
+                isPublished = houseProject.IsPublished,
                 images = images
             };
 

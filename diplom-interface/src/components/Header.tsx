@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import accountIcon from '../assets/img/account.svg';
 import logoutIcom from '../assets/img/logout.svg';
@@ -10,10 +10,12 @@ import { removeUser } from '../redux/slices/userSlice';
 const Header = () => {
   const { ...user } = useAuth();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation()
 
   const isMounted = useRef(false);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (isMounted.current) {
       const json = JSON.stringify(user);
       localStorage.setItem('user', json);
@@ -30,14 +32,25 @@ const Header = () => {
             <span className="orange">House</span>
           </div>
         </Link>
-        {user.isAuth && (
-          <div className="header__icons">
-            <img className="icon icon--small" src={logoutIcom} alt="logout" onClick={() => dispatch(removeUser())} />
-            <Link to={'/user'}>
-              <img className="icon" src={accountIcon} alt="profile" />
-            </Link>
-          </div>
-        )}
+        <div className="header__icons">
+          {
+            user.isAuth ?
+              <>
+                <img className="icon icon--small" src={logoutIcom} alt="logout" onClick={() => {
+                  dispatch(removeUser());
+                  navigate('/login');
+                }} />
+                <Link to={'/user'}>
+                  <img className="icon" src={accountIcon} alt="profile" />
+                </Link>
+              </> 
+              : 
+              location.pathname == '/login' || <Link to={'/login'}>
+                  <button className='button button--outline'>Войти</button>
+                </Link>
+          }
+
+        </div>
       </div>
     </div>
   );

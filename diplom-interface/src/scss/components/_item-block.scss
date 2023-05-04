@@ -95,7 +95,8 @@
         height: 400px;
 
         .preview {
-            width: 400px;
+            width: 400px !important;
+            height: 220px !important;
         }
 
         h4 {
@@ -113,7 +114,8 @@
         height: 340px;
 
         .preview {
-            width: 340px;
+            width: 300px !important;
+            max-height: 200px !important;
         }
 
         h4 {
@@ -129,8 +131,8 @@
         justify-content: space-between;
 
         .preview {
-            width: 220px;
-            height: 150px;
+            width: 220px !important;
+            height: 150px !important;
         }
 
         h4 {

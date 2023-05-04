@@ -1,3 +1,4 @@
+import { useAuth } from "hooks/useAuth";
 import React from "react";
 import { Table } from "react-bootstrap";
 import { Status } from "redux/slices/houseProjectSlice";
@@ -8,7 +9,10 @@ type UserTableProps = {
   status: Status,
   onDelete: (user: User)=>void
 };
+
+
 const UserTable: React.FC<UserTableProps> = ({ items, status, onDelete }) => {
+  const {id} = useAuth();
   return (
     <Table hover responsive striped className="mt-2 mb-4">
       <thead>
@@ -30,8 +34,8 @@ const UserTable: React.FC<UserTableProps> = ({ items, status, onDelete }) => {
               <td>{user.role}</td>
               <td>{user.email}</td>
               <td>{user.phoneNumber}</td>
-              <td className="deleteButton" title="Удалить" onClick={() => onDelete(user)}>
-                &#10006;
+                <td>
+                {id === user.id || <span className="deleteButton" title="Удалить" onClick={() => onDelete(user)}>&#10006;</span>}
               </td>
             </tr>
           ))
