@@ -71,7 +71,7 @@ export const userAPI = {
     return userInstance.get(`favorites?userId=${userId}`).then(({ data }) => data);;
   },
   updateUser(user: User) {
-    return userInstance.post("update", user);
+    return userInstance.put("update", user);
   },
   addFavorite(houseProject: {id: number, userId: number}) {
     return userInstance

@@ -45,7 +45,7 @@ namespace diplom_backend.Controllers
         // GET api/project
         // Получение списка проектов
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JsonResult>>> Get(int? page, int limit, string searchValue, string category, string sort, string isPublished)
+        public async Task<ActionResult<IEnumerable<JsonResult>>> Get(int? page, string searchValue, string category, string sort, string isPublished, int limit = 6)
         {
             List<HouseProject> allProjects = await _db.HouseProjects.ToListAsync();
             if (isPublished != null)
@@ -211,7 +211,7 @@ namespace diplom_backend.Controllers
         public async Task<ActionResult<HouseProject>> Post([FromForm] UploadHouseProject houseProject)
         {
 
-            if (houseProject == null)
+            if (houseProject == null || houseProject.name == null || houseProject.description == null )
             {
                 return BadRequest();
             }
@@ -268,7 +268,6 @@ namespace diplom_backend.Controllers
             await _db.SaveChangesAsync();
 
             return Ok(newHouseProject.Id);
-
         }
 
         // Обновление проекта

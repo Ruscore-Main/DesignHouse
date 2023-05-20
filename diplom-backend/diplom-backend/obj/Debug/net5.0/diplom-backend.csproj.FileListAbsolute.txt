@@ -150,3 +150,7 @@ C:\4course\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\diplom-bac
 C:\4course\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\diplom-backend.genruntimeconfig.cache
 D:\4 курс\DIPLOM\diplom-backend\diplom-backend\bin\Debug\net5.0\web.config
 C:\4course\DesignHouse\diplom-backend\diplom-backend\bin\Debug\net5.0\web.config
+D:\4 курс\DIPLOM\diplom-backend\diplom-backend\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Testing.dll
+D:\4 курс\DIPLOM\diplom-backend\diplom-backend\bin\Debug\net5.0\Microsoft.AspNetCore.TestHost.dll
+D:\4 курс\DIPLOM\diplom-backend\diplom-backend\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.InMemory.dll
+D:\4 курс\DIPLOM\diplom-backend\diplom-backend\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll

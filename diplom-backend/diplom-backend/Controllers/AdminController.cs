@@ -21,7 +21,7 @@ namespace diplom_backend.Controllers
         // Получение всех запросов на строительство
         [Route("request")]
         [HttpGet]
-        public async Task<ActionResult> GetRequests(int? page, int limit, string searchValue, string category)
+        public async Task<ActionResult> GetRequests(int? page, string searchValue, string category, int limit=10)
         {
             List<RequestJson> requestsJson = new List<RequestJson>();
 
@@ -117,7 +117,7 @@ namespace diplom_backend.Controllers
         // Получение всех пользователей
         [Route("users")]
         [HttpGet]
-        public async Task<ActionResult> GetUsers(int? page, int limit, string role, string searchValue)
+        public async Task<ActionResult> GetUsers(int? page, string role, string searchValue, int limit = 10)
         {
             List<User> users = await _db.Users.ToListAsync();
 
@@ -163,7 +163,7 @@ namespace diplom_backend.Controllers
             return new JsonResult(responseUser);
         }
 
-        // Получение всех пользователей
+        // Удаление пользователя
         [Route("users")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)

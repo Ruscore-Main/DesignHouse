@@ -61,6 +61,8 @@ namespace diplom_backend.Controllers
 
             userJson.id = newUser.Id;
             userJson.role = newUser.Role;
+            userJson.favorites = null;
+            userJson.requests = null;
 
             return new JsonResult(userJson);
         }
@@ -174,10 +176,10 @@ namespace diplom_backend.Controllers
             return new JsonResult(houseProjects);
         }
 
-        // POST /update
-        // Регистрация пользователя
+        // PUT /update
+        // Обновление пользователя
         [Route("update")]
-        [HttpPost]
+        [HttpPut]
         public async Task<ActionResult<User>> Update(UserJson userJson)
         {
             User user = await _db.Users.FirstOrDefaultAsync(el => el.Id == userJson.id);
@@ -272,12 +274,16 @@ namespace diplom_backend.Controllers
             };
 
             request.userPhone = currentUser.PhoneNumber;
+            request.name = houseProject.Name;
 
             currentUser.Requests.Add(newRequest);
 
             _db.Requests.Add(newRequest);
 
             await _db.SaveChangesAsync();
+            
+            request.id = newRequest.Id;
+
 
             return new JsonResult(request);
         }
