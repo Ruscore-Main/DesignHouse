@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZG0jdEp4mm4E4Rqzny5DbEpebs5m5pssgiSy5W53v0Acc0gsiYGcSC37/cjii1ndlyE7Q5ilFcqPAxdAkZxIsw==",
+  "dgSpecHash": "S+YBI1bBoOc=",
   "success": true,
-  "projectFilePath": "D:\\4 курс\\DIPLOM\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
+  "projectFilePath": "D:\\Диплом\\DesignHouse\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ruslan\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
     "C:\\Users\\Ruslan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
@@ -181,5 +181,30 @@
     "C:\\Users\\Ruslan\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Ruslan\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "У пакета \"System.Data.SqlClient\" 4.8.5 есть известная уязвимость https://github.com/advisories/GHSA-98g6-xh36-x2p7 (уровень серьезности: высокий уровень)",
+      "projectPath": "D:\\Диплом\\DesignHouse\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Диплом\\DesignHouse\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
+      "libraryId": "System.Data.SqlClient",
+      "targetGraphs": [
+        "net5.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "У пакета \"System.Text.Json\" 7.0.2 есть известная уязвимость https://github.com/advisories/GHSA-hh2w-p6rv-4g7w (уровень серьезности: высокий уровень)",
+      "projectPath": "D:\\Диплом\\DesignHouse\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Диплом\\DesignHouse\\diplom-backend\\diplom-backend\\diplom-backend.csproj",
+      "libraryId": "System.Text.Json",
+      "targetGraphs": [
+        "net5.0"
+      ]
+    }
+  ]
 }

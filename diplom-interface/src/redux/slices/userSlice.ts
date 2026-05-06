@@ -121,7 +121,7 @@ const userSlice = createSlice({
       state.role = action.payload.role;
       state.email = action.payload.email;
       state.phoneNumber = action.payload.phoneNumber;
-      state.favorites = action.payload.favorites;
+      state.favorites = Array.isArray(action.payload.favorites) ? action.payload.favorites : [];
     },
     removeUser(state) {
       state.id = null;

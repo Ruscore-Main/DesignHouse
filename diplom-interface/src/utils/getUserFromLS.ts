@@ -1,6 +1,6 @@
 export const getUserFromLS = () => {
     const data = localStorage.getItem('user')
-    return data ? JSON.parse(data) : {
+    const fallbackUser = {
         id: null,
         login: null,
         password: null,
@@ -8,5 +8,17 @@ export const getUserFromLS = () => {
         email: null,
         phoneNumber: null,
         favorites: []
+    };
+
+    if (!data) {
+        return fallbackUser;
+    }
+
+    const user = JSON.parse(data);
+
+    return {
+        ...fallbackUser,
+        ...user,
+        favorites: Array.isArray(user.favorites) ? user.favorites : []
     };
 }
