@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("diplom-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7cbd3a2f962d5bc409676ab00a51f61c3f8079c4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd43170142109dee2b7efef6984e0f7c73025822")]
 [assembly: System.Reflection.AssemblyProductAttribute("diplom-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("diplom-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,5 +1,9 @@
 @import '../../scss/variables';
 
+.root {
+    padding-bottom: 40px;
+}
+
 .links {
     display: flex;
     justify-content: space-around;
