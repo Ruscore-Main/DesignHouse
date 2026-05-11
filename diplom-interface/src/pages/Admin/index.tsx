@@ -5,6 +5,7 @@ import HouseProjecList from "../../components/HouseProjectList";
 import classNames from "classnames";
 import RequestList from "../../components/RequestList";
 import UserList from "../../components/UserList";
+import Analytics from "../../components/Analytics";
 import { useAuth } from "../../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
@@ -40,11 +41,19 @@ const Admin = () => {
         >
           Список пользователей
         </span>
+
+        <span
+          onClick={() => setActiveList("analytics")}
+          className={classNames({ [styles.active]: activeList == "analytics" }, "pointer")}
+        >
+          Аналитика
+        </span>
       </div>
 
       {activeList == "projects" && <HouseProjecList />}
       {activeList == "requests" && <RequestList />}
       {activeList == "users" && <UserList />}
+      {activeList == "analytics" && <Analytics />}
     </div>
   );
 };
