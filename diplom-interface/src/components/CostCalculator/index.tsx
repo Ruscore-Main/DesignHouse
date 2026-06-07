@@ -230,17 +230,17 @@ const CostCalculator: React.FC = () => {
       const pageW  = pdf.internal.pageSize.getWidth();
       const pageH  = pdf.internal.pageSize.getHeight();
       const margin = 10;
-      const contentW = pageW - margin * 2;
-      const contentH = pageH - margin * 2;
+      const contentW  = pageW - margin * 2;
       // итоговая высота изображения в мм при ширине contentW
       const imgH = (canvas.height * contentW) / canvas.width;
-      const totalPages = Math.ceil(imgH / contentH);
+      // каждая страница сдвигает картинку вверх ровно на (pageH - margin),
+      // чтобы нижний край предыдущей страницы совпадал с верхним краем следующей
+      const pageShift = pageH - margin;
+      const totalPages = Math.ceil(imgH / pageShift);
 
       for (let page = 0; page < totalPages; page++) {
         if (page > 0) pdf.addPage();
-        // сдвигаем картинку вверх на высоту уже напечатанных страниц;
-        // jsPDF автоматически обрезает всё, что выходит за границы листа
-        pdf.addImage(imgData, "PNG", margin, margin - page * contentH, contentW, imgH);
+        pdf.addImage(imgData, "PNG", margin, margin - page * pageShift, contentW, imgH);
       }
 
       pdf.save(`смета-строительства-${p.width}x${p.length}м.pdf`);

@@ -14,6 +14,7 @@ const initialState: FavoriteSliceState = {
 
 // Получение избранных проектов
 export const fetchFavorites = createAsyncThunk('favorite/fetchFavorites', async (userId: number) => {
+    await new Promise((resolve) => setTimeout(resolve, 800));
     const data = await userAPI.getFavorites(userId);
     return data;
 });

@@ -37,6 +37,7 @@ export type FetchProjectsArgs = {
 }
 export const fetchProjects = createAsyncThunk('houseProjects/fetchProjects', async (params: FetchProjectsArgs) => {
   const { currentPage, sortType, category, searchValue, isPublished } = params;
+  await new Promise((resolve) => setTimeout(resolve, 800));
   const data = await houseProjectsAPI.getProjects(currentPage, sortType, category, searchValue, isPublished, 6);
   return data;
 });
