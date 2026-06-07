@@ -240,3 +240,6 @@ D:\Диплом\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\refin
 D:\Диплом\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\diplom-backend.pdb
 D:\Диплом\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\diplom-backend.genruntimeconfig.cache
 D:\Диплом\DesignHouse\diplom-backend\diplom-backend\obj\Debug\net5.0\ref\diplom-backend.dll
+D:\Диплом\DesignHouse\diplom-backend\diplom-backend\bin\Debug\net5.0\artifacts\obj\Debug\net5.0\diplom-backend.sourcelink.json
+D:\Диплом\DesignHouse\diplom-backend\diplom-backend\bin\Debug\net5.0\artifacts\obj\diplom-backend.csproj.nuget.dgspec.json
+D:\Диплом\DesignHouse\diplom-backend\diplom-backend\bin\Debug\net5.0\artifacts\obj\project.assets.json

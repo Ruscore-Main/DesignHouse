@@ -436,3 +436,13 @@ D:\4 курс\DIPLOM\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestPro
 D:\4 курс\DIPLOM\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.genruntimeconfig.cache
 D:\4 курс\DIPLOM\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.Properties.Resources.resources
 D:\4 курс\DIPLOM\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.csproj.GenerateResource.cache
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.csproj.AssemblyReference.cache
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.Properties.Resources.resources
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.csproj.GenerateResource.cache
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.GeneratedMSBuildEditorConfig.editorconfig
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.AssemblyInfoInputs.cache
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.AssemblyInfo.cs
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.csproj.CoreCompileInputs.cache
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.dll
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\refint\UnitTestProject.dll
+D:\Диплом\DesignHouse\diplom-backend\UnitTestProject\obj\Debug\net5.0\UnitTestProject.pdb
